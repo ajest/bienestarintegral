@@ -6,7 +6,7 @@
 
 @section('content')
 	<div class="row col-md-12">
-		<h1>Pablo Fumarola</h1>
+		<h1>{{ $patient->name }}</h1>
 		<small><a href="#" title="Ver paciente Pablo Fumarola en el calendario">Ver en calendario</a></small>
 		<a class="btn btn-primary pull-right" style="margin-left:10px;" href="{{ url('/patients/' . $patient->id . '/edit') }}">Editar</a>
 		<a class="btn btn-success pull-right" style="margin-left:10px;" href="{{ url('/patients') }}">Volver</a>
@@ -27,6 +27,7 @@
 		<div class="col-md-8">
 			<div class="col-md-6">
 				<h3>Información personal</h3>
+				<p><strong>Nombre</strong> {{ $patient->name }}</a></p>
 				<p><strong>Email</strong> <a href="mailto:{{ $patient->email }}">{{ $patient->email }}</a></p>
 				<p><strong>Teléfono</strong> {{ $patient->tel }}</p>
 				<p><strong>Dirección</strong> {{ $patient->address }}</p>

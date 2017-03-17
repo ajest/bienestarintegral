@@ -25,9 +25,11 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Patient::class, function (Faker\Generator $faker) {
     return [
+        'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
-        'tel' => '1568908443',
-        'gender' => 'H',
-        'address' => 'noplace'
+        'tel' => $faker->phoneNumber,
+        'gender' => strlen($faker->name) > 10 ? 'H' : 'M',
+        'address' => $faker->address,
+        'created_at' => $faker->dateTimeBetween($startDate = '-180 days', $endDate = '+180 days')
     ];
 });

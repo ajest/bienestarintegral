@@ -11,6 +11,7 @@
         <title>BienestarIntegral</title>
 
         <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/styles.css') }}">
     </head>
     <body>
         <nav class="navbar navbar-inverse">
@@ -23,10 +24,11 @@
 
         <div class="container">
           @yield('content')
-          <footer>
+          <footer class="row col-md-12">
             <p>&copy; 2017 Company, Inc.</p>
           </footer>
-        </div> <!-- /container -->
+        </div> <!-- /container -->        
     </body>
     <link rel="stylesheet" type="text/css" href="{{ asset('js/app.js') }}">
+    @yield('assets_jquery')
 </html>

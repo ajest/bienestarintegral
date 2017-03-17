@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Patient;
 use Illuminate\Http\Request;
+use App\Http\Requests\PatientRequest;
 
 class PatientController extends Controller
 {
@@ -14,7 +15,7 @@ class PatientController extends Controller
      */
     public function index()
     {
-        return view('directory', ['patients' => Patient::all()]);
+        return view('directory', ['patients' => Patient::orderBy('id', 'desc')->paginate(15)]);
     }
 
     /**
@@ -33,9 +34,19 @@ class PatientController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PatientRequest $request)
     {
-        //
+        
+        $patient = new Patient;
+
+        $patient->name   = $request->name;
+        $patient->email  = $request->email;
+        $patient->tel    = $request->tel;
+        $patient->gender = $request->gender;
+        $patient->address= $request->address;
+
+        $patient->save();
+        return redirect('/patients');
     }
 
     /**
@@ -57,7 +68,7 @@ class PatientController extends Controller
      */
     public function edit(Patient $patient)
     {
-        //
+        return view('patient_save', ['patient' => $patient, 'edit' => TRUE]);
     }
 
     /**
@@ -67,9 +78,16 @@ class PatientController extends Controller
      * @param  \App\Patient  $patient
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Patient $patient)
+    public function update(PatientRequest $request, Patient $patient)
     {
-        //
+        $patient->name   = $request->name;
+        $patient->email  = $request->email;
+        $patient->tel    = $request->tel;
+        $patient->gender = $request->gender;
+        $patient->address= $request->address;
+
+        $patient->save();
+        return redirect('/patients');
     }
 
     /**
@@ -80,6 +98,7 @@ class PatientController extends Controller
      */
     public function destroy(Patient $patient)
     {
-        //
+        $patient->delete();
+        return redirect('/patients');
     }
 }

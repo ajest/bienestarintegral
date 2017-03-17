@@ -16,3 +16,5 @@ Route::get('/', function () {
 });
 
 Route::resource('patients', 'PatientController');
+
+Route::post('/patients/store', 'PatientController@store');
