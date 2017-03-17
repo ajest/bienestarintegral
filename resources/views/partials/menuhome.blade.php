@@ -7,7 +7,7 @@
     </button>
     <a class="navbar-brand" href="{{ url('/') }}">BienestarIntegral</a>
     <a class="navbar-brand" href="#">Calendario</a>
-    <a class="navbar-brand" href="{{ url('/directorio') }}">Directorio</a>
+    <a class="navbar-brand" href="{{ url('/patients') }}">Directorio</a>
   </div>
   <div id="navbar" class="navbar-collapse collapse">
     <form class="navbar-form navbar-right">

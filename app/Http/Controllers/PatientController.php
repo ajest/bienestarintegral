@@ -24,7 +24,7 @@ class PatientController extends Controller
      */
     public function create()
     {
-        //
+        return view('patient_save');
     }
 
     /**
@@ -46,7 +46,7 @@ class PatientController extends Controller
      */
     public function show(Patient $patient)
     {
-        //
+        return view('patient_detail', ['patient' => $patient]);
     }
 
     /**

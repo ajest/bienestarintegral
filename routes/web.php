@@ -15,4 +15,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('directorio', 'PatientController');
+Route::resource('patients', 'PatientController');
