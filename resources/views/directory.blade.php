@@ -6,6 +6,7 @@
 
 @section('content')
 	<div class="row col-md-12">
+		@include('partials/result_operation')
 		<h1>Directorio pacientes <small><a href="{{ url('patients/create') }}" class="font-size-14">Nuevo paciente [+]</a></small></h1>				
 	</div>
 	<div class="row col-md-12">

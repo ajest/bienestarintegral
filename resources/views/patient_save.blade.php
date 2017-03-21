@@ -12,10 +12,14 @@
 				<input type="hidden" name="id" value="{{ $patient->id }}">
 			@endif
 			{{ csrf_field() }}
-			<h1>Pablo Fumarola</h1>
-			<small><a href="#" title="Ver paciente Pablo Fumarola en el calendario">Ver en calendario</a></small>
-			<a class="btn btn-success pull-right" style="margin-left:10px;" href="{{ url('/patients') }}">Volver</a>
-			<input class="btn btn-primary pull-right" value="Guardar" type="submit" style="margin-left:10px;">
+			<div class="row col-md-12">
+				<h1>{{ !empty($patient->name) ? $patient->name : 'Nuevo Paciente' }}</h1>				
+			</div>
+			<div class="row col-md-12">
+				<a class="pull-right btn btn-success" style="margin-left:10px;" href="{{ url('/patients') }}">Volver</a>
+				<input class="submit pull-right btn btn-primary" value="Guardar" type="submit" style="margin-left:10px;">
+			</div>
+			<div style="clear:both"></div>
 			<hr />
 			@include('partials/form_errors')
 			<div class="col-md-12">

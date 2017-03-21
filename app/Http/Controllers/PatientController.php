@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Patient;
 use Illuminate\Http\Request;
 use App\Http\Requests\PatientRequest;
+use Illuminate\Support\Facades\Session;
 
 class PatientController extends Controller
 {
@@ -13,6 +14,13 @@ class PatientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    private $OperationMessage;
+
+    public function __construct(){
+        $this->OperationMessage = resolve('App\Bienestarintegral\Messages\OperationMessage');
+    }
+
     public function index()
     {
         return view('directory', ['patients' => Patient::orderBy('id', 'desc')->paginate(15)]);
@@ -31,7 +39,7 @@ class PatientController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\PatientRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(PatientRequest $request)
@@ -45,7 +53,10 @@ class PatientController extends Controller
         $patient->gender = $request->gender;
         $patient->address= $request->address;
 
-        $patient->save();
+        $res = $patient->save();
+
+        $this->OperationMessage->saveOrFailMessage($res, $res ? ": El paciente $patient->name ha sido cargado exitosamente." : ": Ha ocurrido un error al cargar al paciente $patient->name.");
+
         return redirect('/patients');
     }
 
@@ -74,7 +85,7 @@ class PatientController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\PatientRequest  $request
      * @param  \App\Patient  $patient
      * @return \Illuminate\Http\Response
      */
@@ -86,7 +97,10 @@ class PatientController extends Controller
         $patient->gender = $request->gender;
         $patient->address= $request->address;
 
-        $patient->save();
+        $res = $patient->save();
+
+        $this->OperationMessage->saveOrFailMessage($res, $res ? ": El paciente $patient->name ha sido cargado exitosamente." : ": Ha ocurrido un error al cargar al paciente $patient->name.");
+
         return redirect('/patients');
     }
 
