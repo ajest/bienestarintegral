@@ -33,3 +33,17 @@ $factory->define(App\Patient::class, function (Faker\Generator $faker) {
         'created_at' => $faker->dateTimeBetween($startDate = '-180 days', $endDate = '+180 days')
     ];
 });
+
+$factory->define(App\Appointment::class, function (Faker\Generator $faker) {
+    return [
+        'title' => rtrim($faker->sentence(3), '.'),
+        'professional_id' => 1,
+        'patient_id' => 1,
+        'specialty_id' => 1,
+        'treatment_id' => 1,
+        'series_id' => NULL,
+        'date' => '20/05/2017',
+        'hour' => '19:00',
+        'created_at' => $faker->dateTimeBetween($startDate = '-180 days', $endDate = '+180 days')
+    ];
+});

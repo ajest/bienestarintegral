@@ -22,7 +22,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				@foreach ($patients as $patient)
+				@forelse ($patients as $patient)
 					<tr>
 						<td>{{ $patient->name }}</td>
 						<td>{{ $patient->email }}</td>
@@ -38,7 +38,11 @@
 								'class' => 'pull-right btn btn-danger'))
 						</td>
 					</tr>
-				@endforeach
+				@empty
+					<tr>
+						<td colspan="6" class="middle-align">No hay registros</td>
+					</tr>
+				@endforelse
 			</tbody>
 		</table>
 		{{ $patients->links() }}

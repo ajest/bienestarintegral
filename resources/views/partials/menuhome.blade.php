@@ -5,8 +5,8 @@
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
-    <a class="navbar-brand" href="{{ url('/') }}">BienestarIntegral</a>
-    <a class="navbar-brand" href="#">Calendario</a>
+    <a class="navbar-brand" href="{{ url('/') }}"><strong>BienestarIntegral</strong></a>
+    <a class="navbar-brand" href="{{ url('/appointments') }}">Turnos</a>
     <a class="navbar-brand" href="{{ url('/patients') }}">Directorio</a>
   </div>
   <div id="navbar" class="navbar-collapse collapse">

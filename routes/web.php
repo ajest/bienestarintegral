@@ -15,7 +15,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Pacientes
 Route::resource('patients', 'PatientController');
 
 Route::post('patients/store', 'PatientController@store');
 Route::post('patients/create', 'PatientController@store');
+
+// Turnos
+Route::resource('appointments', 'AppointmentController');
+
+Route::post('appointments/store', 'AppointmentController@store');
+Route::post('appointments/create', 'AppointmentController@store');

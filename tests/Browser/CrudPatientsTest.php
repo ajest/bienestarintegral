@@ -12,7 +12,7 @@ class CrudPatientsTest extends DuskTestCase
      *
      * @return void
      */
-    public function testExample()
+    public function testGeneric()
     {
         $this->browse(function ($browser) {
             $browser->visit('/')
