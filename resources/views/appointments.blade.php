@@ -15,6 +15,10 @@
 				<tr>
 					<td>Título</td>
 					<td>Paciente</td>
+					<td>Profesional</td>
+					<td>Área / Especialidad</td>
+					<td>Tratamiento</td>
+					<td>Promoción</td>
 					<td>Fecha</td>
 					<td>Acciones</td>
 				</tr>
@@ -22,8 +26,12 @@
 			<tbody>
 				@forelse ($appointments as $appointment)
 					<tr>
-						<td>{{ $appointment->title }}</td>
+						<td>{{ $appointment->title ? $appointment->title : '-- Sin título --' }}</td>
 						<td>{{ $appointment->patient->name }}</td>
+						<td>{{ $appointment->professional ? $appointment->professional->name : '-- No asignado --' }}</td>
+						<td>{{ $appointment->specialty ? $appointment->specialty->specialty : '-- No asignada --' }}</td>
+						<td>{{ $appointment->treatment ? $appointment->treatment->treatment : '-- No asignado --' }}</td>
+						<td>{{ $appointment->series ? $appointment->series->series : '--' }}</td>
 						<td>{{ $appointment->date . ' ' . $appointment->hour }}</td>
 						<td class="row">
 							<a class="pull-right btn btn-success" href="{{ url('appointments/' . $appointment->id) }}" title="Ver paciente">Ver</a>

@@ -99,7 +99,7 @@ class PatientController extends Controller
 
         $res = $patient->save();
 
-        $this->OperationMessage->saveOrFailMessage($res, $res ? ": El paciente $patient->name ha sido cargado exitosamente." : ": Ha ocurrido un error al cargar al paciente $patient->name.");
+        $this->OperationMessage->saveOrFailMessage($res, $res ? ": El paciente $patient->name ha sido editado exitosamente." : ": Ha ocurrido un error al editar al paciente $patient->name.");
 
         return redirect('/patients');
     }
@@ -112,7 +112,12 @@ class PatientController extends Controller
      */
     public function destroy(Patient $patient)
     {
-        $patient->delete();
+        $paciente = $patient->name;
+
+        $res = $patient->delete();
+
+        $this->OperationMessage->deleteMessage($res, $res ? ": El paciente $paciente ha sido eliminado del sistema permanentemente." : ": Ha ocurrido un error al eliminar el paciente $paciente del sistema.");
+
         return redirect('/patients');
     }
 }

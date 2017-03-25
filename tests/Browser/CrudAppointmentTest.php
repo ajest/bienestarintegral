@@ -22,13 +22,13 @@ class CrudAppointmentTest extends DuskTestCase
                     ->clickLink('Nuevo turno')
                     ->assertSee('Nuevo turno')
                     ->type('title', 'Turno urgente')
-                    ->select('professional_id', 'David Lebenfisz')
-                    ->select('patient_id', 'Bárbara Pedrozo')
-                    ->select('specialty_id', 'Masajes')
-                    ->select('treatment_id', 'Masajes reductores')
-                    ->select('series_id', 'Reductor Noviembre y Diciembre')
                     ->type('date', '20/05/2017')
                     ->type('hour', '19:00')
+                    ->select('professional_id', 'Jazmyne Marks')
+                    ->select('patient_id', 'Meda Howell')
+                    ->select('specialty_id', 'Estética')
+                    ->select('treatment_id', 'Ultasonido')
+                    ->select('series_id', '2 x 1')
                     ->click('.submit')
                     ->assertSee('exitosa')
                     ->clickLink('Ver')
@@ -39,7 +39,7 @@ class CrudAppointmentTest extends DuskTestCase
                     ->click('.submit')
                     ->assertSee('exitosa')
                     ->click('button.btn-danger')
-                    ->assertDontSee('Turno no tan urgente');
+                    ->assertSee('exitosa');
         });
     }
 }

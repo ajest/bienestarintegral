@@ -16,10 +16,9 @@
 				<h1>{{ !empty($patient->name) ? $patient->name : 'Nuevo Paciente' }}</h1>				
 			</div>
 			<div class="row col-md-12">
-				<a class="pull-right btn btn-success" style="margin-left:10px;" href="{{ url('/patients') }}">Volver</a>
-				<input class="submit pull-right btn btn-primary" value="Guardar" type="submit" style="margin-left:10px;">
+				<a class="pull-right btn btn-success" href="{{ url('/patients') }}">Volver</a>
+				<input class="submit pull-right btn btn-primary" value="Guardar" type="submit">
 			</div>
-			<div style="clear:both"></div>
 			<hr />
 			@include('partials/form_errors')
 			<div class="col-md-12">

@@ -37,13 +37,25 @@ $factory->define(App\Patient::class, function (Faker\Generator $faker) {
 $factory->define(App\Appointment::class, function (Faker\Generator $faker) {
     return [
         'title' => rtrim($faker->sentence(3), '.'),
-        'professional_id' => 1,
-        'patient_id' => 1,
-        'specialty_id' => 1,
-        'treatment_id' => 1,
-        'series_id' => NULL,
+        'professional_id' => $faker->numberBetween(1, 5),
+        'patient_id' => $faker->numberBetween(1, 50),
+        'specialty_id' => $faker->numberBetween(1, 6),
+        'treatment_id' => $faker->numberBetween(1, 6),
+        'series_id' => $faker->numberBetween(1, 4),
         'date' => '20/05/2017',
         'hour' => '19:00',
         'created_at' => $faker->dateTimeBetween($startDate = '-180 days', $endDate = '+180 days')
+    ];
+});
+
+$factory->define(App\Professional::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->name,
+        'email' => $faker->unique()->safeEmail,
+        'tel' => $faker->phoneNumber,
+        'gender' => strlen($faker->name) > 10 ? 'H' : 'M',
+        'address' => $faker->address,
+        'created_at' => $faker->dateTimeBetween($startDate = '-180 days', $endDate = '0 days'),
+        'updated_at' => $faker->dateTimeBetween($startDate = '+1 days', $endDate = '+180 days')
     ];
 });

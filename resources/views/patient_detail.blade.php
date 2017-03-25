@@ -8,8 +8,8 @@
 	<div class="row col-md-12">
 		<h1>{{ $patient->name }}</h1>
 		<small><a href="#" title="Ver paciente Pablo Fumarola en el calendario">Ver en calendario</a></small>
-		<a class="btn btn-primary pull-right" style="margin-left:10px;" href="{{ url('/patients/' . $patient->id . '/edit') }}">Editar</a>
-		<a class="btn btn-success pull-right" style="margin-left:10px;" href="{{ url('/patients') }}">Volver</a>
+		<a class="btn btn-primary pull-right" href="{{ url('/patients/' . $patient->id . '/edit') }}">Editar</a>
+		<a class="btn btn-success pull-right" href="{{ url('/patients') }}">Volver</a>
 		<hr />
 		<div class="col-md-4">
 			<div class="col-md-12">
@@ -40,5 +40,4 @@
 			</div>
 		</div>
 	</div>
-	<div style="clear:both !important"></div>
 @endsection

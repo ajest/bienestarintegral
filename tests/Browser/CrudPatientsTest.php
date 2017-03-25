@@ -36,7 +36,7 @@ class CrudPatientsTest extends DuskTestCase
                     ->click('.submit')
                     ->assertSee('exitosa')
                     ->click('button.btn-danger')
-                    ->assertDontSee('Pablo Joel Fumarola');
+                    ->assertSee('exitosa');
         });
     }
 }
