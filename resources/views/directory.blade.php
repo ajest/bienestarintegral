@@ -48,9 +48,3 @@
 		{{ $patients->links() }}
 	</div>
 @endsection
-
-@section('assets_jquery')
-<script>
-
-</script>
-@endsection

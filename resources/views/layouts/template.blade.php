@@ -11,24 +11,32 @@
         <title>BienestarIntegral</title>
 
         <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
-        <link rel="stylesheet" type="text/css" href="{{ asset('css/styles.css') }}">
     </head>
     <body>
-        <nav class="navbar navbar-inverse">
+        <div id="app">            
+            <nav class="navbar navbar-inverse">
+                <div class="container">
+                    @yield('nav')
+                </div>
+            </nav>
+
+            @yield('marketing')
+
             <div class="container">
-                @yield('nav')
-            </div>
-        </nav>
-
-        @yield('marketing')
-
-        <div class="container">
-          @yield('content')
-          <footer class="row col-md-12">
-            <p>&copy; 2017 Company, Inc.</p>
-          </footer>
-        </div> <!-- /container -->        
+              @yield('content')
+              <footer class="row col-md-12">
+                <p>&copy; 2017 Company, Inc.</p>
+              </footer>
+            </div> <!-- /container -->
+        </div>
     </body>
-    <link rel="stylesheet" type="text/css" href="{{ asset('js/app.js') }}">
+    <script>
+        window.Laravel =  <?php echo json_encode([
+            'csrfToken' => csrf_token(),
+        ]); ?>
+    </script>
+    <script src="{{ mix('js/manifest.js') }}"></script>
+    <script src="{{ mix('js/vendor.js') }}"></script>
+    <script src="{{ mix('js/app.js') }}"></script>
     @yield('assets_jquery')
 </html>

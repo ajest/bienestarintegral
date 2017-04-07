@@ -26,3 +26,7 @@ Route::resource('appointments', 'AppointmentController');
 
 Route::post('appointments/store', 'AppointmentController@store');
 Route::post('appointments/create', 'AppointmentController@store');
+
+Route::get('/spa', function(){
+	return view('vue');
+});
