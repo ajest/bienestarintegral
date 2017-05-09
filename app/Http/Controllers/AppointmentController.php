@@ -30,6 +30,10 @@ class AppointmentController extends Controller
         return view('appointments', ['appointments' => Appointment::orderBy('id', 'desc')->paginate(15)]);
     }
 
+    public function getAll($page = 1){
+        return ['appointments' => Appointment::with(['professional', 'patient', 'treatment'])->paginate($page * 15)];
+    }
+
     /**
      * Show the form for creating a new resource.
      *
