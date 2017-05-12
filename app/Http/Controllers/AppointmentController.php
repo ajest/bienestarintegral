@@ -37,9 +37,7 @@ class AppointmentController extends Controller
             return $page;
         });
 
-        return [
-            'appointments'              => Appointment::with(['professional', 'patient', 'treatment', 'specialty'])->paginate($rows)
-        ];
+        return ['appointments' => Appointment::with(['professional', 'patient', 'treatment', 'specialty'])->paginate($rows)];
     }
 
     /**

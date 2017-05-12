@@ -15,6 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('patients/list', 'PatientController@getall');
+Route::get('patients/list/{page}', ['uses' =>'PatientController@getall'])->where('page', '[0-9]+');
+
 Route::post('patients/store', 'PatientController@store');
 Route::post('patients/create', 'PatientController@store');
 

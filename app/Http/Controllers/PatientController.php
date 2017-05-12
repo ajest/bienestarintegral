@@ -6,6 +6,7 @@ use App\Patient;
 use Illuminate\Http\Request;
 use App\Http\Requests\PatientRequest;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Pagination\Paginator;
 
 class PatientController extends Controller
 {
@@ -24,6 +25,15 @@ class PatientController extends Controller
     public function index()
     {
         return view('directory', ['patients' => Patient::orderBy('id', 'desc')->paginate(15)]);
+    }
+
+    public function getAll($page = 1, $rows = 10){
+
+        Paginator::currentPageResolver(function () use ($page) {
+            return $page;
+        });
+
+        return ['patients' => Patient::orderBy('id', 'desc')->paginate($rows)];
     }
 
     /**
