@@ -10,6 +10,7 @@ use App\Treatment;
 use App\Series;
 use App\Http\Requests\AppointmentRequest;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
 
 class AppointmentController extends Controller
 {
@@ -30,8 +31,15 @@ class AppointmentController extends Controller
         return view('appointments', ['appointments' => Appointment::orderBy('id', 'desc')->paginate(15)]);
     }
 
-    public function getAll($page = 1){
-        return ['appointments' => Appointment::with(['professional', 'patient', 'treatment'])->paginate($page * 15)];
+    public function getAll($page = 1, $rows = 10){
+
+        Paginator::currentPageResolver(function () use ($page) {
+            return $page;
+        });
+
+        return [
+            'appointments'              => Appointment::with(['professional', 'patient', 'treatment', 'specialty'])->paginate($rows)
+        ];
     }
 
     /**

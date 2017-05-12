@@ -20,6 +20,7 @@ Route::post('patients/create', 'PatientController@store');
 
 
 Route::get('appointments/list', 'AppointmentController@getall');
+Route::get('appointments/list/{page}', ['uses' =>'AppointmentController@getall'])->where('page', '[0-9]+');
 
 
 Route::post('appointments/store', 'AppointmentController@store');
