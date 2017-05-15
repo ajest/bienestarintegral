@@ -4,7 +4,7 @@
 			<h1>Turnos <small><a href="#" class="font-size-14">Nuevo turno [+]</a></small></h1>
 		</div>
 		<div class="row col-md-12">
-			<table class="table table-striped table-hover">
+			<table class="table table-striped table-hover table-head-strong">
 				<thead>
 					<tr>
 						<td>Título</td>
@@ -32,29 +32,13 @@
 					</tr>					
 				</tbody>
 			</table>
-			<nav aria-label="Page navigation">
-				<ul class="pagination">
-					<li :class="[ current_page == 1 ? 'disabled' : '' ]">
-						<a v-on:click="getPreviousPage()" href="javascript:;" aria-label="Previous">
-							<span aria-hidden="true">&laquo;</span>
-						</a>
-					</li>
-					
-					<li v-for="page in last_page" :class="[ page == current_page ? 'active' : '' ]">
-						<router-link :to="'/appointments/' + page"> {{ page }} </router-link>
-					</li>
-					
-					<li :class="[ current_page == last_page ? 'disabled' : '' ]">
-						<a v-on:click="getNextPage()" href="javascript:;" aria-label="Next">
-							<span aria-hidden="true">&raquo;</span>
-						</a>
-					</li>
-				</ul>
-			</nav>
+			<pagination v-bind:last_page="last_page" v-bind:current_page="current_page"></pagination>
 		</div>
 	</div>
 </template>
 <script>
+	import Pagination from './partials/Pagination.vue';
+
 	export default {
 		data () {
 			return {
@@ -69,15 +53,6 @@
 		},
 		
 		methods: {
-			getPreviousPage: function(){
-				var previous_page = this.current_page - 1;
-				this.$router.push({ path: '/appointments/' + (previous_page < 1 ? 1 : previous_page) });
-			},
-
-			getNextPage: function(){
-				var next_page = this.current_page + 1;
-				this.$router.push({ path: '/appointments/' + (next_page > this.last_page ? this.last_page : next_page) });
-			},
 			paginationCallback(){
 				var t = this;
 
@@ -113,6 +88,10 @@
 		    '$route' (to, from) {
 			    this.paginationCallback();
 		    }
-		}
+		},
+        
+        components: {
+            'pagination' : Pagination
+        }
 	}
 </script>
