@@ -1,8 +1,8 @@
-	<template>
+<template>
 	<nav aria-label="Page navigation">
 		<ul class="pagination">
 			<li :class="[ current_page == 1 ? 'disabled' : '' ]">
-				<a v-on:click="getPreviousPage()" href="javascript:;" aria-label="Previous">
+				<a @click="getPreviousPage()" href="javascript:;" aria-label="Previous">
 					<span aria-hidden="true">&laquo;</span>
 				</a>
 			</li>
@@ -12,7 +12,7 @@
 			</li>
 			
 			<li :class="[ current_page == last_page ? 'disabled' : '' ]">
-				<a v-on:click="getNextPage()" href="javascript:;" aria-label="Next">
+				<a @click="getNextPage()" href="javascript:;" aria-label="Next">
 					<span aria-hidden="true">&raquo;</span>
 				</a>
 			</li>
@@ -38,7 +38,7 @@
 				this.$router.push({ path: '/appointments/' + (next_page > this.last_page ? this.last_page : next_page) });
 			}
 		},
-
+		
 		props: ['current_page', 'last_page']
 	}
 </script>

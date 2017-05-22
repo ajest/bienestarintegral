@@ -16,35 +16,42 @@
 						<td>Acciones</td>
 					</tr>
 				</thead>
-				<tbody>
-					<tr v-for="appointment in appointments">
+				<transition-group name="list" tag="tbody">
+					<tr v-for="appointment in appointments" v-bind:key="appointment" class="list-item">
 						<td>{{ appointment.titulo }}</td>
 						<td>{{ appointment.paciente }}</td>
 						<td>{{ appointment.profesional }}</td>
 						<td>{{ appointment.area }}</td>
 						<td>{{ appointment.tratamiento }}</td>
 						<td>{{ appointment.fecha }}</td>
-						<td>
-							<a class="pull-right btn btn-primary margin-list-button" :href="'/appointments/' + appointment.id + '/edit'" title="Editar paciente"><span class="glyphicon glyphicon-pencil"></span></a>
-							<a class="pull-right btn btn-success margin-list-button" :href="'/appointments/' + appointment.id" title="Ver Turno"><span class="glyphicon glyphicon-eye-open"></span></a>
-							<a class="pull-right btn btn-danger margin-list-button" :href="'/appointments/' + appointment.id" title="Cancelar Turno"><span class="glyphicon glyphicon-remove"></span></a>
+						<td>								
+							<div class="three-buttons">
+								<a class="btn btn-success margin-list-button" :href="'/appointments/' + appointment.id" title="Ver Turno"><span class="glyphicon glyphicon-eye-open"></span></a>
+								<a class="btn btn-primary margin-list-button" :href="'/appointments/' + appointment.id + '/edit'" title="Editar paciente"><span class="glyphicon glyphicon-pencil"></span></a>							
+								<a class="btn btn-danger margin-list-button" href="#" data-toggle="modal" data-target="#confirmDelete" title="Cancelar Turno" @click="confirmDelete(appointment.id)"><span class="glyphicon glyphicon-remove"></span></a>
+							</div>							
 						</td>
-					</tr>					
-				</tbody>
+					</tr>
+				</transition-group>
 			</table>
 			<pagination v-bind:last_page="last_page" v-bind:current_page="current_page"></pagination>
+			<popupdeleteconfirm v-on:success="operationSuccess()" v-bind:element_id="appointment_id" v-bind:elements="appointments" v-bind:delete_text_confirm="delete_text_confirm"></popupdeleteconfirm>
 		</div>
 	</div>
 </template>
 <script>
 	import Pagination from './partials/Pagination.vue';
+	import PopupDeleteConfirm from './partials/PopupDeleteConfirm.vue';
 
 	export default {
 		data () {
 			return {
 				appointments: [],
 				last_page: 0,
-				current_page: 1
+				current_page: 1,
+				appointment_id: 0,
+				url: '/appointments/', // For the delete
+				delete_text_confirm: ['El turno', null, ' para el paciente ', null, 'va a ser eliminado. ¿Está seguro que desea eliminar el turno', ' permanentemente', '?']
 			}
 		},
 		
@@ -81,6 +88,22 @@
 					.catch(function (error) {
 						console.log('Estamos teniendo problemas al resolver su solicitud. Por favor reintente más tarde');
 					});
+			},
+
+			confirmDelete(id){
+				this.appointment_id = id;
+			},
+
+			operationSuccess(){
+				var t = this;
+
+				_.forEach(t.appointments, function(value, i){
+					if(value.id == t.appointment_id){
+						t.appointments = t.appointments.filter(function (item) {
+						    return t.appointment_id != item.id;
+						});
+					}
+				});
 			}
 		},
 
@@ -91,7 +114,8 @@
 		},
         
         components: {
-            'pagination' : Pagination
+            'pagination' : Pagination,
+            'popupdeleteconfirm' : PopupDeleteConfirm
         }
 	}
 </script>

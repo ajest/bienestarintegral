@@ -155,6 +155,10 @@ class AppointmentController extends Controller
 
         $this->OperationMessage->deleteMessage($res, $res ? ": El turno para el paciente $paciente ha sido eliminado permanentemente." : ": Ha ocurrido un error al eliminar el turno para el paciente $paciente.");
 
-        return redirect('/appointments');
+        if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            return ['status' => 'success'];
+        }else{
+            return redirect('/appointments');
+        }
     }
 }

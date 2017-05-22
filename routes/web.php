@@ -21,10 +21,8 @@ Route::get('patients/list/{page}', ['uses' =>'PatientController@getall'])->where
 Route::post('patients/store', 'PatientController@store');
 Route::post('patients/create', 'PatientController@store');
 
-
 Route::get('appointments/list', 'AppointmentController@getall');
 Route::get('appointments/list/{page}', ['uses' =>'AppointmentController@getall'])->where('page', '[0-9]+');
-
 
 Route::post('appointments/store', 'AppointmentController@store');
 Route::post('appointments/create', 'AppointmentController@store');
