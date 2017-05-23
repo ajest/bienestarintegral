@@ -296,6 +296,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__partials_Pagination_vue__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__partials_Pagination_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__partials_Pagination_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__partials_PopupDeleteConfirm_vue__ = __webpack_require__(45);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__partials_PopupDeleteConfirm_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__partials_PopupDeleteConfirm_vue__);
 //
 //
 //
@@ -334,6 +336,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+
 
 
 
@@ -342,7 +346,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		return {
 			patients: [],
 			last_page: 0,
-			current_page: 1
+			current_page: 1,
+			patient_id: 0,
+			url: '/patients/',
+			delete_text_confirm: ['El registro del paciente y su historial de tratamientos ', null, null, null, 'van a ser eliminado. ¿Está seguro que desea eliminar el registro del paciente ', ' permanentemente', '?']
 		};
 	},
 
@@ -378,6 +385,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			}).catch(function (error) {
 				console.log('Estamos teniendo problemas al resolver su solicitud. Por favor reintente más tarde');
 			});
+		},
+		confirmDelete: function confirmDelete(id) {
+			this.patient_id = id;
+		},
+		operationSuccess: function operationSuccess() {
+			var t = this;
+
+			_.forEach(t.patients, function (value, i) {
+				if (value.id == t.patient_id) {
+					t.patients = t.patients.filter(function (item) {
+						return t.patient_id != item.id;
+					});
+				}
+			});
 		}
 	},
 
@@ -388,7 +409,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 
 	components: {
-		'pagination': __WEBPACK_IMPORTED_MODULE_0__partials_Pagination_vue___default.a
+		'pagination': __WEBPACK_IMPORTED_MODULE_0__partials_Pagination_vue___default.a,
+		'popupdeleteconfirm': __WEBPACK_IMPORTED_MODULE_1__partials_PopupDeleteConfirm_vue___default.a
 	}
 });
 
@@ -429,16 +451,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	methods: {
 		getPreviousPage: function getPreviousPage() {
 			var previous_page = this.current_page - 1;
-			this.$router.push({ path: '/appointments/' + (previous_page < 1 ? 1 : previous_page) });
+			this.$router.push({ path: this.url + (previous_page < 1 ? 1 : previous_page) });
 		},
 
 		getNextPage: function getNextPage() {
 			var next_page = this.current_page + 1;
-			this.$router.push({ path: '/appointments/' + (next_page > this.last_page ? this.last_page : next_page) });
+			this.$router.push({ path: this.url + (next_page > this.last_page ? this.last_page : next_page) });
 		}
 	},
 
-	props: ['current_page', 'last_page']
+	props: ['current_page', 'last_page', 'url']
 });
 
 /***/ }),
@@ -864,17 +886,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "row col-md-12"
   }, [_c('table', {
     staticClass: "table table-striped table-hover table-head-strong"
-  }, [_vm._m(1), _vm._v(" "), _c('tbody', _vm._l((_vm.patients), function(patient) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(patient.nombre))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(patient.email))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(patient.telefono))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(patient.sexo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(patient.direccion))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(patient.fecha))]), _vm._v(" "), _c('td', [_c('a', {
-      staticClass: "pull-right btn btn-primary margin-list-button",
-      attrs: {
-        "href": '/patients/' + patient.id + '/edit',
-        "title": "Editar paciente"
-      }
-    }, [_c('span', {
-      staticClass: "glyphicon glyphicon-pencil"
-    })]), _vm._v(" "), _c('a', {
-      staticClass: "pull-right btn btn-success margin-list-button",
+  }, [_vm._m(1), _vm._v(" "), _c('transition-group', {
+    attrs: {
+      "name": "list",
+      "tag": "tbody"
+    }
+  }, _vm._l((_vm.patients), function(patient) {
+    return _c('tr', {
+      key: _vm.patients,
+      staticClass: "list-item"
+    }, [_c('td', [_vm._v(_vm._s(patient.nombre))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(patient.email))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(patient.telefono))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(patient.sexo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(patient.direccion))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(patient.fecha))]), _vm._v(" "), _c('td', [_c('a', {
+      staticClass: "btn btn-success margin-list-button",
       attrs: {
         "href": '/patients/' + patient.id,
         "title": "Ver Turno"
@@ -882,18 +904,46 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_c('span', {
       staticClass: "glyphicon glyphicon-eye-open"
     })]), _vm._v(" "), _c('a', {
-      staticClass: "pull-right btn btn-danger margin-list-button",
+      staticClass: "btn btn-primary margin-list-button",
       attrs: {
-        "href": '/patients/' + patient.id,
-        "title": "Cancelar Turno"
+        "href": '/patients/' + patient.id + '/edit',
+        "title": "Editar paciente"
+      }
+    }, [_c('span', {
+      staticClass: "glyphicon glyphicon-pencil"
+    })]), _vm._v(" "), _c('a', {
+      staticClass: "btn btn-danger margin-list-button",
+      attrs: {
+        "href": "#",
+        "data-toggle": "modal",
+        "data-target": "#confirmDelete",
+        "title": "Eliminar registro paciente"
+      },
+      on: {
+        "click": function($event) {
+          _vm.confirmDelete(patient.id)
+        }
       }
     }, [_c('span', {
       staticClass: "glyphicon glyphicon-remove"
     })])])])
-  }))])]), _vm._v(" "), _c('pagination', {
+  }))], 1)]), _vm._v(" "), _c('pagination', {
     attrs: {
       "last_page": _vm.last_page,
-      "current_page": _vm.current_page
+      "current_page": _vm.current_page,
+      "url": _vm.url
+    }
+  }), _vm._v(" "), _c('popupdeleteconfirm', {
+    attrs: {
+      "element_id": _vm.patient_id,
+      "elements": _vm.patients,
+      "url": _vm.url,
+      "delete_text_confirm": _vm.delete_text_confirm
+    },
+    on: {
+      "success": function($event) {
+        _vm.operationSuccess()
+      }
     }
   })], 1)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1033,7 +1083,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       class: [page == _vm.current_page ? 'active' : '']
     }, [_c('router-link', {
       attrs: {
-        "to": '/appointments/' + page
+        "to": _vm.url + page
       }
     }, [_vm._v(" " + _vm._s(page) + " ")])], 1)
   }), _vm._v(" "), _c('li', {
@@ -1119,12 +1169,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }))], 1), _vm._v(" "), _c('pagination', {
     attrs: {
       "last_page": _vm.last_page,
-      "current_page": _vm.current_page
+      "current_page": _vm.current_page,
+      "url": _vm.url
     }
   }), _vm._v(" "), _c('popupdeleteconfirm', {
     attrs: {
       "element_id": _vm.appointment_id,
       "elements": _vm.appointments,
+      "url": _vm.url,
       "delete_text_confirm": _vm.delete_text_confirm
     },
     on: {

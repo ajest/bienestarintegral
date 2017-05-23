@@ -34,8 +34,8 @@
 					</tr>
 				</transition-group>
 			</table>
-			<pagination v-bind:last_page="last_page" v-bind:current_page="current_page"></pagination>
-			<popupdeleteconfirm v-on:success="operationSuccess()" v-bind:element_id="appointment_id" v-bind:elements="appointments" v-bind:delete_text_confirm="delete_text_confirm"></popupdeleteconfirm>
+			<pagination v-bind:last_page="last_page" v-bind:current_page="current_page" v-bind:url="url"></pagination>
+			<popupdeleteconfirm v-on:success="operationSuccess()" v-bind:element_id="appointment_id" v-bind:elements="appointments" v-bind:url="url" v-bind:delete_text_confirm="delete_text_confirm"></popupdeleteconfirm>
 		</div>
 	</div>
 </template>

@@ -16,8 +16,8 @@
 						<td>Acciones</td>
 					</tr>
 				</thead>
-				<tbody>				
-					<tr v-for="patient in patients">
+				<transition-group name="list" tag="tbody">
+					<tr v-for="patient in patients" v-bind:key="patients" class="list-item">
 						<td>{{ patient.nombre }}</td>
 						<td>{{ patient.email }}</td>
 						<td>{{ patient.telefono }}</td>
@@ -25,26 +25,31 @@
 						<td>{{ patient.direccion }}</td>
 						<td>{{ patient.fecha }}</td>
 						<td>
-							<a class="pull-right btn btn-primary margin-list-button" :href="'/patients/' + patient.id + '/edit'" title="Editar paciente"><span class="glyphicon glyphicon-pencil"></span></a>
-							<a class="pull-right btn btn-success margin-list-button" :href="'/patients/' + patient.id" title="Ver Turno"><span class="glyphicon glyphicon-eye-open"></span></a>
-							<a class="pull-right btn btn-danger margin-list-button" :href="'/patients/' + patient.id" title="Cancelar Turno"><span class="glyphicon glyphicon-remove"></span></a>
+							<a class="btn btn-success margin-list-button" :href="'/patients/' + patient.id" title="Ver Turno"><span class="glyphicon glyphicon-eye-open"></span></a>
+							<a class="btn btn-primary margin-list-button" :href="'/patients/' + patient.id + '/edit'" title="Editar paciente"><span class="glyphicon glyphicon-pencil"></span></a>
+							<a class="btn btn-danger margin-list-button" href="#" data-toggle="modal" data-target="#confirmDelete" title="Eliminar registro paciente" @click="confirmDelete(patient.id)"><span class="glyphicon glyphicon-remove"></span></a>
 						</td>
-					</tr>				
-				</tbody>
+					</tr>
+				</transition-group>
 			</table>
 		</div>
-		<pagination v-bind:last_page="last_page" v-bind:current_page="current_page"></pagination>
+		<pagination v-bind:last_page="last_page" v-bind:current_page="current_page" v-bind:url="url"></pagination>
+		<popupdeleteconfirm v-on:success="operationSuccess()" v-bind:element_id="patient_id" v-bind:elements="patients" v-bind:url="url" v-bind:delete_text_confirm="delete_text_confirm"></popupdeleteconfirm>
 	</div>	
 </template>
 <script>
 	import Pagination from './partials/Pagination.vue';
+	import PopupDeleteConfirm from './partials/PopupDeleteConfirm.vue';
 
 	export default {
 		data () {
 			return {
 				patients: [],
 				last_page: 0,
-				current_page: 1
+				current_page: 1,
+				patient_id: 0,
+				url: '/patients/',
+				delete_text_confirm: ['El registro del paciente y su historial de tratamientos ', null, null, null, 'van a ser eliminado. ¿Está seguro que desea eliminar el registro del paciente ', ' permanentemente', '?']
 			}
 		},
 		
@@ -81,6 +86,21 @@
 					.catch(function (error) {
 						console.log('Estamos teniendo problemas al resolver su solicitud. Por favor reintente más tarde');
 					});
+			},
+			confirmDelete(id){
+				this.patient_id = id;
+			},
+
+			operationSuccess(){
+				var t = this;
+
+				_.forEach(t.patients, function(value, i){
+					if(value.id == t.patient_id){
+						t.patients = t.patients.filter(function (item) {
+						    return t.patient_id != item.id;
+						});
+					}
+				});
 			}
 		},
 
@@ -91,7 +111,8 @@
 		},
 
 		components: {
-            'pagination' : Pagination
+            'pagination' : Pagination,
+            'popupdeleteconfirm' : PopupDeleteConfirm
         }
 	}
 </script>
