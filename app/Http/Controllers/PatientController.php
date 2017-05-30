@@ -128,6 +128,10 @@ class PatientController extends Controller
 
         $this->OperationMessage->deleteMessage($res, $res ? ": El paciente $paciente ha sido eliminado del sistema permanentemente." : ": Ha ocurrido un error al eliminar el paciente $paciente del sistema.");
 
-        return redirect('/patients');
+        if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            return ['status' => 'success'];
+        }else{
+            return redirect('/patients');
+        }
     }
 }
