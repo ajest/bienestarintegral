@@ -39,7 +39,7 @@
 </template>
 <script>
 	import Pagination from './partials/Pagination.vue';
-	import PopupDeleteConfirm from './partials/PopupDeleteConfirm.vue';
+	import PopupDeleteConfirm from './popups/PopupDeleteConfirm.vue';
 
 	export default {
 		data () {
@@ -113,6 +113,8 @@
 		components: {
             'pagination' : Pagination,
             'popupdeleteconfirm' : PopupDeleteConfirm
-        }
+        },
+
+        props: ['message', 'success', 'warning', 'danger']
 	}
 </script>

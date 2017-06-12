@@ -5,5 +5,5 @@
 @endsection
 
 @section('content')
-	<container>Cargando...<span class="glyphicon glyphicon-tree-deciduous"></span></container>	
+	<container>Cargando...<span class="glyphicon glyphicon-tree-deciduous"></span></container>
 @endsection

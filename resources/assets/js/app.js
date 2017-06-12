@@ -6,9 +6,9 @@ require('./bootstrap');
 
 Vue.use(VueRouter);
 
-import Appointments from './components/Appointments.vue';
-import Home 		from './components/Home.vue';
-import Patients 	from './components/Patients.vue';
+import Appointments 	from './components/Appointments.vue';
+import Home 			from './components/Home.vue';
+import Patients 		from './components/Patients.vue';
 
 Vue.component('navtop', require('./components/Nav.vue'));
 Vue.component('container', require('./components/Main.vue'));
