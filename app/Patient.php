@@ -20,4 +20,9 @@ class Patient extends Model
         
         return $created_at;
     }
+
+    public function appointment()
+    {
+        return $this->hasMany('App\Appointment');
+    }
 }

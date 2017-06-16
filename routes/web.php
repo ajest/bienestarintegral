@@ -17,6 +17,19 @@ Route::get('/', function () {
 
 Route::get('patients/list', 'PatientController@getall');
 Route::get('patients/list/{page}', ['uses' =>'PatientController@getall'])->where('page', '[0-9]+');
+Route::get('patients/detail/{patient}', function (App\Patient $patient) {
+    return [
+        'patient'       => $patient,
+        'appointments'  => $patient->appointment
+                                        ->where('date', '>=', date('Y-m-d'))
+                                            ->each->professional
+                                            ->each->treatment,
+        'history'  => $patient->appointment
+                                        ->where('date', '<', date('Y-m-d'))
+                                            ->each->professional
+                                            ->each->treatment
+    ];
+});
 
 Route::post('patients/store', 'PatientController@store');
 Route::post('patients/create', 'PatientController@store');

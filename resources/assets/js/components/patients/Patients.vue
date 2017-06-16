@@ -26,7 +26,7 @@
 						<td>{{ patient.fecha }}</td>
 						<td>
 							<div class="three-buttons">								
-								<a class="btn btn-success margin-list-button" :href="'/patients/' + patient.id" title="Ver Turno"><span class="glyphicon glyphicon-eye-open"></span></a>
+								<router-link class="btn btn-success margin-list-button" :to="{ name: 'patients_detail', params: { id: patient.id }}" title="Ver Paciente"><span class="glyphicon glyphicon-eye-open"></span></router-link>
 								<a class="btn btn-primary margin-list-button" :href="'/patients/' + patient.id + '/edit'" title="Editar paciente"><span class="glyphicon glyphicon-pencil"></span></a>
 								<a class="btn btn-danger margin-list-button" href="#" data-toggle="modal" data-target="#confirmDelete" title="Eliminar registro paciente" @click="confirmDelete(patient.id)"><span class="glyphicon glyphicon-remove"></span></a>
 							</div>
