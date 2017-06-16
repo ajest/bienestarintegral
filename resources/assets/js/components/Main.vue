@@ -5,13 +5,15 @@
 			v-bind:success="success"
 			v-bind:warning="warning"
 			v-bind:danger="danger"
-			v-on:complete="operationComplete()"></router-view>
+			v-on:complete="operationComplete"></router-view>
 		
-		<div v-show="message">
-			<div :class="classObjectContainer">
-				<span><i class="glyphicon" :class="classObjectIcon"></i> {{ message }}</span>
+		<transition name="fade">			
+			<div v-if="message">
+				<div class="g-msg" :class="classObjectContainer">
+					<span><i class="glyphicon" :class="classObjectIcon"></i> {{ message }}</span>
+				</div>
 			</div>
-		</div>
+		</transition>
 	</div>
 </template>
 <script>
@@ -19,12 +21,12 @@
 		data () {
 			return {
 				message: '',
-				success: false,
+				success: true,
 				warning: false,
-				danger: true
+				danger: false
 			}
 		},
-		
+
 		computed: {
 			classObjectContainer: function () {
 				return {
@@ -43,10 +45,13 @@
 		},
 
 		methods: {
-			operationComplete(){
+			operationComplete(e){
 				var t = this;
 
-				t.message = 'La operacion se realizó correctamente';
+				t.message = e.message;
+				t.success = e.success;
+				t.warning = e.warning;
+				t.danger  = e.danger;
 				
 				setTimeout(function(){
 					t.message = '';

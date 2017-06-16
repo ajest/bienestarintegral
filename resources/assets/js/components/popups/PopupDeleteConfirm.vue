@@ -62,7 +62,7 @@
 						}
 					})					
 					.catch(function (error) {
-						console.log('Estamos teniendo problemas al resolver su solicitud. Por favor reintente más tarde');
+						t.$emit('error');
 					});				
 			}
 		},

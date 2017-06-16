@@ -32,19 +32,24 @@
   opacity: 0;
   transform: translateY(30px);
 }
+
+.g-msg:hover{
+  opacity: 0.2;
+}
+
 .global-message{
 	position: absolute;
-    top: 0;
-    right: 0;
-    padding: 50px;
-    margin: 50px;
-    background: rgba(187, 224, 173, 0.80);
-    border: solid 1px $brand-success;
-    border-radius: 5px;
+  top: 0;
+  right: 0;
+  padding: 50px;
+  margin: 50px;
+  background: rgba(187, 224, 173, 0.80);
+  border: solid 1px $brand-success;
+  border-radius: 5px;
 
-    span {
-    	color: #174007;
-    }
+  span {
+  	color: #174007;
+  }
 }
 .global-message-warning{
   position: absolute;
@@ -73,4 +78,13 @@
   span {
     color: $brand-danger;
   }
+}
+.fade-enter-active {
+  transition: opacity .5s
+}
+.fade-leave-active{
+  transition: opacity .2s 
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+  opacity: 0
 }

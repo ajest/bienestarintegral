@@ -34,7 +34,7 @@
 			</table>
 		</div>
 		<pagination v-bind:last_page="last_page" v-bind:current_page="current_page" v-bind:url="url"></pagination>
-		<popupdeleteconfirm v-on:success="operationSuccess()" v-bind:element_id="patient_id" v-bind:elements="patients" v-bind:url="url" v-bind:delete_text_confirm="delete_text_confirm"></popupdeleteconfirm>
+		<popupdeleteconfirm v-on:success="operationSuccess" v-on:error="operationError" v-bind:element_id="patient_id" v-bind:elements="patients" v-bind:url="url" v-bind:delete_text_confirm="delete_text_confirm"></popupdeleteconfirm>
 	</div>	
 </template>
 <script>
@@ -101,6 +101,12 @@
 						});
 					}
 				});
+
+				t.$emit('complete', {message:  'La operación se realizó correctamente', success: true, warning: false, danger: false});
+			},
+
+			operationError(){
+				t.$emit('complete', {message:  'Ha ocurrido un error inesperado. Intente nuevamente más tarde', success: false, warning: false, danger: true});	
 			}
 		},
 
