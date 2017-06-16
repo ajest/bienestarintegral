@@ -1,10 +1,10 @@
 <template>
 	<div class="row">		
 		<div class="row col-md-12">
-			<h1>Turnos <small><a href="#" class="font-size-14">Nuevo turno [+]</a></small></h1>
+			<h1><span class="glyphicon glyphicon-briefcase"></span> Turnos <a href="#" class="btn btn-success pull-right"><span class="glyphicon glyphicon-plus"></span> Nuevo turno</a></h1>
 		</div>
 		<div class="row col-md-12">
-			<table class="table table-striped table-hover table-head-strong">
+			<table class="table table-striped table-hover table-head-strong table-bi">
 				<thead>
 					<tr>
 						<td>Título</td>
@@ -26,7 +26,7 @@
 						<td>{{ appointment.fecha }}</td>
 						<td>								
 							<div class="three-buttons">
-								<a class="btn btn-success margin-list-button" :href="'/appointments/' + appointment.id" title="Ver Turno"><span class="glyphicon glyphicon-eye-open"></span></a>
+								<router-link class="btn btn-success margin-list-button" :to="{ name: 'appointments_detail', params: { id: appointment.id }}" title="Ver Turno"><span class="glyphicon glyphicon-eye-open"></span></router-link>
 								<a class="btn btn-primary margin-list-button" :href="'/appointments/' + appointment.id + '/edit'" title="Editar paciente"><span class="glyphicon glyphicon-pencil"></span></a>							
 								<a class="btn btn-danger margin-list-button" href="#" data-toggle="modal" data-target="#confirmDelete" title="Cancelar Turno" @click="confirmDelete(appointment.id)"><span class="glyphicon glyphicon-remove"></span></a>
 							</div>							
@@ -40,8 +40,8 @@
 	</div>
 </template>
 <script>
-	import Pagination from './partials/Pagination.vue';
-	import PopupDeleteConfirm from './popups/PopupDeleteConfirm.vue';
+	import Pagination from '../partials/Pagination.vue';
+	import PopupDeleteConfirm from '../popups/PopupDeleteConfirm.vue';
 
 	export default {
 		data () {

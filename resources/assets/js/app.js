@@ -6,19 +6,21 @@ require('./bootstrap');
 
 Vue.use(VueRouter);
 
-import Appointments 	from './components/Appointments.vue';
-import Home 			from './components/Home.vue';
-import Patients 		from './components/Patients.vue';
+import Appointments 		from './components/appointments/Appointments.vue';
+import AppointmentsDetail 	from './components/appointments/Detail.vue';
+import Home 				from './components/Home.vue';
+import Patients 			from './components/patients/Patients.vue';
 
 Vue.component('navtop', require('./components/Nav.vue'));
 Vue.component('container', require('./components/Main.vue'));
 
 const routes = [
-	{ path: '/', component: Home },
-	{ path: '/appointments', component: Appointments },
+	{ name: 'home', path: '/', component: Home },
+	{ name: 'appointments', path: '/appointments', component: Appointments },
 	{ path: '/appointments/:id', component: Appointments },
-	{ path: '/patients', component: Patients },
-	{ path: '/patients/:id', component: Patients },
+	{ name: 'appointments_detail', path: '/appointments/detail/:id', component: AppointmentsDetail },
+	{ name: 'patients', path: '/patients', component: Patients },
+	{ name: 'patients_detail', path: '/patients/:id', component: Patients },
 ];
 
 const router = new VueRouter({

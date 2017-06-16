@@ -1,10 +1,10 @@
 <template>
 	<div class="row">
 		<div class="row col-md-12">
-			<h1>Directorio pacientes <small><a href="#" class="font-size-14">Nuevo paciente [+]</a></small></h1>		
+			<h1><span class="glyphicon glyphicon-list-alt"></span> Directorio pacientes <a href="#" class="btn btn-success pull-right"><span class="glyphicon glyphicon-plus"></span> Nuevo paciente</a></h1>		
 		</div>
 		<div class="row col-md-12">
-			<table class="table table-striped table-hover table-head-strong">
+			<table class="table table-striped table-hover table-head-strong table-bi">
 				<thead>
 					<tr>
 						<td>Nombre</td>
@@ -25,9 +25,11 @@
 						<td>{{ patient.direccion }}</td>
 						<td>{{ patient.fecha }}</td>
 						<td>
-							<a class="btn btn-success margin-list-button" :href="'/patients/' + patient.id" title="Ver Turno"><span class="glyphicon glyphicon-eye-open"></span></a>
-							<a class="btn btn-primary margin-list-button" :href="'/patients/' + patient.id + '/edit'" title="Editar paciente"><span class="glyphicon glyphicon-pencil"></span></a>
-							<a class="btn btn-danger margin-list-button" href="#" data-toggle="modal" data-target="#confirmDelete" title="Eliminar registro paciente" @click="confirmDelete(patient.id)"><span class="glyphicon glyphicon-remove"></span></a>
+							<div class="three-buttons">								
+								<a class="btn btn-success margin-list-button" :href="'/patients/' + patient.id" title="Ver Turno"><span class="glyphicon glyphicon-eye-open"></span></a>
+								<a class="btn btn-primary margin-list-button" :href="'/patients/' + patient.id + '/edit'" title="Editar paciente"><span class="glyphicon glyphicon-pencil"></span></a>
+								<a class="btn btn-danger margin-list-button" href="#" data-toggle="modal" data-target="#confirmDelete" title="Eliminar registro paciente" @click="confirmDelete(patient.id)"><span class="glyphicon glyphicon-remove"></span></a>
+							</div>
 						</td>
 					</tr>
 				</transition-group>
@@ -38,8 +40,8 @@
 	</div>	
 </template>
 <script>
-	import Pagination from './partials/Pagination.vue';
-	import PopupDeleteConfirm from './popups/PopupDeleteConfirm.vue';
+	import Pagination from '../partials/Pagination.vue';
+	import PopupDeleteConfirm from '../popups/PopupDeleteConfirm.vue';
 
 	export default {
 		data () {

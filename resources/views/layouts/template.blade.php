@@ -8,7 +8,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>BienestarIntegral</title>
+        <title>Bienestar Integral</title>
 
         <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
     </head>
@@ -23,11 +23,34 @@
             @yield('marketing')
 
             <div class="container">
-              @yield('content')
-              <footer class="row col-md-12">
-                <p>&copy; 2017 Company, Inc.</p>
-              </footer>
+              @yield('content')              
             </div> <!-- /container -->
+            <footer class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                <div class="row">
+                    <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12 bloque-footer">
+                        <h3>Soporte</h3>
+                        <p>Programador: <strong><a href="mailto:pablo.fumarola@gmail.com">Pablo Joel Fumarola</a></strong></p>
+                        <p><a href="#">Preguntas Frecuentes</a></p>
+                        <p><a href="#">Errores conocidos</a></p>
+                    </div>
+                    <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12 bloque-footer">
+                        <h3>Tutoriales</h3>
+                        <p><a href="#">Primeros pasos</a></p>
+                        <p><a href="#">Conceptos avanzados</a></p>
+                        <p><a href="#">Trucos</a></p>
+                        <p><a href="#">Documentación</a></p>
+                    </div>
+                    <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12 bloque-footer">
+                        <h3>Información útil</h3>
+                        <p><a href="#">Historia del proyecto</a></p>
+                        <p><a href="#">Proyección</a></p>
+                        <p><a href="#">Alcance</a></p>
+                    </div>
+                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 bloque-final">
+                        <p>&copy; 2017 Company, Inc.</p>
+                    </div>
+                </div>
+            </footer>
         </div>
     </body>
     <script>

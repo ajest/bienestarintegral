@@ -31,15 +31,6 @@ class AppointmentController extends Controller
         return view('appointments', ['appointments' => Appointment::orderBy('id', 'desc')->paginate(15)]);
     }
 
-    public function getAll($page = 1, $rows = 10){
-
-        Paginator::currentPageResolver(function () use ($page) {
-            return $page;
-        });
-
-        return ['appointments' => Appointment::with(['professional', 'patient', 'treatment', 'specialty'])->paginate($rows)];
-    }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -160,5 +151,18 @@ class AppointmentController extends Controller
         }else{
             return redirect('/appointments');
         }
+    }
+
+    /**
+     * Show Appointments for Frontend Frameworks
+     *
+     */
+    public function getAll($page = 1, $rows = 10){
+
+        Paginator::currentPageResolver(function () use ($page) {
+            return $page;
+        });
+
+        return ['appointments' => Appointment::with(['professional', 'patient', 'treatment', 'specialty'])->paginate($rows)];
     }
 }

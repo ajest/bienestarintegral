@@ -23,6 +23,11 @@
 
 .three-buttons{
 	width: $three-buttons;
+  visibility: hidden;
+}
+
+.list-item:hover .three-buttons{
+  visibility: visible; 
 }
 
 .list-enter-active, .list-leave-active {
@@ -31,10 +36,6 @@
 .list-enter, .list-leave-to {
   opacity: 0;
   transform: translateY(30px);
-}
-
-.g-msg:hover{
-  opacity: 0.2;
 }
 
 .global-message{
@@ -79,6 +80,12 @@
     color: $brand-danger;
   }
 }
+
+.g-msg:hover{
+  opacity: 0.2;
+  z-index: -1;
+}
+
 .fade-enter-active {
   transition: opacity .5s
 }
@@ -87,4 +94,63 @@
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
   opacity: 0
+}
+.table-bi{
+  border: 1px solid #999;
+  border-radius: 5px;
+  box-shadow: 0 0 1px #888;
+  margin-top: 25px;
+  display: block;
+
+  thead{
+    background: #EEE;
+
+    tr td{
+      text-align: center;
+    }
+
+  }
+
+}
+
+footer{
+  background: #444;
+  padding: 60px;
+  padding-bottom: 0px;
+  margin-top: 50px;
+
+  p, a, h1, h2, h3, h4, h5, h6{
+    color: #FFF;
+  }
+  h1, h2, h3, h4, h5, h6{
+    text-align: center;
+  }
+
+  .bloque-footer{
+    margin-bottom: 30px;
+    text-align: center;
+  }
+
+  .bloque-final{
+    background: #222;
+    p {
+      margin-top: 10px;
+    }
+  }
+}
+
+.pagination{
+  a{
+    border: 1px solid #BBB !important;
+  }
+}
+
+.margin-left-small{
+  margin-left: 10px;
+}
+
+.section-detail{
+  .label{
+    font-size: 16px;
+  }
 }
