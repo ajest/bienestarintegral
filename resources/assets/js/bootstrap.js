@@ -20,9 +20,12 @@ require('bootstrap-sass');
 // window.Vue = require('vue');
 import Vue from 'vue'
 window.Vue = Vue;
+
 import VueRouter from 'vue-router';
 window.VueRouter = VueRouter;
 
+import Datepicker from 'vuejs-datepicker';
+window.Datepicker = Datepicker;
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
  * to our Laravel back-end. This library automatically handles sending the

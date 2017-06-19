@@ -42,7 +42,7 @@ $factory->define(App\Appointment::class, function (Faker\Generator $faker) {
         'specialty_id' => $faker->numberBetween(1, 6),
         'treatment_id' => $faker->numberBetween(1, 6),
         'series_id' => $faker->numberBetween(1, 4),
-        'date' => '20/05/2017',
+        'date' => '2017-06-19',
         'hour' => '19:00',
         'created_at' => $faker->dateTimeBetween($startDate = '-180 days', $endDate = '+180 days')
     ];

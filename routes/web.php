@@ -36,6 +36,17 @@ Route::post('patients/create', 'PatientController@store');
 
 Route::get('appointments/list', 'AppointmentController@getall');
 Route::get('appointments/list/{page}', ['uses' =>'AppointmentController@getall'])->where('page', '[0-9]+');
+Route::get('appointments/detail', function () {
+    return [
+        'all' => [
+            'professionals' => App\Professional::all(),
+            'patients' => App\Patient::all(),
+            'specialties' => App\Specialty::all(),
+            'treatments' => App\Treatment::all(),
+            'series' => App\Series::all()
+        ]
+    ];
+});
 Route::get('appointments/detail/{appointment}', function (App\Appointment $appointment) {
     return [
     	'appointment' 	=> $appointment,
@@ -44,6 +55,13 @@ Route::get('appointments/detail/{appointment}', function (App\Appointment $appoi
     	'specialty' 	=> $appointment->specialty,
     	'treatment' 	=> $appointment->treatment,
     	'series' 		=> $appointment->series,
+        'all'           => [
+            'professionals' => App\Professional::all(),
+            'patients' => App\Patient::all(),
+            'specialties' => App\Specialty::all(),
+            'treatments' => App\Treatment::all(),
+            'series' => App\Series::all()
+        ]
 	];
 });
 

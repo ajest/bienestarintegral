@@ -16,6 +16,7 @@
     "vue": "^2.1.10"
   },
   "dependencies": {
-    "vue-router": "^2.3.1"
+    "vue-router": "^2.3.1",
+    "vuejs-datepicker": "^0.7.16"
   }
 }

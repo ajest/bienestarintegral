@@ -1,7 +1,7 @@
 <template>
 	<div class="row">		
 		<div class="row col-md-12">
-			<h1><span class="glyphicon glyphicon-briefcase"></span> Turnos <a href="#" class="btn btn-success pull-right"><span class="glyphicon glyphicon-plus"></span> Nuevo turno</a></h1>
+			<h1><span class="glyphicon glyphicon-briefcase"></span> Turnos <router-link :to="{ name: 'appointments_new'}" class="btn btn-success pull-right"><span class="glyphicon glyphicon-plus"></span> Nuevo turno</router-link></h1>
 		</div>
 		<div class="row col-md-12">
 			<table class="table table-striped table-hover table-head-strong table-bi">
@@ -26,8 +26,8 @@
 						<td>{{ appointment.fecha }}</td>
 						<td>								
 							<div class="three-buttons">
-								<router-link class="btn btn-success margin-list-button" :to="{ name: 'appointments_detail', params: { id: appointment.id }}" title="Ver Turno"><span class="glyphicon glyphicon-eye-open"></span></router-link>
-								<a class="btn btn-primary margin-list-button" :href="'/appointments/' + appointment.id + '/edit'" title="Editar paciente"><span class="glyphicon glyphicon-pencil"></span></a>							
+								<router-link class="btn btn-success margin-list-button" :to="{ name: 'appointments_detail', params: { id: appointment.id }}" title="Ver Turno"><span class="glyphicon glyphicon-eye-open"></span></router-link>							
+								<router-link class="btn btn-primary margin-list-button" :to="{ name: 'appointments_edit', params: { id: appointment.id }}" title="Editar Turno"><span class="glyphicon glyphicon-pencil"></span></router-link>
 								<a class="btn btn-danger margin-list-button" href="#" data-toggle="modal" data-target="#confirmDelete" title="Cancelar Turno" @click="confirmDelete(appointment.id)"><span class="glyphicon glyphicon-remove"></span></a>
 							</div>							
 						</td>
@@ -70,14 +70,16 @@
 							t.appointments = [];
 
 							_.forEach(response.data.appointments.data, function(value) {
+								let no_asigned_text = '-NO ASIGNADO-';
+
 								t.appointments.push({
 										'id' : value.id,
-										'titulo': value.title,
+										'titulo': value.title ? value.title : '-SIN TÍTULO-',
 										'paciente': value.patient.name,
-										'profesional': value.professional.name,
-										'area': value.specialty.specialty,
-										'tratamiento': value.treatment.treatment,
-										'fecha': value.date
+										'profesional': value.professional ? value.professional.name : no_asigned_text,
+										'area': value.specialty ? value.specialty.specialty : no_asigned_text,
+										'tratamiento': value.treatment ? value.treatment.treatment : no_asigned_text,
+										'fecha': value.date + ' ' + value.hour
 									});
 
 								t.last_page 	= response.data.appointments.last_page;
@@ -86,7 +88,7 @@
 						}
 					})
 					.catch(function (error) {
-						console.log('Estamos teniendo problemas al resolver su solicitud. Por favor reintente más tarde');
+						t.$emit('complete', {message:  'Estamos teniendo problemas al resolver su solicitud. Intente nuevamente más tarde', success: false, warning: false, danger: true});
 					});
 			},
 

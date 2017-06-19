@@ -3,7 +3,7 @@
 		<div class="row col-md-12 section-detail" v-if="appointment">
 			<h1><span class="glyphicon glyphicon-briefcase"></span> {{ appointment.title }} 
 			<router-link to="/appointments" class="btn btn-default pull-right margin-left-small"><span class="glyphicon glyphicon-calendar"></span> </router-link>
-			<router-link to="/appointments" class="btn btn-primary pull-right margin-left-small"><span class="glyphicon glyphicon-pencil"></span> Editar</router-link>
+			<router-link :to="{ name: 'appointments_edit', params: { id: appointment.id }}" class="btn btn-primary pull-right margin-left-small"><span class="glyphicon glyphicon-pencil"></span> Editar</router-link>
 			<router-link to="/appointments" class="btn btn-success pull-right margin-left-small"><span class="glyphicon glyphicon-arrow-left"></span> Volver</router-link></h1>
 			<hr />
 			<div class="col-md-12">

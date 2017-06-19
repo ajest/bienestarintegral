@@ -72,7 +72,11 @@ class AppointmentController extends Controller
 
         $this->OperationMessage->saveOrFailMessage($res, $res ? ": El turno para el paciente " . $appointment->patient->name . " ha sido cargado exitosamente." : ": Ha ocurrido un error al cargar el turno para el paciente ". $appointment->patient->name);
 
-        return redirect('/appointments');
+        if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            return ['status' => 'success'];
+        }else{
+            return redirect('/appointments');
+        }
     }
 
     /**
@@ -116,20 +120,31 @@ class AppointmentController extends Controller
      */
     public function update(AppointmentRequest $request, Appointment $appointment)
     {
+        $date = $request->date;
+        $date_tmp = explode('T', $date);
+        if(count($date_tmp) > 1){
+            $date = $date_tmp[0];
+        } 
+
         $appointment->title             = $request->title;
         $appointment->professional_id   = $request->professional_id;
         $appointment->patient_id        = $request->patient_id;
         $appointment->specialty_id      = $request->specialty_id;
         $appointment->treatment_id      = $request->treatment_id;
         $appointment->series_id         = $request->series_id;
-        $appointment->date              = $request->date;
+        $appointment->date              = $date;
         $appointment->hour              = $request->hour;
 
         $res = $appointment->save();
 
         $this->OperationMessage->saveOrFailMessage($res, $res ? ": El turno para el paciente " . $appointment->patient->name . " ha sido editado exitosamente." : ": Ha ocurrido un error al editar el turno para el paciente " . $appointment->patient->name);
 
-        return redirect('/appointments');
+        
+        if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            return ['status' => 'success'];
+        }else{
+            return redirect('/appointments');
+        }
     }
 
     /**
@@ -163,6 +178,14 @@ class AppointmentController extends Controller
             return $page;
         });
 
-        return ['appointments' => Appointment::with(['professional', 'patient', 'treatment', 'specialty'])->paginate($rows)];
+        $appointment_data = Appointment::with(['professional', 'patient', 'treatment', 'specialty'])->paginate($rows);
+
+        foreach ($appointment_data as $key => $value) {
+            $tmp_date = explode('-', $value->date);
+            $date = $tmp_date[2] . '/' . $tmp_date[1] . '/' . $tmp_date[0];
+            $appointment_data[$key]->date = $date;
+        }
+
+        return ['appointments' => $appointment_data]; 
     }
 }

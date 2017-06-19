@@ -39,51 +39,43 @@
 }
 
 .global-message{
-	position: absolute;
-  top: 0;
-  right: 0;
-  padding: 50px;
-  margin: 50px;
   background: rgba(187, 224, 173, 0.80);
   border: solid 1px $brand-success;
-  border-radius: 5px;
 
   span {
   	color: #174007;
   }
 }
 .global-message-warning{
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 50px;
-  margin: 50px;
   background: rgba(203, 185, 86, 0.09);
   border: solid 1px $brand-warning;
-  border-radius: 5px;
 
   span {
     color: $brand-warning;
   }
 }
 .global-message-danger{
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 50px;
-  margin: 50px;
   background: rgba(191, 83, 41, 0.14);;
   border: solid 1px $brand-danger;
-  border-radius: 5px;
-
+  
   span {
     color: $brand-danger;
   }
 }
 
+.g-msg{
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  padding: 50px;
+  margin: 0 50px 50px 0;
+  width: 400px;
+  border-radius: 5px;
+  z-index: 2;
+}
+
 .g-msg:hover{
   opacity: 0.2;
-  z-index: -1;
 }
 
 .fade-enter-active {
@@ -153,4 +145,10 @@ footer{
   .label{
     font-size: 16px;
   }
+}
+
+/* FORMULARIOS */
+.error-input{
+  border: 1px solid $brand-danger;
+  border-radius: 4px;
 }
