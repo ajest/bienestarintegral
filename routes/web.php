@@ -17,6 +17,7 @@ Route::get('/', function () {
 
 Route::get('patients/list', 'PatientController@getall');
 Route::get('patients/list/{page}', ['uses' =>'PatientController@getall'])->where('page', '[0-9]+');
+Route::get('patients/list/{page}/{order}', ['uses' =>'PatientController@getall'])->where('page', '[0-9]+');
 Route::get('patients/detail/{patient}', function (App\Patient $patient) {
     return [
         'patient'       => $patient,
@@ -36,6 +37,8 @@ Route::post('patients/create', 'PatientController@store');
 
 Route::get('appointments/list', 'AppointmentController@getall');
 Route::get('appointments/list/{page}', ['uses' =>'AppointmentController@getall'])->where('page', '[0-9]+');
+Route::get('appointments/list/{page}/{order}', ['uses' =>'AppointmentController@getall'])->where('page', '[0-9]+');
+Route::get('appointments/search/{term}', ['uses' =>'AppointmentController@search']);
 Route::get('appointments/detail', function () {
     return [
         'all' => [

@@ -172,20 +172,74 @@ class AppointmentController extends Controller
      * Show Appointments for Frontend Frameworks
      *
      */
-    public function getAll($page = 1, $rows = 10){
+    public function getAll($page = 1, $order = 'date', $order_mode = 'asc', $rows = 10){
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
         });
 
-        $appointment_data = Appointment::with(['professional', 'patient', 'treatment', 'specialty'])->paginate($rows);
+        $allow_order = [
+            'title',
+            'patient',
+            'professional',
+            'specialty',
+            'treatment',
+            'date'
+        ];
 
-        foreach ($appointment_data as $key => $value) {
-            $tmp_date = explode('-', $value->date);
-            $date = $tmp_date[2] . '/' . $tmp_date[1] . '/' . $tmp_date[0];
-            $appointment_data[$key]->date = $date;
+        if(in_array($order, $allow_order) && ($order_mode == 'asc' || $order_mode == 'desc')){
+            
+            if($order == 'patient'){
+                $order = 'pat.name';
+            }
+            if($order == 'professional'){
+                $order = 'pro.name';
+            }
+            if($order == 'specialty'){
+                $order = 'spe.specialty';
+            }
+            if($order == 'treatment'){
+                $order = 'tre.treatment';
+            }
+
+            $appointment_data = Appointment::with(['professional', 'patient', 'treatment', 'specialty'])
+                                ->join('patients as pat', 'pat.id', '=', 'appointments.patient_id')
+                                ->join('professionals as pro', 'pro.id', '=', 'appointments.professional_id')
+                                ->join('specialties as spe', 'spe.id', '=', 'appointments.specialty_id')
+                                ->join('treatments as tre', 'tre.id', '=', 'appointments.treatment_id')
+                                ->orderBy($order, $order_mode)->paginate($rows);
+            
+
+            foreach ($appointment_data as $key => $value) {
+                $tmp_date = explode('-', $value->date);
+                $date = $tmp_date[2] . '/' . $tmp_date[1] . '/' . $tmp_date[0];
+                $appointment_data[$key]->date = $date;
+            }
+
+            return ['appointments' => $appointment_data];
         }
+    }
 
-        return ['appointments' => $appointment_data]; 
+    public function search($term = ''){
+        
+        $appointment_data = Appointment::with(['professional', 'patient', 'treatment', 'specialty'])
+                    ->where('title', 'like', '%' . $term . '%')
+                    ->orWhere('date', 'like', '%' . $term . '%')
+                    ->orWhere('hour', 'like', '%' . $term . '%')
+                    ->orWhereHas('professional', function ($query) use ($term) {
+                        $query->where('name', 'like', '%' . $term . '%');
+                    })
+                    ->orWhereHas('patient', function ($query) use ($term) {
+                        $query->where('name', 'like', '%' . $term . '%');
+                    })
+                    ->orWhereHas('treatment', function ($query) use ($term) {
+                        $query->where('treatment', 'like', '%' . $term . '%');
+                    })
+                    ->orWhereHas('specialty', function ($query) use ($term) {
+                        $query->where('specialty', 'like', '%' . $term . '%');
+                    })
+                    ->get();
+
+        return ['appointments' => $appointment_data];
     }
 }

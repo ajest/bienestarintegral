@@ -88,7 +88,6 @@
   opacity: 0
 }
 .table-bi{
-  border: 1px solid #999;
   border-radius: 5px;
   box-shadow: 0 0 1px #888;
   margin-top: 25px;
@@ -145,6 +144,10 @@ footer{
   .label{
     font-size: 16px;
   }
+}
+
+.body-principal{
+  margin-bottom: 30px;
 }
 
 /* FORMULARIOS */

@@ -8,7 +8,7 @@
 			</li>
 			
 			<li v-for="page in last_page" :class="[ page == current_page ? 'active' : '' ]">
-				<router-link :to="url + page"> {{ page }} </router-link>
+				<router-link :to="url + page + (order_field ? ('/' + order_field) : '')"> {{ page }} </router-link>
 			</li>
 			
 			<li :class="[ current_page == last_page ? 'disabled' : '' ]">
@@ -23,22 +23,32 @@
 	export default {
 		data () {
 			return {
-				
+				order_field: ''	
 			}
+		},
+
+		created: function(){
+			this.order_field = this.$route.params.field;
 		},
 
 		methods: {
 			getPreviousPage: function(){
 				var previous_page = this.current_page - 1;
-				this.$router.push({ path: this.url + (previous_page < 1 ? 1 : previous_page) });
+				this.$router.push({ path: this.url + (previous_page < 1 ? 1 : previous_page) + (this.$route.params.field ? this.$route.params.field : '') });
 			},
 
 			getNextPage: function(){
 				var next_page = this.current_page + 1;
-				this.$router.push({ path: this.url + (next_page > this.last_page ? this.last_page : next_page) });
+				this.$router.push({ path: this.url + (next_page > this.last_page ? this.last_page : next_page) + (this.$route.params.field ? this.$route.params.field : '') });
 			}
 		},
 		
-		props: ['current_page', 'last_page', 'url']
+		props: ['current_page', 'last_page', 'url'],
+
+		watch: {
+		    '$route' (to, from) {
+			    this.order_field = this.$route.params.field;
+		    }
+		}
 	}
 </script>

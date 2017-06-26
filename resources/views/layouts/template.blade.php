@@ -47,7 +47,7 @@
                         <p><a href="#">Alcance</a></p>
                     </div>
                     <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 bloque-final">
-                        <p>&copy; 2017 Company, Inc.</p>
+                        <p>&copy; 2017 Bienestar Integral</p>
                     </div>
                 </div>
             </footer>
