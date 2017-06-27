@@ -207,6 +207,8 @@
 			},
 
 			operationError(){
+				var t = this;
+				
 				t.$emit('complete', {message:  'Ha ocurrido un error inesperado. Intente nuevamente más tarde', success: false, warning: false, danger: true});	
 			}
 		},

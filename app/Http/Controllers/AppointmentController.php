@@ -59,13 +59,17 @@ class AppointmentController extends Controller
     {
         $appointment = new Appointment;
 
+        $day = explode('T', $request->date);
+        $date = explode('Z', $request->date);
+        $date = $day[0] . $date[1]; 
+
         $appointment->title             = $request->title;
         $appointment->professional_id   = $request->professional_id;
         $appointment->patient_id        = $request->patient_id;
         $appointment->specialty_id      = $request->specialty_id;
         $appointment->treatment_id      = $request->treatment_id;
         $appointment->series_id         = $request->series_id;
-        $appointment->date              = $request->date;
+        $appointment->date              = $date;
         $appointment->hour              = $request->hour;
 
         $res = $appointment->save();
@@ -202,12 +206,14 @@ class AppointmentController extends Controller
                 $order = 'tre.treatment';
             }
 
-            $appointment_data = Appointment::with(['professional', 'patient', 'treatment', 'specialty'])
-                                ->join('patients as pat', 'pat.id', '=', 'appointments.patient_id')
-                                ->join('professionals as pro', 'pro.id', '=', 'appointments.professional_id')
-                                ->join('specialties as spe', 'spe.id', '=', 'appointments.specialty_id')
-                                ->join('treatments as tre', 'tre.id', '=', 'appointments.treatment_id')
-                                ->orderBy($order, $order_mode)->paginate($rows);
+            $appointment_data = Appointment::select('appointments.*', 'appointments.id as id')
+                                ->leftJoin('patients as pat', 'pat.id', '=', 'appointments.patient_id')
+                                ->leftJoin('professionals as pro', 'pro.id', '=', 'appointments.professional_id')
+                                ->leftJoin('specialties as spe', 'spe.id', '=', 'appointments.specialty_id')
+                                ->leftJoin('treatments as tre', 'tre.id', '=', 'appointments.treatment_id')
+                                ->orderBy($order, $order_mode)
+                                ->with(['professional', 'patient', 'treatment', 'specialty'])
+                                ->paginate($rows);
             
 
             foreach ($appointment_data as $key => $value) {

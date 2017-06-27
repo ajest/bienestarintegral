@@ -51,19 +51,28 @@ Route::get('appointments/detail', function () {
     ];
 });
 Route::get('appointments/detail/{appointment}', function (App\Appointment $appointment) {
+    
+    $date_tmp = explode('-', $appointment->date);
+    $date_formated = [
+        'd' => $date_tmp[0],
+        'm' => $date_tmp[1],
+        'y' => $date_tmp[2]
+    ];
+
     return [
-    	'appointment' 	=> $appointment,
-    	'patient' 		=> $appointment->patient,
-    	'professional' 	=> $appointment->professional,
-    	'specialty' 	=> $appointment->specialty,
-    	'treatment' 	=> $appointment->treatment,
-    	'series' 		=> $appointment->series,
-        'all'           => [
+    	'appointment' 	    => $appointment,
+        'appointment_date'  => $date_formated,
+    	'patient' 		    => $appointment->patient,
+    	'professional' 	    => $appointment->professional,
+    	'specialty' 	    => $appointment->specialty,
+    	'treatment' 	    => $appointment->treatment,
+    	'series' 		    => $appointment->series,
+        'all'               => [
             'professionals' => App\Professional::all(),
-            'patients' => App\Patient::all(),
-            'specialties' => App\Specialty::all(),
-            'treatments' => App\Treatment::all(),
-            'series' => App\Series::all()
+            'patients'      => App\Patient::all(),
+            'specialties'   => App\Specialty::all(),
+            'treatments'    => App\Treatment::all(),
+            'series'        => App\Series::all()
         ]
 	];
 });

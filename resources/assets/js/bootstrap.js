@@ -26,6 +26,10 @@ window.VueRouter = VueRouter;
 
 import Datepicker from 'vuejs-datepicker';
 window.Datepicker = Datepicker;
+
+import VueMask from 'v-mask'
+window.VueMask = VueMask;
+
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
  * to our Laravel back-end. This library automatically handles sending the

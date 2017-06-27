@@ -6,6 +6,7 @@ require('./bootstrap');
 
 Vue.use(VueRouter);
 Vue.use(Datepicker);
+Vue.use(VueMask);
 
 import Home 				from './components/Home.vue';
 
@@ -26,14 +27,14 @@ const routes = [
 	{ name: 'appointments', path: '/appointments', component: Appointments },
 	{ path: '/appointments/:id', component: Appointments }, // Pagination
 	{ path: '/appointments/:id/:field', component: Appointments }, // Pagination with order
-	{ name: 'appointments_detail', path: '/appointments/detail/:id', component: AppointmentsDetail },
-	{ name: 'appointments_edit', path: '/appointments/edit/:id', component: AppointmentsSave },
+	{ name: 'appointments_detail', path: '/appointment/detail/:id', component: AppointmentsDetail },
+	{ name: 'appointments_edit', path: '/appointment/edit/:id', component: AppointmentsSave },
 	{ name: 'appointments_new', path: '/new/appointment', component: AppointmentsSave }, 
 	
 	{ name: 'patients', path: '/patients', component: Patients },
 	{ path: '/patients/:id', component: Patients }, // Pagination
 	{ path: '/patients/:id/:field', component: Patients }, // Pagination
-	{ name: 'patients_detail', path: '/patients/detail/:id', component: PatientsDetail }
+	{ name: 'patients_detail', path: '/patient/detail/:id', component: PatientsDetail }
 ];
 
 const router = new VueRouter({

@@ -27,7 +27,7 @@
 			</div>
 			<div class="form-group col-md-6">
 				<label>Hora *</label>
-				<input type="text" v-model="appointment.appointment.hour" placeholder="Ej. 19:00" class="form-control" :class="validateRequired('hour')" required>
+				<input type="text" v-model="appointment.appointment.hour" placeholder="Ej. 19:00" class="form-control" :class="validateRequired('hour')" v-mask="'##:##'" required>
 			</div>
 			<div class="form-group col-md-6">
 				<label>Profesional</label>
@@ -146,6 +146,7 @@
 								t.appointment.all = response.data.all;
 							}else{
 								t.appointment = response.data;
+								t.appointment.appointment.date = new Date(t.appointment.appointment_date.d, t.appointment.appointment_date.m, t.appointment.appointment_date.y);
 							}
 						}
 					})
