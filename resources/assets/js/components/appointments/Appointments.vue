@@ -4,14 +4,23 @@
 			<h1><span class="glyphicon glyphicon-briefcase"></span> Turnos</h1>
 		</div>
 		<div class="row col-md-12">
-			<div class="col-md-6">
-				<div class="input-group">
-					<span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
-					<input class="form-control" placeholder="Ingrese su búsqueda" v-model="search_in_table" @keyup="searchAppointment">
-					<span class="input-group-addon searching_in_table" v-show="searching_in_table">Buscando..</span>
-				</div>			
+			<div class="col-md-10">
+				<div class="col-md-6">
+					<div class="input-group">
+						<span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+						<input class="form-control" placeholder="Ingrese su búsqueda" v-model="search_in_table" @keyup="searchAppointment">
+						<span class="input-group-addon searching_in_table" v-show="searching_in_table">Buscando..</span>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<select v-model="filtros.status" class="form-control" @change="paginationCallback">
+						<option value="0">Todos</option>
+						<option value="1">Pendientes</option>
+						<option value="2">Anteriores</option>
+					</select>
+				</div>
 			</div>
-			<div class="col-md-6">
+			<div class="col-md-2">
 				<router-link :to="{ name: 'appointments_new'}" class="btn btn-success pull-right"><span class="glyphicon glyphicon-plus"></span> Nuevo turno</router-link>
 			</div>
 		</div>
@@ -68,7 +77,10 @@
 				search_in_table: '',
 				delayTimer: '',
 				opened_highlighted_tag: '<strong>',
-				closed_highlighted_tag: '</strong>'
+				closed_highlighted_tag: '</strong>',
+				filtros: {
+					status: 0
+				}
 			}
 		},
 		
@@ -80,11 +92,11 @@
 			paginationCallback(){
 				var t = this;
 
-				axios.get('/appointments/list/' + (t.$route.params.id ? t.$route.params.id : 1) + '/' + (t.$route.params.field ? t.$route.params.field : ''))
+				axios.get('/appointments/list/' + (t.$route.params.id ? t.$route.params.id : 1) + '/' + (t.$route.params.field ? t.$route.params.field : ''), {params: {'filtro_status': t.filtros.status}})
 					.then(function (response) {
-						if(!_.isEmpty(response.data.appointments.data)){
+						t.appointments = [];
 
-							t.appointments = [];
+						if(!_.isEmpty(response.data.appointments.data)){
 
 							_.forEach(response.data.appointments.data, function(value) {
 								let no_asigned_text = '-NO ASIGNADO-';
@@ -111,7 +123,7 @@
 
 			searchAppointment(){
 				var t = this;
-				var time = 1000;
+				var time = 400;
 				
 			    clearTimeout(t.delayTimer);
 
@@ -123,8 +135,14 @@
 							.then(function (response) {
 								t.appointments = [];
 
+								console.log(response.data);
+
 								if(!_.isEmpty(response.data.appointments)){
 									_.forEach(response.data.appointments, function(value) {
+
+										console.log(value);
+
+
 										var index = value.patient.name.indexOf(t.search_in_table);
 										var text_lenght = t.search_in_table.length;
 										
@@ -134,27 +152,35 @@
 									        value.patient.name = value.patient.name.substring(0,index) + t.opened_highlighted_tag + value.patient.name.substring(index, index + text_lenght) + t.closed_highlighted_tag + value.patient.name.substring(index + text_lenght); 
 									    }
 
-									    index = value.title.indexOf(t.search_in_table);
-									    if(index >= 0){ 
-									        value.title = value.title.substring(0,index) + t.opened_highlighted_tag + value.title.substring(index, index + text_lenght) + t.closed_highlighted_tag + value.title.substring(index + text_lenght); 
+									    if(!_.isEmpty(value.title)){
+									    	index = value.title.indexOf(t.search_in_table);
+										    if(index >= 0){ 
+										        value.title = value.title.substring(0,index) + t.opened_highlighted_tag + value.title.substring(index, index + text_lenght) + t.closed_highlighted_tag + value.title.substring(index + text_lenght); 
+										    }
 									    }
 
-									    index = value.professional.name.indexOf(t.search_in_table);
-									    if(index >= 0){ 
-									        value.professional.name = value.professional.name.substring(0,index) + t.opened_highlighted_tag + value.professional.name.substring(index, index + text_lenght) + t.closed_highlighted_tag + value.professional.name.substring(index + text_lenght); 
+									    if(!_.isEmpty(value.professional)){
+										    index = value.professional.name.indexOf(t.search_in_table);
+										    if(index >= 0){ 
+										        value.professional.name = value.professional.name.substring(0,index) + t.opened_highlighted_tag + value.professional.name.substring(index, index + text_lenght) + t.closed_highlighted_tag + value.professional.name.substring(index + text_lenght); 
+										    }
 									    }
 
-									    index = value.specialty.specialty.indexOf(t.search_in_table);
-									    if(index >= 0){ 
-									        value.specialty.specialty = value.specialty.specialty.substring(0,index) + t.opened_highlighted_tag + value.specialty.specialty.substring(index, index + text_lenght) + t.closed_highlighted_tag + value.specialty.specialty.substring(index + text_lenght); 
+									    if(!_.isEmpty(value.professional)){
+										    index = value.specialty.specialty.indexOf(t.search_in_table);
+										    if(index >= 0){ 
+										        value.specialty.specialty = value.specialty.specialty.substring(0,index) + t.opened_highlighted_tag + value.specialty.specialty.substring(index, index + text_lenght) + t.closed_highlighted_tag + value.specialty.specialty.substring(index + text_lenght); 
+										    }
 									    }
 
-									    index = value.treatment.treatment.indexOf(t.search_in_table);
-									    if(index >= 0){ 
-									        value.treatment.treatment = value.treatment.treatment.substring(0,index) + t.opened_highlighted_tag + value.treatment.treatment.substring(index, index + text_lenght) + t.closed_highlighted_tag + value.treatment.treatment.substring(index + text_lenght); 
+									    if(!_.isEmpty(value.professional)){
+										    index = value.treatment.treatment.indexOf(t.search_in_table);
+										    if(index >= 0){ 
+										        value.treatment.treatment = value.treatment.treatment.substring(0,index) + t.opened_highlighted_tag + value.treatment.treatment.substring(index, index + text_lenght) + t.closed_highlighted_tag + value.treatment.treatment.substring(index + text_lenght); 
+										    }
 									    }
 
-										index = value.date.indexOf(t.search_in_table);
+									    index = value.date.indexOf(t.search_in_table);
 									    if(index >= 0){ 
 									        value.date = value.date.substring(0,index) + t.opened_highlighted_tag + value.date.substring(index, index + text_lenght) + t.closed_highlighted_tag + value.date.substring(index + text_lenght); 
 									    }
@@ -188,6 +214,10 @@
 			    }, time);
 			},
 
+			changeCheckbox(element){
+				Vue.set(this.filtros, element, this.filtros[element] ? false : true);
+			},
+
 			confirmDelete(id){
 				this.appointment_id = id;
 			},
@@ -216,6 +246,7 @@
 		watch: {
 		    '$route' (to, from) {
 			    this.paginationCallback();
+			    this.search_in_table = '';
 		    }
 		},
         

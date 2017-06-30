@@ -206,11 +206,23 @@ class AppointmentController extends Controller
                 $order = 'tre.treatment';
             }
 
+            $where = '1';
+            if(!empty($_GET['filtro_status'])){
+                $aggregate = 'DATE(NOW())';
+
+                if($_GET['filtro_status'] == 1){
+                    $where = 'appointments.date >= ' . $aggregate;                    
+                }elseif($_GET['filtro_status'] == 2){
+                    $where = 'appointments.date < '  . $aggregate;
+                }
+            }
+
             $appointment_data = Appointment::select('appointments.*', 'appointments.id as id')
                                 ->leftJoin('patients as pat', 'pat.id', '=', 'appointments.patient_id')
                                 ->leftJoin('professionals as pro', 'pro.id', '=', 'appointments.professional_id')
                                 ->leftJoin('specialties as spe', 'spe.id', '=', 'appointments.specialty_id')
                                 ->leftJoin('treatments as tre', 'tre.id', '=', 'appointments.treatment_id')
+                                ->whereRaw($where)
                                 ->orderBy($order, $order_mode)
                                 ->with(['professional', 'patient', 'treatment', 'specialty'])
                                 ->paginate($rows);

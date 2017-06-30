@@ -8,19 +8,11 @@ Vue.use(VueRouter);
 Vue.use(Datepicker);
 Vue.use(VueMask);
 
-import Home 				from './components/Home.vue';
-
-import Appointments 		from './components/appointments/Appointments.vue';
-import AppointmentsDetail 	from './components/appointments/Detail.vue';
-import AppointmentsSave 	from './components/appointments/Save.vue';
-
-import Patients 			from './components/patients/Patients.vue';
-import PatientsDetail 		from './components/patients/Detail.vue';
-
 Vue.component('navtop', require('./components/Nav.vue'));
 Vue.component('container', require('./components/Main.vue'));
 Vue.component('datepicker', Datepicker);
 
+/*
 const routes = [
 	{ name: 'home', path: '/', component: Home },
 	
@@ -35,6 +27,23 @@ const routes = [
 	{ path: '/patients/:id', component: Patients }, // Pagination
 	{ path: '/patients/:id/:field', component: Patients }, // Pagination
 	{ name: 'patients_detail', path: '/patient/detail/:id', component: PatientsDetail }
+];
+*/
+
+const routes = [
+	{ name: 'home', path: '/', component: () => System.import('./components/Home.vue') },
+	
+	{ name: 'appointments', path: '/appointments', component: () => System.import('./components/appointments/Appointments.vue') },
+	{ path: '/appointments/:id', component: () => System.import('./components/appointments/Appointments.vue') }, // Pagination
+	{ path: '/appointments/:id/:field', component: () => System.import('./components/appointments/Appointments.vue') }, // Pagination with order
+	{ name: 'appointments_detail', path: '/appointment/detail/:id', component: () => System.import('./components/appointments/Detail.vue') },
+	{ name: 'appointments_edit', path: '/appointment/edit/:id', component: () => System.import('./components/appointments/Save.vue') },
+	{ name: 'appointments_new', path: '/new/appointment', component: () => System.import('./components/appointments/Save.vue') }, 
+	
+	{ name: 'patients', path: '/patients', component: () => System.import('./components/patients/Patients.vue') },
+	{ path: '/patients/:id', component: () => System.import('./components/patients/Patients.vue') }, // Pagination
+	{ path: '/patients/:id/:field', component: () => System.import('./components/patients/Patients.vue') }, // Pagination
+	{ name: 'patients_detail', path: '/patient/detail/:id', component: () => System.import('./components/patients/Detail.vue') }
 ];
 
 const router = new VueRouter({
