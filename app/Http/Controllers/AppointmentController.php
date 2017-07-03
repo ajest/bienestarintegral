@@ -217,12 +217,35 @@ class AppointmentController extends Controller
                 }
             }
 
+            $term = '';
+            if(!empty($_GET['term'])) $term = $_GET['term'];
+
             $appointment_data = Appointment::select('appointments.*', 'appointments.id as id')
                                 ->leftJoin('patients as pat', 'pat.id', '=', 'appointments.patient_id')
                                 ->leftJoin('professionals as pro', 'pro.id', '=', 'appointments.professional_id')
                                 ->leftJoin('specialties as spe', 'spe.id', '=', 'appointments.specialty_id')
                                 ->leftJoin('treatments as tre', 'tre.id', '=', 'appointments.treatment_id')
                                 ->whereRaw($where)
+                                ->where(function ($query) use ($term) {
+                                    if($term){
+                                        $query
+                                            ->where('title', 'like', '%' . $term . '%')
+                                            ->orWhere('date', 'like', '%' . $term . '%')
+                                            ->orWhere('hour', 'like', '%' . $term . '%')
+                                            ->orWhereHas('professional', function ($query) use ($term) {
+                                                $query->where('name', 'like', '%' . $term . '%');
+                                            })
+                                            ->orWhereHas('patient', function ($query) use ($term) {
+                                                $query->where('name', 'like', '%' . $term . '%');
+                                            })
+                                            ->orWhereHas('treatment', function ($query) use ($term) {
+                                                $query->where('treatment', 'like', '%' . $term . '%');
+                                            })
+                                            ->orWhereHas('specialty', function ($query) use ($term) {
+                                                $query->where('specialty', 'like', '%' . $term . '%');
+                                            });    
+                                    }
+                                })
                                 ->orderBy($order, $order_mode)
                                 ->with(['professional', 'patient', 'treatment', 'specialty'])
                                 ->paginate($rows);
@@ -240,21 +263,36 @@ class AppointmentController extends Controller
 
     public function search($term = ''){
         
+        $where = '1';
+        if(!empty($_GET['filtro_status'])){
+            $aggregate = 'DATE(NOW())';
+
+            if($_GET['filtro_status'] == 1){
+                $where = 'appointments.date >= ' . $aggregate;                    
+            }elseif($_GET['filtro_status'] == 2){
+                $where = 'appointments.date < '  . $aggregate;
+            }
+        }
+
         $appointment_data = Appointment::with(['professional', 'patient', 'treatment', 'specialty'])
-                    ->where('title', 'like', '%' . $term . '%')
-                    ->orWhere('date', 'like', '%' . $term . '%')
-                    ->orWhere('hour', 'like', '%' . $term . '%')
-                    ->orWhereHas('professional', function ($query) use ($term) {
-                        $query->where('name', 'like', '%' . $term . '%');
-                    })
-                    ->orWhereHas('patient', function ($query) use ($term) {
-                        $query->where('name', 'like', '%' . $term . '%');
-                    })
-                    ->orWhereHas('treatment', function ($query) use ($term) {
-                        $query->where('treatment', 'like', '%' . $term . '%');
-                    })
-                    ->orWhereHas('specialty', function ($query) use ($term) {
-                        $query->where('specialty', 'like', '%' . $term . '%');
+                    ->whereRaw($where)
+                    ->where(function ($query) use ($term) {
+                        $query
+                            ->where('title', 'like', '%' . $term . '%')
+                            ->orWhere('date', 'like', '%' . $term . '%')
+                            ->orWhere('hour', 'like', '%' . $term . '%')
+                            ->orWhereHas('professional', function ($query) use ($term) {
+                                $query->where('name', 'like', '%' . $term . '%');
+                            })
+                            ->orWhereHas('patient', function ($query) use ($term) {
+                                $query->where('name', 'like', '%' . $term . '%');
+                            })
+                            ->orWhereHas('treatment', function ($query) use ($term) {
+                                $query->where('treatment', 'like', '%' . $term . '%');
+                            })
+                            ->orWhereHas('specialty', function ($query) use ($term) {
+                                $query->where('specialty', 'like', '%' . $term . '%');
+                            });
                     })
                     ->get();
 

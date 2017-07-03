@@ -12,24 +12,6 @@ Vue.component('navtop', require('./components/Nav.vue'));
 Vue.component('container', require('./components/Main.vue'));
 Vue.component('datepicker', Datepicker);
 
-/*
-const routes = [
-	{ name: 'home', path: '/', component: Home },
-	
-	{ name: 'appointments', path: '/appointments', component: Appointments },
-	{ path: '/appointments/:id', component: Appointments }, // Pagination
-	{ path: '/appointments/:id/:field', component: Appointments }, // Pagination with order
-	{ name: 'appointments_detail', path: '/appointment/detail/:id', component: AppointmentsDetail },
-	{ name: 'appointments_edit', path: '/appointment/edit/:id', component: AppointmentsSave },
-	{ name: 'appointments_new', path: '/new/appointment', component: AppointmentsSave }, 
-	
-	{ name: 'patients', path: '/patients', component: Patients },
-	{ path: '/patients/:id', component: Patients }, // Pagination
-	{ path: '/patients/:id/:field', component: Patients }, // Pagination
-	{ name: 'patients_detail', path: '/patient/detail/:id', component: PatientsDetail }
-];
-*/
-
 const routes = [
 	{ name: 'home', path: '/', component: () => System.import('./components/Home.vue') },
 	

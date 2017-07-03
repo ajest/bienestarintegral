@@ -37,7 +37,7 @@
 						<td>Acciones</td>
 					</tr>
 				</thead>
-				<transition-group name="list" tag="tbody">
+				<transition-group name="list" tag="tbody" v-if="appointments.length > 0">
 					<tr v-for="appointment in appointments" v-bind:key="appointment" class="list-item">
 						<td v-html="appointment.titulo"></td>
 						<td v-html="appointment.paciente"></td>
@@ -54,6 +54,11 @@
 						</td>
 					</tr>
 				</transition-group>
+				<tbody v-else>
+					<tr >
+						<td colspan="7">No se han encontrado registros</td>
+					</tr>
+				</tbody>
 			</table>
 		</div>
 		<pagination v-bind:last_page="last_page" v-bind:current_page="current_page" v-bind:url="url"></pagination>
@@ -92,12 +97,17 @@
 			paginationCallback(){
 				var t = this;
 
-				axios.get('/appointments/list/' + (t.$route.params.id ? t.$route.params.id : 1) + '/' + (t.$route.params.field ? t.$route.params.field : ''), {params: {'filtro_status': t.filtros.status}})
+				axios.get('/appointments/list/' + (t.$route.params.id ? t.$route.params.id : 1) + '/' + (t.$route.params.field ? t.$route.params.field : ''), 
+					{
+						params: {
+							'filtro_status': t.filtros.status,
+							'term': t.search_in_table
+						}
+					})
 					.then(function (response) {
 						t.appointments = [];
 
 						if(!_.isEmpty(response.data.appointments.data)){
-
 							_.forEach(response.data.appointments.data, function(value) {
 								let no_asigned_text = '-NO ASIGNADO-';
 
@@ -131,7 +141,7 @@
 
 			    	if(t.search_in_table){
 			    		t.searching_in_table = true;
-			    		axios.get('/appointments/search/' + (t.search_in_table ? t.search_in_table : ''))
+			    		axios.get('/appointments/search/' + (t.search_in_table ? t.search_in_table : ''), {params: {'filtro_status': t.filtros.status}})
 							.then(function (response) {
 								t.appointments = [];
 
@@ -139,9 +149,6 @@
 
 								if(!_.isEmpty(response.data.appointments)){
 									_.forEach(response.data.appointments, function(value) {
-
-										console.log(value);
-
 
 										var index = value.patient.name.indexOf(t.search_in_table);
 										var text_lenght = t.search_in_table.length;
@@ -200,8 +207,8 @@
 												'fecha': value.date + ' ' + value.hour
 											});
 									});
-									t.searching_in_table = false;
 								}
+								t.searching_in_table = false;
 							})
 							.catch(function (error) {
 								t.$emit('complete', {message:  'Estamos teniendo problemas al resolver su solicitud. Intente nuevamente más tarde', success: false, warning: false, danger: true});
@@ -212,10 +219,6 @@
 			    	}
 
 			    }, time);
-			},
-
-			changeCheckbox(element){
-				Vue.set(this.filtros, element, this.filtros[element] ? false : true);
 			},
 
 			confirmDelete(id){
