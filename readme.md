@@ -1,6 +1,6 @@
 <h1>BienestarIntegral</h1>
-<p>Sistema de gestión para negocios relacionados con el relax y bienestar.</p> 
-<p>Aplica para el área de masajes, estética, pedicuría, venta de productos y otras más.</p>
+<p>Sistema de gestión para negocios relacionados con el bienestar integral.</p> 
+<p>Aplica para el área de masajes, estética, pedicuría, venta de productos de estas áreas y otras más.</p>
 <h2>Requerimientos técnicos</h2>
 <ul>
 	<li>PHP 5.6 <a href="http://php.net/">http://php.net/</a></li>
@@ -18,4 +18,15 @@
 	<li>Calendario interactivo</li>
 	<li>Envío automático de emails</li>
 	<li>Módulo administrativo / contable</li>
+</ul>
+<h3>Características desarrolladas:</h3>
+<ul>
+	<li>Sistema de rutas para URLs</li>
+	<li>Funcionalidad mensajes globales</li>
+	<li>Funcionalidades de filtro y búsqueda en tablas</li>
+	<li>ABM Turnos</li>
+</ul>
+<h3>Características en desarrollo:</h3>
+<ul>
+	<li>ABM Pacientes</li>
 </ul>

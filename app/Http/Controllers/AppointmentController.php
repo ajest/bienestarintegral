@@ -173,7 +173,7 @@ class AppointmentController extends Controller
     }
 
     /**
-     * Show Appointments for Frontend Frameworks
+     * Shows Appointments for Frontend Frameworks
      *
      */
     public function getAll($page = 1, $order = 'date', $order_mode = 'asc', $rows = 10){
@@ -261,7 +261,9 @@ class AppointmentController extends Controller
         }
     }
 
-    public function search($term = ''){
+    public function search(){
+        $term = '';
+        if(!empty($_GET['term'])) $term = $_GET['term'];
         
         $where = '1';
         if(!empty($_GET['filtro_status'])){
@@ -278,8 +280,8 @@ class AppointmentController extends Controller
                     ->whereRaw($where)
                     ->where(function ($query) use ($term) {
                         $query
-                            ->where('title', 'like', '%' . $term . '%')
-                            ->orWhere('date', 'like', '%' . $term . '%')
+                            ->whereRaw('DATE_FORMAT((CONCAT(date, " ", hour)), "%d/%m/%Y %H:%i") like "%' . $term . '%"')
+                            ->orWhere('title', 'like', '%' . $term . '%')
                             ->orWhere('hour', 'like', '%' . $term . '%')
                             ->orWhereHas('professional', function ($query) use ($term) {
                                 $query->where('name', 'like', '%' . $term . '%');
@@ -295,6 +297,12 @@ class AppointmentController extends Controller
                             });
                     })
                     ->get();
+
+        foreach ($appointment_data as $key => $value) {
+            $tmp_date = explode('-', $value->date);
+            $date = $tmp_date[2] . '/' . $tmp_date[1] . '/' . $tmp_date[0];
+            $appointment_data[$key]->date = $date;
+        }
 
         return ['appointments' => $appointment_data];
     }

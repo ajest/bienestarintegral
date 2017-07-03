@@ -13,7 +13,7 @@
 					</div>
 				</div>
 				<div class="col-md-6">
-					<select v-model="filtros.status" class="form-control" @change="paginationCallback">
+					<select v-model="filtros.status" class="form-control" @change="filterStatusCallback">
 						<option value="0">Todos</option>
 						<option value="1">Pendientes</option>
 						<option value="2">Anteriores</option>
@@ -68,6 +68,8 @@
 <script>
 	import Pagination from '../partials/Pagination.vue';
 	import PopupDeleteConfirm from '../popups/PopupDeleteConfirm.vue';
+	
+	import common from '../../mixins.js';
 
 	export default {
 		data () {
@@ -109,7 +111,53 @@
 
 						if(!_.isEmpty(response.data.appointments.data)){
 							_.forEach(response.data.appointments.data, function(value) {
+								
+								var index = value.patient.name.indexOf(t.search_in_table);
+								var text_lenght = t.search_in_table.length;
+
 								let no_asigned_text = '-NO ASIGNADO-';
+
+								if(index >= 0){
+							        value.patient.name = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.patient.name); 
+							    }
+
+							    if(!_.isEmpty(value.title)){
+							    	index = value.title.indexOf(t.search_in_table);
+								    if(index >= 0){ 
+								        value.title = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.title);
+								    }
+							    }
+
+							    if(!_.isEmpty(value.professional)){
+								    index = value.professional.name.indexOf(t.search_in_table);
+								    if(index >= 0){ 
+								        value.professional.name = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.professional.name); 
+								    }
+							    }
+
+							    if(!_.isEmpty(value.professional)){
+								    index = value.specialty.specialty.indexOf(t.search_in_table);
+								    if(index >= 0){ 
+								        value.specialty.specialty = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.specialty.specialty); 
+								    }
+							    }
+
+							    if(!_.isEmpty(value.professional)){
+								    index = value.treatment.treatment.indexOf(t.search_in_table);
+								    if(index >= 0){ 
+								        value.treatment.treatment = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.treatment.treatment);
+								    }
+							    }
+
+							    index = value.date.indexOf(t.search_in_table);
+							    if(index >= 0){ 
+							        value.date = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.date); 
+							    }
+
+							    index = value.hour.indexOf(t.search_in_table);
+							    if(index >= 0){ 
+							        value.hour = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.hour);
+							    }
 
 								t.appointments.push({
 										'id' : value.id,
@@ -141,11 +189,9 @@
 
 			    	if(t.search_in_table){
 			    		t.searching_in_table = true;
-			    		axios.get('/appointments/search/' + (t.search_in_table ? t.search_in_table : ''), {params: {'filtro_status': t.filtros.status}})
+			    		axios.get('/appointments/search', {params: {'filtro_status': t.filtros.status, 'term': (t.search_in_table ? t.search_in_table : '')}})
 							.then(function (response) {
 								t.appointments = [];
-
-								console.log(response.data);
 
 								if(!_.isEmpty(response.data.appointments)){
 									_.forEach(response.data.appointments, function(value) {
@@ -155,46 +201,46 @@
 										
 										let no_asigned_text = '-NO ASIGNADO-';
 
-									    if(index >= 0){ 
-									        value.patient.name = value.patient.name.substring(0,index) + t.opened_highlighted_tag + value.patient.name.substring(index, index + text_lenght) + t.closed_highlighted_tag + value.patient.name.substring(index + text_lenght); 
+									    if(index >= 0){
+									        value.patient.name = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.patient.name); 
 									    }
 
 									    if(!_.isEmpty(value.title)){
 									    	index = value.title.indexOf(t.search_in_table);
 										    if(index >= 0){ 
-										        value.title = value.title.substring(0,index) + t.opened_highlighted_tag + value.title.substring(index, index + text_lenght) + t.closed_highlighted_tag + value.title.substring(index + text_lenght); 
+										        value.title = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.title);
 										    }
 									    }
 
 									    if(!_.isEmpty(value.professional)){
 										    index = value.professional.name.indexOf(t.search_in_table);
 										    if(index >= 0){ 
-										        value.professional.name = value.professional.name.substring(0,index) + t.opened_highlighted_tag + value.professional.name.substring(index, index + text_lenght) + t.closed_highlighted_tag + value.professional.name.substring(index + text_lenght); 
+										        value.professional.name = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.professional.name); 
 										    }
 									    }
 
 									    if(!_.isEmpty(value.professional)){
 										    index = value.specialty.specialty.indexOf(t.search_in_table);
 										    if(index >= 0){ 
-										        value.specialty.specialty = value.specialty.specialty.substring(0,index) + t.opened_highlighted_tag + value.specialty.specialty.substring(index, index + text_lenght) + t.closed_highlighted_tag + value.specialty.specialty.substring(index + text_lenght); 
+										        value.specialty.specialty = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.specialty.specialty); 
 										    }
 									    }
 
 									    if(!_.isEmpty(value.professional)){
 										    index = value.treatment.treatment.indexOf(t.search_in_table);
 										    if(index >= 0){ 
-										        value.treatment.treatment = value.treatment.treatment.substring(0,index) + t.opened_highlighted_tag + value.treatment.treatment.substring(index, index + text_lenght) + t.closed_highlighted_tag + value.treatment.treatment.substring(index + text_lenght); 
+										        value.treatment.treatment = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.treatment.treatment);
 										    }
 									    }
 
 									    index = value.date.indexOf(t.search_in_table);
 									    if(index >= 0){ 
-									        value.date = value.date.substring(0,index) + t.opened_highlighted_tag + value.date.substring(index, index + text_lenght) + t.closed_highlighted_tag + value.date.substring(index + text_lenght); 
+									        value.date = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.date); 
 									    }
 
 									    index = value.hour.indexOf(t.search_in_table);
 									    if(index >= 0){ 
-									        value.hour = value.hour.substring(0,index) + t.opened_highlighted_tag + value.hour.substring(index, index + text_lenght) + t.closed_highlighted_tag + value.hour.substring(index + text_lenght); 
+									        value.hour = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.hour);
 									    }									    
 
 										t.appointments.push({
@@ -211,7 +257,8 @@
 								t.searching_in_table = false;
 							})
 							.catch(function (error) {
-								t.$emit('complete', {message:  'Estamos teniendo problemas al resolver su solicitud. Intente nuevamente más tarde', success: false, warning: false, danger: true});
+								t.$emit('complete', {message:  'No se ha podido resolver su solicitud. Quizás usted esté ingresando caracteres no permitidos. Si no es asi, pruebe nuevamente más tarde o comuníquese con el administrador del sistema.', success: false, warning: false, danger: true});
+								t.searching_in_table = false;
 							});
 
 			    	}else{
@@ -219,6 +266,11 @@
 			    	}
 
 			    }, time);
+			},
+
+			filterStatusCallback(){
+				this.$router.push({ path: '/appointments/1' });		
+				this.paginationCallback();	
 			},
 
 			confirmDelete(id){
@@ -239,10 +291,8 @@
 				t.$emit('complete', {message:  'La operación se realizó correctamente', success: true, warning: false, danger: false});
 			},
 
-			operationError(){
-				var t = this;
-				
-				t.$emit('complete', {message:  'Ha ocurrido un error inesperado. Intente nuevamente más tarde', success: false, warning: false, danger: true});	
+			operationError(){				
+				this.$emit('complete', {message:  'Ha ocurrido un error inesperado. Intente nuevamente más tarde', success: false, warning: false, danger: true});	
 			}
 		},
 
@@ -258,6 +308,8 @@
             'popupdeleteconfirm' : PopupDeleteConfirm
         },
 
-        props: ['message', 'success', 'warning', 'danger']
+        props: ['message', 'success', 'warning', 'danger'],
+
+        mixins: [common]
 	}
 </script>
