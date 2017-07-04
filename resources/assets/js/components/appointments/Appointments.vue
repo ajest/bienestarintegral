@@ -25,41 +25,43 @@
 			</div>
 		</div>
 		<div class="row col-md-12">
-			<table class="table table-striped table-hover table-head-strong table-bi">
-				<thead>
-					<tr>
-						<td><router-link :to="url + '1/title'">Título</router-link></td>
-						<td><router-link :to="url + '1/patient'">Paciente</router-link></td>
-						<td><router-link :to="url + '1/professional'">Profesional</router-link></td>
-						<td><router-link :to="url + '1/specialty'">Area</router-link></td>
-						<td><router-link :to="url + '1/treatment'">Tratamiento</router-link></td>
-						<td><router-link :to="url + '1/date'">Fecha</router-link></td>
-						<td>Acciones</td>
-					</tr>
-				</thead>
-				<transition-group name="list" tag="tbody" v-if="appointments.length > 0">
-					<tr v-for="appointment in appointments" v-bind:key="appointment" class="list-item">
-						<td v-html="appointment.titulo"></td>
-						<td v-html="appointment.paciente"></td>
-						<td v-html="appointment.profesional"></td>
-						<td v-html="appointment.area"></td>
-						<td v-html="appointment.tratamiento"></td>
-						<td v-html="appointment.fecha"></td>
-						<td>								
-							<div class="three-buttons">
-								<router-link class="btn btn-success margin-list-button" :to="{ name: 'appointments_detail', params: { id: appointment.id }}" title="Ver Turno"><span class="glyphicon glyphicon-eye-open"></span></router-link>							
-								<router-link class="btn btn-primary margin-list-button" :to="{ name: 'appointments_edit', params: { id: appointment.id }}" title="Editar Turno"><span class="glyphicon glyphicon-pencil"></span></router-link>
-								<a class="btn btn-danger margin-list-button" href="#" data-toggle="modal" data-target="#confirmDelete" title="Cancelar Turno" @click="confirmDelete(appointment.id)"><span class="glyphicon glyphicon-remove"></span></a>
-							</div>							
-						</td>
-					</tr>
-				</transition-group>
-				<tbody v-else>
-					<tr >
-						<td colspan="7">No se han encontrado registros</td>
-					</tr>
-				</tbody>
-			</table>
+			<div class="table-responsive">
+				<table class="table table-striped table-hover table-head-strong table-bi">
+					<thead>
+						<tr>
+							<td><router-link :to="url + '1/title'">Título</router-link></td>
+							<td><router-link :to="url + '1/patient'">Paciente</router-link></td>
+							<td><router-link :to="url + '1/professional'">Profesional</router-link></td>
+							<td><router-link :to="url + '1/specialty'">Area</router-link></td>
+							<td><router-link :to="url + '1/treatment'">Tratamiento</router-link></td>
+							<td><router-link :to="url + '1/date'">Fecha</router-link></td>
+							<td>Acciones</td>
+						</tr>
+					</thead>
+					<transition-group name="list" tag="tbody" v-if="appointments.length > 0">
+						<tr v-for="appointment in appointments" v-bind:key="appointment" class="list-item">
+							<td v-html="appointment.titulo"></td>
+							<td v-html="appointment.paciente"></td>
+							<td v-html="appointment.profesional"></td>
+							<td v-html="appointment.area"></td>
+							<td v-html="appointment.tratamiento"></td>
+							<td v-html="appointment.fecha"></td>
+							<td>								
+								<div class="three-buttons">
+									<router-link class="btn btn-success margin-list-button" :to="{ name: 'appointments_detail', params: { id: appointment.id }}" title="Ver Turno"><span class="glyphicon glyphicon-eye-open"></span></router-link>							
+									<router-link class="btn btn-primary margin-list-button" :to="{ name: 'appointments_edit', params: { id: appointment.id }}" title="Editar Turno"><span class="glyphicon glyphicon-pencil"></span></router-link>
+									<a class="btn btn-danger margin-list-button" href="#" data-toggle="modal" data-target="#confirmDelete" title="Cancelar Turno" @click="confirmDelete(appointment.id)"><span class="glyphicon glyphicon-remove"></span></a>
+								</div>							
+							</td>
+						</tr>
+					</transition-group>
+					<tbody v-else>
+						<tr >
+							<td colspan="7">No se han encontrado registros</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 		<pagination v-bind:last_page="last_page" v-bind:current_page="current_page" v-bind:url="url"></pagination>
 		<popupdeleteconfirm v-on:success="operationSuccess" v-on:error="operationError" v-bind:element_id="appointment_id" v-bind:elements="appointments" v-bind:url="url" v-bind:delete_text_confirm="delete_text_confirm"></popupdeleteconfirm>

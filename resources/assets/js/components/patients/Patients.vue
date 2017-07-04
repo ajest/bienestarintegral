@@ -18,41 +18,43 @@
 			</div>
 		</div>
 		<div class="row col-md-12">
-			<table class="table table-striped table-hover table-head-strong table-bi">
-				<thead>
-					<tr>
-						<td><router-link :to="url + '1/name'">Nombre</router-link></td>
-						<td><router-link :to="url + '1/email'">Email</router-link></td>
-						<td><router-link :to="url + '1/tel'">Teléfono</router-link></td>
-						<td><router-link :to="url + '1/gender'">Sexo</router-link></td>
-						<td><router-link :to="url + '1/address'">Dirección</router-link></td>
-						<td><router-link :to="url + '1/date'">Fecha alta</router-link></td>
-						<td>Acciones</td>
-					</tr>
-				</thead>
-				<transition-group name="list" tag="tbody" v-if="patients.length > 0">
-					<tr v-for="patient in patients" v-bind:key="patients" class="list-item">
-						<td v-html="patient.nombre"></td>
-						<td v-html="patient.email"></td>
-						<td v-html="patient.telefono"></td>
-						<td v-html="patient.sexo"></td>
-						<td v-html="patient.direccion"></td>
-						<td v-html="patient.fecha"></td>
-						<td>
-							<div class="three-buttons">								
-								<router-link class="btn btn-success margin-list-button" :to="{ name: 'patients_detail', params: { id: patient.id }}" title="Ver Paciente"><span class="glyphicon glyphicon-eye-open"></span></router-link>
-								<router-link class="btn btn-primary margin-list-button" :to="{ name: 'patients_edit', params: { id: patient.id }}" title="Editar Paciente"><span class="glyphicon glyphicon-pencil"></span></router-link>
-								<a class="btn btn-danger margin-list-button" href="#" data-toggle="modal" data-target="#confirmDelete" title="Eliminar registro paciente" @click="confirmDelete(patient.id)"><span class="glyphicon glyphicon-remove"></span></a>
-							</div>
-						</td>
-					</tr>
-				</transition-group>
-				<tbody v-else>
-					<tr >
-						<td colspan="7">No se han encontrado registros</td>
-					</tr>
-				</tbody>
-			</table>
+			<div class="table-responsive">
+				<table class="table table-striped table-hover table-head-strong table-bi">
+					<thead>
+						<tr>
+							<td><router-link :to="url + '1/name'">Nombre</router-link></td>
+							<td><router-link :to="url + '1/email'">Email</router-link></td>
+							<td><router-link :to="url + '1/tel'">Teléfono</router-link></td>
+							<td><router-link :to="url + '1/gender'">Sexo</router-link></td>
+							<td><router-link :to="url + '1/address'">Dirección</router-link></td>
+							<td><router-link :to="url + '1/date'">Fecha alta</router-link></td>
+							<td>Acciones</td>
+						</tr>
+					</thead>
+					<transition-group name="list" tag="tbody" v-if="patients.length > 0">
+						<tr v-for="patient in patients" v-bind:key="patients" class="list-item">
+							<td v-html="patient.nombre"></td>
+							<td v-html="patient.email"></td>
+							<td v-html="patient.telefono"></td>
+							<td v-html="patient.sexo"></td>
+							<td v-html="patient.direccion"></td>
+							<td v-html="patient.fecha"></td>
+							<td>
+								<div class="three-buttons">								
+									<router-link class="btn btn-success margin-list-button" :to="{ name: 'patients_detail', params: { id: patient.id }}" title="Ver Paciente"><span class="glyphicon glyphicon-eye-open"></span></router-link>
+									<router-link class="btn btn-primary margin-list-button" :to="{ name: 'patients_edit', params: { id: patient.id }}" title="Editar Paciente"><span class="glyphicon glyphicon-pencil"></span></router-link>
+									<a class="btn btn-danger margin-list-button" href="#" data-toggle="modal" data-target="#confirmDelete" title="Eliminar registro paciente" @click="confirmDelete(patient.id)"><span class="glyphicon glyphicon-remove"></span></a>
+								</div>
+							</td>
+						</tr>
+					</transition-group>
+					<tbody v-else>
+						<tr >
+							<td colspan="7">No se han encontrado registros</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 		<pagination v-bind:last_page="last_page" v-bind:current_page="current_page" v-bind:url="url"></pagination>
 		<popupdeleteconfirm v-on:success="operationSuccess" v-on:error="operationError" v-bind:element_id="patient_id" v-bind:elements="patients" v-bind:url="url" v-bind:delete_text_confirm="delete_text_confirm"></popupdeleteconfirm>

@@ -1,19 +1,37 @@
 <template>
-	<div>
-		<router-view 
-			v-bind:message="message"
-			v-bind:success="success"
-			v-bind:warning="warning"
-			v-bind:danger="danger"
-			v-on:complete="operationComplete"></router-view>
-		
-		<transition name="fade">			
-			<div v-if="message">
-				<div class="g-msg" :class="classObjectContainer">
-					<span><i class="glyphicon" :class="classObjectIcon"></i> {{ message }}</span>
+	<div class="row">
+		<div class="col-sm-3 col-md-2 sidebar">
+			<ul class="nav nav-sidebar">
+				<li class="active"><a href="#">Calendario <span class="sr-only">(current)</span></a></li>
+				<li><a href="#">Reportes</a></li>
+			</ul>
+			<ul class="nav nav-sidebar">
+				<li><a href="">Turnos</a></li>
+				<li><a href="">Pacientes</a></li>
+				<li><a href="">Profesionales</a></li>
+				<li><a href="">Promociones</a></li>
+			</ul>
+			<ul class="nav nav-sidebar">
+				<li><a href="">Mi perfil</a></li>
+				<li><a href="">Configuración</a></li>
+				<li><a href="">Soporte</a></li>
+			</ul>
+		</div>
+		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+			<router-view 
+				v-bind:message="message"
+				v-bind:success="success"
+				v-bind:warning="warning"
+				v-bind:danger="danger"
+				v-on:complete="operationComplete"></router-view>
+			<transition name="fade">			
+				<div v-if="message">
+					<div class="g-msg" :class="classObjectContainer">
+						<span><i class="glyphicon" :class="classObjectIcon"></i> {{ message }}</span>
+					</div>
 				</div>
-			</div>
-		</transition>
+			</transition>
+		</div>
 	</div>
 </template>
 <script>
