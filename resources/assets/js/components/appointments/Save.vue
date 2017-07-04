@@ -74,6 +74,10 @@
 					</option>
 				</select>
 			</div>
+			<div class="form-group col-md-12">
+				<label>Comentarios</label>
+				<textarea v-model="appointment.appointment.comments" placeholder="Ej. Describa el turno" class="form-control" rows="4"> {{ appointment.appointment.comments }} </textarea>
+			</div>
 		</div>
 	</form>
 </template>
@@ -130,15 +134,12 @@
 				return message;
 			}
 		},
-
 		created: function(){
 			this.getAppointment();
 		},
-
 		methods: {
 			getAppointment(){
 				var t = this;
-
 				axios.get('/appointments/detail/' + (t.$route.params.id ? t.$route.params.id : ''))
 					.then(function (response) {
 						if(!_.isEmpty(response.data)){
@@ -155,23 +156,19 @@
 					});
 				
 			},
-
 			saveAppointment(){
 				var t = this;
 				let message = 'El turno se cargó correctamente';
 				let method = 'post';
 				let url = 'appointments/store'
-
 				t.save_icon = 'glyphicon-hourglass';
 				t.save_button = 'Espere';
 				t.button_disabled = true;
-
 				if(t.$route.params.id){
 					message = 'El turno se actualizó correctamente';
 					method = 'put';
 					url = '/appointments/' + t.$route.params.id;
 				}
-
 				axios({
 					method: method,
 					url: url,
@@ -189,7 +186,6 @@
 								'message': message[0]
 							});
 						});
-
 					}else{
 						t.$emit('complete', {message:  'Ha ocurrido un problema y no se ha podido editar el turno indicado. Por favor intente nuevamente más tarde', success: false, warning: false, danger: true});	
 					}
@@ -199,7 +195,6 @@
 					t.save_button = 'Guardar';
 				});
 			},
-
 			// VALIDATION
 			validateRequired(field) {
 				if(!this.appointment.appointment[field]) return 'error-input';

@@ -138,6 +138,7 @@ class AppointmentController extends Controller
         $appointment->series_id         = $request->series_id;
         $appointment->date              = $date;
         $appointment->hour              = $request->hour;
+        $appointment->comments          = $request->comments;
 
         $res = $appointment->save();
 

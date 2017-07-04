@@ -21,7 +21,7 @@ class CreatePatientsTable extends Migration
             $table->string('tel', 25);
             $table->char('gender', 4);
             $table->char('address', 100);
-            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
         });
     }
 

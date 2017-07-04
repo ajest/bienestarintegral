@@ -4,7 +4,7 @@
 			<h1><span class="glyphicon glyphicon-briefcase"></span> {{ patient.title }} 
 			<router-link to="/patients" class="btn btn-default pull-right margin-left-small"><span class="glyphicon glyphicon-calendar"></span> </router-link>
 			<router-link to="/patients" class="btn btn-primary pull-right margin-left-small"><span class="glyphicon glyphicon-pencil"></span> Editar</router-link>
-			<router-link to="/patients" class="btn btn-success pull-right margin-left-small"><span class="glyphicon glyphicon-arrow-left"></span> Volver</router-link></h1>
+			<router-link to="/patients" class="btn btn-success pull-right margin-left-small"><span class="glyphicon glyphicon-arrow-left"></span> Listado</router-link></h1>
 			<hr />
 			<div class="col-md-12">
 				<table class="table table-hovered">
@@ -64,7 +64,9 @@
 					<tbody>
 						<tr v-for="history in patient.history">
 							<td>{{ history.date }} {{ history.hour }}hs</td>
-							<td>para <span class="label label-success">{{ history.treatment.treatment }}</span> con <span class="label label-primary">{{ history.professional.name }}</span></td>
+							<td>
+								<p>para <span class="label label-success">{{ history.treatment.treatment }}</span> con <span class="label label-primary">{{ history.professional.name }}</span><router-link class="btn btn-default pull-right" :to="{ name: 'appointments_detail', params: { id: history.id }}" title="Ver Turno"><span class="glyphicon glyphicon-eye-open"></span></router-link></p>
+							<p><strong v-if="history.comments">Comentarios: </strong> {{ history.comments }} </p></td>
 						</tr>
 					</tbody>
 				</table>

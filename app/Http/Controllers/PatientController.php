@@ -89,7 +89,11 @@ class PatientController extends Controller
 
         $this->OperationMessage->saveOrFailMessage($res, $res ? ": El paciente $patient->name ha sido cargado exitosamente." : ": Ha ocurrido un error al cargar al paciente $patient->name.");
 
-        return redirect('/patients');
+        if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            return ['status' => 'success'];
+        }else{
+            return redirect('/patients');
+        }
     }
 
     /**
@@ -133,7 +137,11 @@ class PatientController extends Controller
 
         $this->OperationMessage->saveOrFailMessage($res, $res ? ": El paciente $patient->name ha sido editado exitosamente." : ": Ha ocurrido un error al editar al paciente $patient->name.");
 
-        return redirect('/patients');
+        if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            return ['status' => 'success'];
+        }else{
+            return redirect('/patients');
+        }
     }
 
     /**

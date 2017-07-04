@@ -41,7 +41,7 @@
 						<td>
 							<div class="three-buttons">								
 								<router-link class="btn btn-success margin-list-button" :to="{ name: 'patients_detail', params: { id: patient.id }}" title="Ver Paciente"><span class="glyphicon glyphicon-eye-open"></span></router-link>
-								<a class="btn btn-primary margin-list-button" :href="'/patients/' + patient.id + '/edit'" title="Editar paciente"><span class="glyphicon glyphicon-pencil"></span></a>
+								<router-link class="btn btn-primary margin-list-button" :to="{ name: 'patients_edit', params: { id: patient.id }}" title="Editar Paciente"><span class="glyphicon glyphicon-pencil"></span></router-link>
 								<a class="btn btn-danger margin-list-button" href="#" data-toggle="modal" data-target="#confirmDelete" title="Eliminar registro paciente" @click="confirmDelete(patient.id)"><span class="glyphicon glyphicon-remove"></span></a>
 							</div>
 						</td>

@@ -26,7 +26,7 @@ const routes = [
 	{ path: '/patients/:id', component: () => System.import('./components/patients/Patients.vue') }, // Pagination
 	{ path: '/patients/:id/:field', component: () => System.import('./components/patients/Patients.vue') }, // Pagination with order
 	{ name: 'patients_detail', path: '/patient/detail/:id', component: () => System.import('./components/patients/Detail.vue') },
-	{ name: 'patients_edit', path: '/appointment/edit/:id', component: () => System.import('./components/appointments/Save.vue') },
+	{ name: 'patients_edit', path: '/patient/edit/:id', component: () => System.import('./components/patients/Save.vue') },
 	{ name: 'patients_new', path: '/new/patient', component: () => System.import('./components/patients/Save.vue') }
 ];
 
