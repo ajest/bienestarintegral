@@ -74,17 +74,19 @@
 				current_page: 1,
 				patient_id: 0,
 				url: '/patients/',
-				delete_text_confirm: ['El registro del paciente y su historial de tratamientos ', null, null, null, 'van a ser eliminado. ¿Está seguro que desea eliminar el registro del paciente ', ' permanentemente', '?'],
+				delete_text_confirm: ['El registro del paciente y su historial de tratamientos ', null, null, null, 'van a ser eliminados. ¿Está seguro que desea eliminar el registro del paciente ', ' permanentemente', '?'],
 				searching_in_table: false,
 				search_in_table: '',
 				delayTimer: '',
 				opened_highlighted_tag: '<strong>',
-				closed_highlighted_tag: '</strong>'
+				closed_highlighted_tag: '</strong>',
+				active_element: 'patient'
 			}
 		},
 		
 		created: function(){
 			this.paginationCallback();
+			this.$emit('child_created', this.active_element);
 		},
 		
 		methods: {

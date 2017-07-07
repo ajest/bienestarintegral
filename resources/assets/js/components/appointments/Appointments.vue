@@ -89,12 +89,14 @@
 				closed_highlighted_tag: '</strong>',
 				filtros: {
 					status: 0
-				}
+				},
+				active_element: 'appointment'
 			}
 		},
 		
 		created: function(){
 			this.paginationCallback();
+			this.$emit('child_created', this.active_element);
 		},
 		
 		methods: {

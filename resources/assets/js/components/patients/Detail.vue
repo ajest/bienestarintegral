@@ -3,7 +3,7 @@
 		<div class="row col-md-12 section-detail" v-if="patient">
 			<h1><span class="glyphicon glyphicon-briefcase"></span> {{ patient.title }} 
 			<router-link to="/patients" class="btn btn-default pull-right margin-left-small"><span class="glyphicon glyphicon-calendar"></span> </router-link>
-			<router-link to="/patients" class="btn btn-primary pull-right margin-left-small"><span class="glyphicon glyphicon-pencil"></span> Editar</router-link>
+			<router-link :to="{ name: 'patients_edit', params: { id: patient.patient.id }}" class="btn btn-primary pull-right margin-left-small"><span class="glyphicon glyphicon-pencil"></span> Editar</router-link>
 			<router-link to="/patients" class="btn btn-success pull-right margin-left-small"><span class="glyphicon glyphicon-arrow-left"></span> Listado</router-link></h1>
 			<hr />
 			<div class="col-md-12">
@@ -35,7 +35,7 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="col-md-12" v-if="patient.appointments.length">
+			<div class="col-md-12" v-if="Object.keys(patient.appointments).length">
 				<table class="table table-hovered">
 					<thead>
 						<tr>
@@ -52,7 +52,7 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="col-md-12" v-if="patient.history.length">
+			<div class="col-md-12" v-if="Object.keys(patient.history).length">
 				<table class="table table-hovered">
 					<thead>
 						<tr>
@@ -78,16 +78,18 @@
 	export default {
 		data (){
 			return {
-				patient: ''
+				patient: '',
+				active_element: 'patient'
 			}
 		},
 
 		created: function(){
-			this.getpatient();
+			this.getPatient();
+			this.$emit('child_created', this.active_element);
 		},
 
 		methods: {
-			getpatient(){
+			getPatient(){
 				var t = this; 
 
 				axios.get('/patients/detail/' + t.$route.params.id)

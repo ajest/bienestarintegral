@@ -27,7 +27,14 @@ const routes = [
 	{ path: '/patients/:id/:field', component: () => System.import('./components/patients/Patients.vue') }, // Pagination with order
 	{ name: 'patients_detail', path: '/patient/detail/:id', component: () => System.import('./components/patients/Detail.vue') },
 	{ name: 'patients_edit', path: '/patient/edit/:id', component: () => System.import('./components/patients/Save.vue') },
-	{ name: 'patients_new', path: '/new/patient', component: () => System.import('./components/patients/Save.vue') }
+	{ name: 'patients_new', path: '/new/patient', component: () => System.import('./components/patients/Save.vue') },
+
+	{ name: 'professionals', path: '/professionals', component: () => System.import('./components/professionals/Professionals.vue') },
+	{ path: '/professionals/:id', component: () => System.import('./components/professionals/Professionals.vue') }, // Pagination
+	{ path: '/professionals/:id/:field', component: () => System.import('./components/professionals/Professionals.vue') }, // Pagination with order
+	{ name: 'professionals_detail', path: '/professional/detail/:id', component: () => System.import('./components/professionals/Detail.vue') },
+	{ name: 'professionals_edit', path: '/professional/edit/:id', component: () => System.import('./components/professionals/Save.vue') },
+	{ name: 'professionals_new', path: '/new/professional', component: () => System.import('./components/professionals/Save.vue') }
 ];
 
 const router = new VueRouter({

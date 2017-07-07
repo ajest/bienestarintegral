@@ -73,12 +73,14 @@
 	export default {
 		data (){
 			return {
-				appointment: ''
+				appointment: '',
+				active_element: 'appointment'
 			}
 		},
 
 		created: function(){
 			this.getAppointment();
+			this.$emit('child_created', this.active_element);
 		},
 
 		methods: {

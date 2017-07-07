@@ -94,7 +94,8 @@
 			        dates: [
 			        	new Date()
 			        ] 
-			    }
+			    },
+				active_element: 'appointment'
 			}
 		},
 		
@@ -136,6 +137,7 @@
 		},
 		created: function(){
 			this.getAppointment();
+			this.$emit('child_created', this.active_element);
 		},
 		methods: {
 			getAppointment(){

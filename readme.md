@@ -25,8 +25,13 @@
 	<li>Funcionalidad mensajes globales</li>
 	<li>Funcionalidades de filtro y búsqueda en tablas</li>
 	<li>ABM Turnos</li>
+	<li>ABM Pacientes</li>
 </ul>
 <h3>Características en desarrollo:</h3>
 <ul>
-	<li>ABM Pacientes</li>
+	<li>ABM Profesionales</li>
+	<li>ABM Especialidades</li>
+	<li>ABM Promociones</li>
+	<li>ABM Series</li>
+	<li>ABM de cuestionarios para Especialidades</li>
 </ul>
