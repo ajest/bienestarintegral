@@ -128,6 +128,10 @@ Route::post('professionals/store', 'ProfessionalController@store');
 Route::post('professionals/create', 'ProfessionalController@store');
 /* ---------------------------- */
 
+
+
+
+
 /**
 *
 *
@@ -158,7 +162,38 @@ Route::post('series/create', 'SeriesController@store');
 
 
 
+
+/**
+*
+*
+* SPECIALTIES
+*
+*/
+Route::get('specialties/list', 'SpecialtyController@getall');
+Route::get('specialties/list/{page}', ['uses' =>'SpecialtyController@getall'])->where('page', '[0-9]+');
+Route::get('specialties/list/{page}/{order}', ['uses' =>'SpecialtyController@getall'])->where('page', '[0-9]+');
+Route::get('specialties/search', ['uses' =>'SpecialtyController@search']);
+Route::get('specialties/detail/{specialty?}', function (App\Specialty $specialty) {
+    return [
+        'specialty'  => $specialty,
+        'appointments'  => $specialty->appointment
+                                        ->where('date', '>=', date('Y-m-d'))
+                                            ->each->patient
+                                            ->each->treatment,
+        'history'       => $specialty->appointment
+                                        ->where('date', '<', date('Y-m-d'))
+                                            ->each->patient
+                                            ->each->treatment
+    ];
+});
+
+Route::post('specialties/store', 'SpecialtyController@store');
+Route::post('specialties/create', 'SpecialtyController@store');
+/* ---------------------------- */
+
+
 Route::resource('appointments', 'AppointmentController');
 Route::resource('patients', 'PatientController');
 Route::resource('professionals', 'ProfessionalController');
 Route::resource('series', 'SeriesController');
+Route::resource('specialties', 'SpecialtyController');

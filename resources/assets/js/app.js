@@ -41,7 +41,16 @@ const routes = [
 	{ path: '/series/:id/:field', component: () => System.import('./components/series/Series.vue') }, // Pagination with order
 	{ name: 'series_detail', path: '/serie/detail/:id', component: () => System.import('./components/series/Detail.vue') },
 	{ name: 'series_edit', path: '/serie/edit/:id', component: () => System.import('./components/series/Save.vue') },
-	{ name: 'series_new', path: '/new/serie', component: () => System.import('./components/series/Save.vue') }
+	{ name: 'series_new', path: '/new/serie', component: () => System.import('./components/series/Save.vue') },
+
+	{ name: 'specialties', path: '/specialties', component: () => System.import('./components/specialties/Specialties.vue') },
+	{ path: '/specialties/:id', component: () => System.import('./components/specialties/Specialties.vue') }, // Pagination
+	{ path: '/specialties/:id/:field', component: () => System.import('./components/specialties/Specialties.vue') }, // Pagination with order
+	{ name: 'specialties_detail', path: '/specialty/detail/:id', component: () => System.import('./components/specialties/Detail.vue') },
+	{ name: 'specialties_edit', path: '/specialty/edit/:id', component: () => System.import('./components/specialties/Save.vue') },
+	{ name: 'specialties_new', path: '/new/specialty', component: () => System.import('./components/specialties/Save.vue') },
+
+	{ path: '/settings', component: () => System.import('./components/settings/Settings.vue') }
 ];
 
 const router = new VueRouter({

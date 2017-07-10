@@ -13,7 +13,7 @@
 			</ul>
 			<ul class="nav nav-sidebar">
 				<li :class="[active_element == 'account' ? 'active' : '']"><router-link to="/"><span class="glyphicon glyphicon-heart-empty"></span> Mi perfil</router-link></li>
-				<li :class="[active_element == 'settings' ? 'active' : '']"><router-link to="/"><span class="glyphicon glyphicon-wrench"></span> Configuración</router-link></li>
+				<li :class="[active_element == 'settings' ? 'active' : '']"><router-link to="/settings"><span class="glyphicon glyphicon-wrench"></span> Configuración</router-link></li>
 			</ul>
 		</div>
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
