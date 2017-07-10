@@ -31,6 +31,6 @@
 </ul>
 <h3>Características en desarrollo:</h3>
 <ul>
-	<li>ABM Especialidades</li>
 	<li>ABM de cuestionarios para Especialidades</li>
+	<li>Agregar más campos a cada una de las secciones según necesidades reales</li>
 </ul>

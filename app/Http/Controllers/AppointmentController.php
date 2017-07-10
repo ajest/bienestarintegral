@@ -73,14 +73,8 @@ class AppointmentController extends Controller
         $appointment->hour              = $request->hour;
 
         $res = $appointment->save();
-
-        $this->OperationMessage->saveOrFailMessage($res, $res ? ": El turno para el paciente " . $appointment->patient->name . " ha sido cargado exitosamente." : ": Ha ocurrido un error al cargar el turno para el paciente ". $appointment->patient->name);
-
-        if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-            return ['status' => 'success'];
-        }else{
-            return redirect('/appointments');
-        }
+        
+        return ['status' => 'success'];        
     }
 
     /**
@@ -144,12 +138,7 @@ class AppointmentController extends Controller
 
         $this->OperationMessage->saveOrFailMessage($res, $res ? ": El turno para el paciente " . $appointment->patient->name . " ha sido editado exitosamente." : ": Ha ocurrido un error al editar el turno para el paciente " . $appointment->patient->name);
 
-        
-        if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-            return ['status' => 'success'];
-        }else{
-            return redirect('/appointments');
-        }
+        return ['status' => 'success'];
     }
 
     /**
@@ -166,11 +155,7 @@ class AppointmentController extends Controller
 
         $this->OperationMessage->deleteMessage($res, $res ? ": El turno para el paciente $paciente ha sido eliminado permanentemente." : ": Ha ocurrido un error al eliminar el turno para el paciente $paciente.");
 
-        if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-            return ['status' => 'success'];
-        }else{
-            return redirect('/appointments');
-        }
+        return ['status' => 'success'];
     }
 
     /**

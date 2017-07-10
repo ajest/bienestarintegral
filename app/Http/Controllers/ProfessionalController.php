@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Professional;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProfessionalRequest;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Pagination\Paginator;
 
 class ProfessionalController extends Controller
@@ -95,7 +94,7 @@ class ProfessionalController extends Controller
     public function destroy(Professional $professional)
     {
         $res = $professional->delete();
-        return ['status' => 'success'];        
+        return ['status' => 'success'];
     }
 
     public function search(){

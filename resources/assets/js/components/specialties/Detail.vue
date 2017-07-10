@@ -1,7 +1,7 @@
 <template>
 	<transition name="fade">
 		<div class="row col-md-12 section-detail" v-if="specialty">
-			<h1><span class="glyphicon glyphicon-briefcase"></span> {{ specialty.title }} 
+			<h1><span class="glyphicon glyphicon-briefcase"></span> {{ specialty.specialty }} 
 			<router-link to="/specialties" class="btn btn-default pull-right margin-left-small"><span class="glyphicon glyphicon-calendar"></span> </router-link>
 			<router-link :to="{ name: 'specialties_edit', params: { id: specialty.id }}" class="btn btn-primary pull-right margin-left-small"><span class="glyphicon glyphicon-pencil"></span> Editar</router-link>
 			<router-link to="/specialties" class="btn btn-success pull-right margin-left-small"><span class="glyphicon glyphicon-arrow-left"></span> Listado</router-link></h1>

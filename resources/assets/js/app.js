@@ -50,6 +50,13 @@ const routes = [
 	{ name: 'specialties_edit', path: '/specialty/edit/:id', component: () => System.import('./components/specialties/Save.vue') },
 	{ name: 'specialties_new', path: '/new/specialty', component: () => System.import('./components/specialties/Save.vue') },
 
+	{ name: 'treatments', path: '/treatments', component: () => System.import('./components/treatments/Treatments.vue') },
+	{ path: '/treatments/:id', component: () => System.import('./components/treatments/Treatments.vue') }, // Pagination
+	{ path: '/treatments/:id/:field', component: () => System.import('./components/treatments/Treatments.vue') }, // Pagination with order
+	{ name: 'treatments_detail', path: '/treatment/detail/:id', component: () => System.import('./components/treatments/Detail.vue') },
+	{ name: 'treatments_edit', path: '/treatment/edit/:id', component: () => System.import('./components/treatments/Save.vue') },
+	{ name: 'treatments_new', path: '/new/treatment', component: () => System.import('./components/treatments/Save.vue') },
+
 	{ path: '/settings', component: () => System.import('./components/settings/Settings.vue') }
 ];
 

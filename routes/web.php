@@ -192,8 +192,46 @@ Route::post('specialties/create', 'SpecialtyController@store');
 /* ---------------------------- */
 
 
+
+
+
+
+
+/**
+*
+*
+* TREATMENTS
+*
+*/
+Route::get('treatments/list', 'TreatmentController@getall');
+Route::get('treatments/list/{page}', ['uses' =>'TreatmentController@getall'])->where('page', '[0-9]+');
+Route::get('treatments/list/{page}/{order}', ['uses' =>'TreatmentController@getall'])->where('page', '[0-9]+');
+Route::get('treatments/search', ['uses' =>'TreatmentController@search']);
+Route::get('treatments/detail/{treatment?}', function (App\Treatment $treatment) {
+    return [
+        'treatment'  => $treatment,
+        'specialty'  => $treatment->specialty,
+        'appointments'  => $treatment->appointment
+                                        ->where('date', '>=', date('Y-m-d'))
+                                            ->each->patient,
+        'history'       => $treatment->appointment
+                                        ->where('date', '<', date('Y-m-d'))
+                                            ->each->patient,
+        'all'               => [
+            'specialties'   => App\Specialty::all()
+        ]
+    ];
+});
+
+Route::post('treatments/store', 'TreatmentController@store');
+Route::post('treatments/create', 'TreatmentController@store');
+/* ---------------------------- */
+
+
+
 Route::resource('appointments', 'AppointmentController');
 Route::resource('patients', 'PatientController');
 Route::resource('professionals', 'ProfessionalController');
 Route::resource('series', 'SeriesController');
 Route::resource('specialties', 'SpecialtyController');
+Route::resource('treatments', 'TreatmentController');

@@ -4,22 +4,17 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-		<meta name="description" content="">
-		<meta name="author" content="">
-
+		<meta name="description" content="Sistema de administración de negocios para relax y bienestar">
+		<meta name="author" content="Pablo Fumarola">
+		<meta name="robots" content="nofollow" />
 		<title>Bienestar Integral</title>
-
 		<link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
 	</head>
 	<body>
 		<div id="app">            
-			<nav class="navbar navbar-inverse navbar-fixed-top">
-				<div class="container">
-					@yield('nav')
-				</div>
+			<nav class="navbar navbar-inverse navbar-fixed-top">				
+				@yield('nav')
 			</nav>
-
 			<div class="container-fluid">
 			  @yield('content')
 			  <footer>

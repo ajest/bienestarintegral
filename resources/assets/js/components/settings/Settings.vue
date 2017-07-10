@@ -18,6 +18,7 @@
 				<div class="panel-body">
 					<div class="row">
 						<div class="col-lg-4 col-md-6 item-setting item-setting-specialties"><router-link to="/specialties"><span class="glyphicon glyphicon-road"></span> Especialidades</router-link></div>
+						<div class="col-lg-4 col-md-6 item-setting item-setting-specialties"><router-link to="/treatments"><span class="glyphicon glyphicon-leaf"></span> Tratamientos</router-link></div>
 					</div>
 				</div>
 			</div>

@@ -21,14 +21,14 @@ class DatabaseSeeder extends Seeder
         DB::table('specialties')->insert(['specialty' => 'Depilación', 'description' => 'La depilación o extirpación del pelo es una técnica cosmética que consiste en eliminar el vello de alguna zona del cuerpo, utilizada particularmente por el ser humano.']);
         DB::table('specialties')->insert(['specialty' => 'Rehabilitación', 'description' => 'El conjunto de medidas sociales, educativas y profesionales destinadas a restituir al paciente minusválido la mayor capacidad e independencia posibles']);
 
-        DB::table('treatments')->insert(['treatment' => 'Drenaje Linfático']);
-        DB::table('treatments')->insert(['treatment' => 'Uñas arqueadas']);
-        DB::table('treatments')->insert(['treatment' => 'Ultrasonido']);
-        DB::table('treatments')->insert(['treatment' => 'Reflexología']);
-        DB::table('treatments')->insert(['treatment' => 'Limpieza de acné']);
-        DB::table('treatments')->insert(['treatment' => 'Masaje con piedras calientes']);
-        DB::table('treatments')->insert(['treatment' => 'Francesitas']);
-        DB::table('treatments')->insert(['treatment' => 'Acupuntura']);
+        DB::table('treatments')->insert(['treatment' => 'Drenaje Linfático', 'specialty_id' => 1, 'description' => 'Lorem ipsum']);
+        DB::table('treatments')->insert(['treatment' => 'Uñas arqueadas', 'specialty_id' => 2, 'description' => 'Lorem ipsum']);
+        DB::table('treatments')->insert(['treatment' => 'Ultrasonido', 'specialty_id' => 1, 'description' => 'Lorem ipsum']);
+        DB::table('treatments')->insert(['treatment' => 'Reflexología', 'specialty_id' => 1, 'description' => 'Lorem ipsum']);
+        DB::table('treatments')->insert(['treatment' => 'Limpieza de acné', 'specialty_id' => 2, 'description' => 'Lorem ipsum']);
+        DB::table('treatments')->insert(['treatment' => 'Masaje con piedras calientes', 'specialty_id' => 1, 'description' => 'Lorem ipsum']);
+        DB::table('treatments')->insert(['treatment' => 'Francesitas', 'specialty_id' => 2, 'description' => 'Lorem ipsum']);
+        DB::table('treatments')->insert(['treatment' => 'Acupuntura', 'specialty_id' => 1, 'description' => 'Lorem ipsum']);
 
         DB::table('series')->insert(['series' => '2 x 1', 'cant' => 2]);
         DB::table('series')->insert(['series' => '10 sesiones al precio de 9', 'cant' => 10]);
