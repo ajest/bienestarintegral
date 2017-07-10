@@ -8,7 +8,7 @@
 		</div>
 		<hr />
 		<div class="col-md-12">
-			<h3>Información personal</h3>
+			<h3>Información del profesional</h3>
 			<div class="panel panel-danger" v-if="errors.length > 0">
 				<div class="panel-body">
 					Su formulario contiene los siguientes errores:
@@ -18,7 +18,7 @@
 				</div>
 			</div>
 			<div class="form-group col-md-6">
-				<label>Name *</label>
+				<label>Nombre *</label>
 				<input type="text" v-model="professional.professional.name" placeholder="Ej. Lucas García" class="form-control" required>
 			</div>
 			<div class="form-group col-md-6">
@@ -83,7 +83,9 @@
 			}
 		},
 		created: function(){
-			this.getProfessional();
+			if(this.$route.params.id){
+				this.getProfessional();
+			}
 			this.$emit('child_created', this.active_element);
 		},
 		methods: {

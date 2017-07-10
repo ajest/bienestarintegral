@@ -1,7 +1,7 @@
 <template>
 	<transition name="fade">
 		<div class="row col-md-12 section-detail" v-if="patient">
-			<h1><span class="glyphicon glyphicon-briefcase"></span> {{ patient.title }} 
+			<h1><span class="glyphicon glyphicon-user"></span> {{ patient.patient.name }} 
 			<router-link to="/patients" class="btn btn-default pull-right margin-left-small"><span class="glyphicon glyphicon-calendar"></span> </router-link>
 			<router-link :to="{ name: 'patients_edit', params: { id: patient.patient.id }}" class="btn btn-primary pull-right margin-left-small"><span class="glyphicon glyphicon-pencil"></span> Editar</router-link>
 			<router-link to="/patients" class="btn btn-success pull-right margin-left-small"><span class="glyphicon glyphicon-arrow-left"></span> Listado</router-link></h1>

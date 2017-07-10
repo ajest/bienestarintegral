@@ -8,7 +8,7 @@
 	        <h4 class="modal-title" id="myModalLabel">Confirmar</h4>
 	      </div>
 	      <div class="modal-body">
-	        {{ getMessage }} <strong v-if="from_el"> {{ from_el }} </strong> {{ second }} <strong v-if="for_el"> {{ for_el }} </strong> {{ third }} <strong v-if="emp"> {{ emp }} </strong> {{ final }}
+	        {{ getMessage }} <strong v-if="from_el"> {{ from_el }} </strong> {{ second }} <strong v-if="for_el"> {{ for_el }} </strong> {{ third }} <strong v-if="emp"> {{ emp }}</strong>{{ final }}
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>

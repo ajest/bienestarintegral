@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProfessionalRequest extends FormRequest
+class SeriesRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,8 @@ class ProfessionalRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'      => 'required|max:255',
-            'email'     => 'required|email|max:100',
-            'tel'       => 'required|max:100',
-            'gender'    => 'required|max:4',
-            'address'   => 'required|max:100',
+            'series'    => 'required|max:255',
+            'cant'      => 'numeric|nullable'
         ];
     }
 }

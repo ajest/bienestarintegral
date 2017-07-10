@@ -1,44 +1,29 @@
 <template>
-	<form class="row col-md-12" v-on:submit.prevent="savePatient" v-if="checkExistence">
+	<form class="row col-md-12" v-on:submit.prevent="saveSeries" v-if="checkExistence">
 		<div class="row col-md-12">
-			<h1>{{ patient.patient.name ? patient.patient.name : 'Nuevo Paciente' }} 
+			<h1>{{ series.series.series ? series.series.series : 'Nueva Promoción' }} 
 				<button class="pull-right btn btn-primary margin-left-small" :disabled="button_disabled"><span class="glyphicon " :class="save_icon"></span> {{ saveButtonName }}</button>
-				<router-link to="/appointments" class="btn btn-success pull-right margin-left-small"><span class="glyphicon glyphicon-arrow-left"></span> Volver</router-link>
+				<router-link to="/series" class="btn btn-success pull-right margin-left-small"><span class="glyphicon glyphicon-arrow-left"></span> Volver</router-link>
 			</h1>
 		</div>
 		<hr />
 		<div class="col-md-12">
-			<h3>Información personal</h3>
+			<h3>Información de la promoción</h3>
 			<div class="panel panel-danger" v-if="errors.length > 0">
 				<div class="panel-body">
 					Su formulario contiene los siguientes errores:
 					<ul>
-						<li v-for="error in errors"><strong>{{ error.name }}</strong>: {{ error.message }}</li>
+						<li v-for="error in errors"><strong>{{ error.series }}</strong>: {{ error.message }}</li>
 					</ul>
 				</div>
 			</div>
 			<div class="form-group col-md-6">
-				<label>Name *</label>
-				<input type="text" v-model="patient.patient.name" placeholder="Ej. Lucas García" class="form-control" required>
+				<label>Nombre *</label>
+				<input type="text" v-model="series.series.series" placeholder="Ej. 10 sesiones al precio de 9" class="form-control" required>
 			</div>
 			<div class="form-group col-md-6">
-				<label>Email *</label>
-				<input type="email" v-model="patient.patient.email" placeholder="Ej. lucasgarcia@gmail.com" class="form-control" required>
-			</div>
-			<div class="form-group col-md-6">
-				<label>Teléfono *</label>
-				<input type="text" v-model="patient.patient.tel" placeholder="Ej. +54 11 6890-8443" class="form-control" v-mask="'+## ## ####-####'" required>
-			</div>
-			<div class="form-group col-md-6">
-				<label>Género *</label>
-				<select v-model="patient.patient.gender" class="form-control" required>
-					<option value="H">Hombre</option>
-					<option value="M">Mujer</option>
-				</select>
-			</div>
-			<div class="form-group col-md-6">
-				<label>Dirección *</label>
-				<input type="text" v-model="patient.patient.address" placeholder="Ej. Posta de Pardo 1298" class="form-control" required>
+				<label>Cantidad</label>
+				<input type="text" v-model="series.series.cant" placeholder="10" class="form-control" v-mask="'##'">
 			</div>
 		</div>
 	</form>
@@ -47,31 +32,33 @@
 	export default {
 		data(){
 			return {
-				patient: '',				
+				series: {
+					series: {
+						cant: '',
+						series: ''
+					}
+				},
 				save_button: 'Guardar',
 				save_icon: 'glyphicon-floppy-disk',
 				button_disabled: false,
 				errors: [],
-				active_element: 'patient'
+				active_element: 'series'
 			}
 		},
 		
 		computed: {
 			checkExistence: function () {
 				if(!this.$route.params.id){
-					this.patient = {
-						patient: {
-							name: '',
-							email: '',
-							tel: '',
-							gender: '',
-							address: ''
+					this.series = {
+						series: {
+							series: '',
+							cant: ''
 						}
 					};
 					
 					return true;	
 				}else{
-					return this.patient;
+					return this.series;
 				}
 			},
 			saveButtonName: function () {
@@ -84,17 +71,17 @@
 		},
 		created: function(){
 			if(this.$route.params.id){
-				this.getPatient();
+				this.getSeries();
 			}
 			this.$emit('child_created', this.active_element);
 		},
 		methods: {
-			getPatient(){
+			getSeries(){
 				var t = this;
-				axios.get('/patients/detail/' + (t.$route.params.id ? t.$route.params.id : ''))
+				axios.get('/series/detail/' + (t.$route.params.id ? t.$route.params.id : ''))
 					.then(function (response) {
 						if(!_.isEmpty(response.data)){
-							t.patient = response.data;
+							t.series = response.data;
 						}
 					})
 					.catch(function (error) {
@@ -102,25 +89,25 @@
 					});
 				
 			},
-			savePatient(){
+			saveSeries(){
 				var t = this;
-				let message = 'El paciente se cargó correctamente';
+				let message = 'La promoción se cargó correctamente';
 				let method = 'post';
-				let url = 'patients/store'
+				let url = 'series/store'
 				t.save_icon = 'glyphicon-hourglass';
 				t.save_button = 'Espere';
 				t.button_disabled = true;
 				
 				if(t.$route.params.id){
-					message = 'El paciente se actualizó correctamente';
+					message = 'La promoción se actualizó correctamente';
 					method = 'put';
-					url = '/patients/' + t.$route.params.id;
+					url = '/series/' + t.$route.params.id;
 				}
 				
 				axios({
 					method: method,
 					url: url,
-					data: t.patient.patient
+					data: t.series.series
 				})
 			  	.then(function (response) {
 					t.$emit('complete', {message:  message, success: true, warning: false, danger: false});
@@ -135,7 +122,7 @@
 							});
 						});
 					}else{
-						t.$emit('complete', {message:  'Ha ocurrido un problema y no se ha podido editar el paciente indicado. Por favor intente nuevamente más tarde', success: false, warning: false, danger: true});	
+						t.$emit('complete', {message:  'Ha ocurrido un problema y no se ha podido editar la promoción indicada. Por favor intente nuevamente más tarde', success: false, warning: false, danger: true});	
 					}
 					
 					t.button_disabled = false;
@@ -145,7 +132,7 @@
 			},
 			// VALIDATION
 			validateRequired(field) {
-				if(!this.patient.patient[field]) return 'error-input';
+				if(!this.series.series[field]) return 'error-input';
 			}
 		}
 	}

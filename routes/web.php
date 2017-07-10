@@ -128,10 +128,37 @@ Route::post('professionals/store', 'ProfessionalController@store');
 Route::post('professionals/create', 'ProfessionalController@store');
 /* ---------------------------- */
 
+/**
+*
+*
+* SERIES
+*
+*/
+Route::get('series/list', 'SeriesController@getall');
+Route::get('series/list/{page}', ['uses' =>'SeriesController@getall'])->where('page', '[0-9]+');
+Route::get('series/list/{page}/{order}', ['uses' =>'SeriesController@getall'])->where('page', '[0-9]+');
+Route::get('series/search', ['uses' =>'SeriesController@search']);
+Route::get('series/detail/{series?}', function (App\Series $series) {
+    return [
+        'series'  => $series,
+        'appointments'  => $series->appointment
+                                        ->where('date', '>=', date('Y-m-d'))
+                                            ->each->patient
+                                            ->each->treatment,
+        'history'       => $series->appointment
+                                        ->where('date', '<', date('Y-m-d'))
+                                            ->each->patient
+                                            ->each->treatment
+    ];
+});
 
+Route::post('series/store', 'SeriesController@store');
+Route::post('series/create', 'SeriesController@store');
+/* ---------------------------- */
 
 
 
 Route::resource('appointments', 'AppointmentController');
 Route::resource('patients', 'PatientController');
 Route::resource('professionals', 'ProfessionalController');
+Route::resource('series', 'SeriesController');

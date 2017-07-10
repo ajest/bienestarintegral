@@ -9,7 +9,7 @@
 				<li :class="[active_element == 'appointment' ? 'active' : '']"><router-link to="/appointments"><span class="glyphicon glyphicon-briefcase"></span> Turnos</router-link></li>
 				<li :class="[active_element == 'patient' ? 'active' : '']"><router-link to="/patients"><span class="glyphicon glyphicon-user"></span> Pacientes</router-link></li>
 				<li :class="[active_element == 'professional' ? 'active' : '']"><router-link to="/professionals"><span class="glyphicon glyphicon-education"></span> Profesionales</router-link></li>
-				<li :class="[active_element == 'promo' ? 'active' : '']"><router-link to="/"><span class="glyphicon glyphicon-star-empty"></span> Promociones</router-link></li>
+				<li :class="[active_element == 'series' ? 'active' : '']"><router-link to="/series"><span class="glyphicon glyphicon-star-empty"></span> Promociones</router-link></li>
 			</ul>
 			<ul class="nav nav-sidebar">
 				<li :class="[active_element == 'account' ? 'active' : '']"><router-link to="/"><span class="glyphicon glyphicon-heart-empty"></span> Mi perfil</router-link></li>

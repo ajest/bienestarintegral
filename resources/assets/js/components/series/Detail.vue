@@ -1,10 +1,10 @@
 <template>
 	<transition name="fade">
-		<div class="row col-md-12 section-detail" v-if="professional">
-			<h1><span class="glyphicon glyphicon-education"></span> {{ professional.professional.name }} 
-			<router-link to="/professionals" class="btn btn-default pull-right margin-left-small"><span class="glyphicon glyphicon-calendar"></span> </router-link>
-			<router-link :to="{ name: 'professionals_edit', params: { id: professional.professional.id }}" class="btn btn-primary pull-right margin-left-small"><span class="glyphicon glyphicon-pencil"></span> Editar</router-link>
-			<router-link to="/professionals" class="btn btn-success pull-right margin-left-small"><span class="glyphicon glyphicon-arrow-left"></span> Listado</router-link></h1>
+		<div class="row col-md-12 section-detail" v-if="series">
+			<h1><span class="glyphicon glyphicon-star-empty"></span> {{ series.series.series }} 
+			<router-link to="/series" class="btn btn-default pull-right margin-left-small"><span class="glyphicon glyphicon-calendar"></span> </router-link>
+			<router-link :to="{ name: 'series_edit', params: { id: series.series.id }}" class="btn btn-primary pull-right margin-left-small"><span class="glyphicon glyphicon-pencil"></span> Editar</router-link>
+			<router-link to="/series" class="btn btn-success pull-right margin-left-small"><span class="glyphicon glyphicon-arrow-left"></span> Listado</router-link></h1>
 			<hr />
 			<div class="col-md-12">
 				<table class="table table-hovered">
@@ -18,24 +18,16 @@
 					<tbody>
 						<tr>
 							<td>Nombre</td>
-							<td><span class="label label-default">{{ professional.professional.name }}</span></td>
+							<td><span class="label label-default">{{ series.series.series }}</span></td>
 						</tr>
 						<tr>
-							<td>Email</td>
-							<td><span class="label label-default">{{ professional.professional.email }}</span></td>
-						</tr>
-						<tr>
-							<td>Teléfono</td>
-							<td><span class="label label-default">{{ professional.professional.tel }}</span></td>
-						</tr>
-						<tr>
-							<td>Domicilio</td>
-							<td><span class="label label-default">{{ professional.professional.address }}</span></td>
+							<td>Cantidad máxima de usos</td>
+							<td><span class="label label-default">{{ series.series.cant }}</span></td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
-			<div class="col-md-12" v-if="Object.keys(professional.appointments).length">
+			<div class="col-md-12" v-if="Object.keys(series.appointments).length">
 				<table class="table table-hovered">
 					<thead>
 						<tr>
@@ -45,14 +37,14 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr v-for="appointment in professional.appointments">
+						<tr v-for="appointment in series.appointments">
 							<td>{{ appointment.date }} {{ appointment.hour }}hs</td>
 							<td><span class="label label-success">{{ appointment.treatment.treatment }}</span> para <span class="label label-primary">{{ appointment.patient.name }}</span></td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
-			<div class="col-md-12" v-if="Object.keys(professional.history).length">
+			<div class="col-md-12" v-if="Object.keys(series.history).length">
 				<table class="table table-hovered">
 					<thead>
 						<tr>
@@ -62,7 +54,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr v-for="history in professional.history">
+						<tr v-for="history in series.history">
 							<td>{{ history.date }} {{ history.hour }}hs</td>
 							<td>
 								<p><span class="label label-success">{{ history.treatment.treatment }}</span> para <span class="label label-primary">{{ history.patient.name }}</span><router-link class="btn btn-default pull-right" :to="{ name: 'appointments_detail', params: { id: history.id }}" title="Ver Turno"><span class="glyphicon glyphicon-eye-open"></span></router-link></p>
@@ -78,25 +70,25 @@
 	export default {
 		data (){
 			return {
-				professional: '',
-				active_element: 'professional'
+				series: '',
+				active_element: 'series'
 			}
 		},
 
 		created: function(){
-			this.getProfessional();
+			this.getSeries();
 			this.$emit('child_created', this.active_element);
 		},
 
 		methods: {
-			getProfessional(){
+			getSeries(){
 				var t = this; 
 
-				axios.get('/professionals/detail/' + t.$route.params.id)
+				axios.get('/series/detail/' + t.$route.params.id)
 					.then(function (response) {
 						if(!_.isEmpty(response.data)){
 
-							t.professional = response.data;
+							t.series = response.data;
 						}
 					})
 					.catch(function (error) {
