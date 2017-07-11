@@ -35,7 +35,17 @@ class SeriesController extends Controller
         ];
 
         if(in_array($order, $allow_order) && ($order_mode == 'asc' || $order_mode == 'desc')){
-            $series_data = Series::orderBy($order, $order_mode)->paginate($rows);
+            $term = '';
+            if(!empty($_GET['term'])) $term = urldecode($_GET['term']);
+
+            $series_data = Series::select('series.*')
+                            ->where(function ($query) use ($term) {
+                            $query
+                                ->where('series', 'like', '%' . $term . '%')
+                                ->orWhere('cant', 'like', '%' . $term . '%');
+                            })
+                            ->orderBy($order, $order_mode)
+                            ->paginate($rows);
 
             return ['series' => $series_data];
         }
@@ -99,7 +109,12 @@ class SeriesController extends Controller
         return ['status' => 'success'];
     }
 
-    public function search(){
+    public function search($page = 1, $rows = 10){
+
+        Paginator::currentPageResolver(function () use ($page) {
+            return $page;
+        });
+
         $term = '';
         if(!empty($_GET['term'])) $term = urldecode($_GET['term']);
 
@@ -109,7 +124,7 @@ class SeriesController extends Controller
                             ->where('series', 'like', '%' . $term . '%')
                             ->orWhere('cant', 'like', '%' . $term . '%');
                         })
-                        ->get();
+                        ->paginate($rows);
 
         return ['series' => $series_data];
     }

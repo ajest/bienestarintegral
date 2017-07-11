@@ -35,7 +35,17 @@ class SpecialtyController extends Controller
         ];
 
         if(in_array($order, $allow_order) && ($order_mode == 'asc' || $order_mode == 'desc')){
-            $specialties_data = Specialty::orderBy($order, $order_mode)->paginate($rows);
+            $term = '';
+            if(!empty($_GET['term'])) $term = urldecode($_GET['term']);
+
+            $specialties_data = Specialty::select('specialties.*')
+                ->where(function ($query) use ($term) {
+                $query
+                    ->where('specialty', 'like', '%' . $term . '%')
+                    ->orWhere('description', 'like', '%' . $term . '%');
+                })
+                ->orderBy($order, $order_mode)
+                ->paginate($rows);
 
             return ['specialties' => $specialties_data];
         }
@@ -99,7 +109,12 @@ class SpecialtyController extends Controller
         return ['status' => 'success'];
     }
 
-    public function search(){
+    public function search($page = 1, $rows = 10){
+
+        Paginator::currentPageResolver(function () use ($page) {
+            return $page;
+        });
+
         $term = '';
         if(!empty($_GET['term'])) $term = urldecode($_GET['term']);
 
@@ -109,7 +124,7 @@ class SpecialtyController extends Controller
                             ->where('specialty', 'like', '%' . $term . '%')
                             ->orWhere('description', 'like', '%' . $term . '%');
                         })
-                        ->get();
+                        ->paginate($rows);
 
         return ['specialties' => $specialties_data];
     }

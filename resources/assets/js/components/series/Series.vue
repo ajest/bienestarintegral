@@ -130,8 +130,8 @@
 							.then(function (response) {
 								t.series = [];
 
-								if(!_.isEmpty(response.data.series)){
-									_.forEach(response.data.series, function(value) {
+								if(!_.isEmpty(response.data.series.data)){
+									_.forEach(response.data.series.data, function(value) {
 										
 										var index = '';
 										var text_lenght = t.search_in_table.length;									
@@ -153,6 +153,9 @@
 											'series': value.series,
 											'cant': value_cant
 										});
+
+										t.last_page = response.data.series.last_page;
+										t.current_page = 1;
 									});
 								}
 								t.searching_in_table = false;
@@ -200,7 +203,6 @@
 		watch: {
 		    '$route' (to, from) {
 			    this.paginationCallback();
-			    this.search_in_table = '';
 		    }
 		},
         

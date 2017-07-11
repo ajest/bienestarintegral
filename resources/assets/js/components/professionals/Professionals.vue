@@ -139,8 +139,8 @@
 							.then(function (response) {
 								t.professionals = [];
 
-								if(!_.isEmpty(response.data.professionals)){
-									_.forEach(response.data.professionals, function(value) {
+								if(!_.isEmpty(response.data.professionals.data)){
+									_.forEach(response.data.professionals.data, function(value) {
 
 										var index = '';
 										var text_lenght = t.search_in_table.length;									
@@ -178,6 +178,9 @@
 											'gender': value.gender,
 											'address': value.address
 										});
+
+										t.last_page = response.data.patients.last_page;
+										t.current_page = 1;
 									});
 								}
 								t.searching_in_table = false;
@@ -225,7 +228,6 @@
 		watch: {
 		    '$route' (to, from) {
 			    this.paginationCallback();
-			    this.search_in_table = '';
 		    }
 		},
         

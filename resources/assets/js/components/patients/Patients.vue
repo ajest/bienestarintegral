@@ -93,7 +93,12 @@
 			paginationCallback(){
 				var t = this;
 
-				axios.get('/patients/list/' + (t.$route.params.id ? t.$route.params.id : 1) + '/' + (t.$route.params.field ? t.$route.params.field : ''))
+				axios.get('/patients/list/' + (t.$route.params.id ? t.$route.params.id : 1) + '/' + (t.$route.params.field ? t.$route.params.field : ''),
+					{
+						params: {
+							'term': t.search_in_table
+						}
+					})
 					.then(function (response) {
 						t.patients = [];
 
@@ -166,8 +171,8 @@
 							.then(function (response) {
 								t.patients = [];
 
-								if(!_.isEmpty(response.data.patients)){
-									_.forEach(response.data.patients, function(value) {
+								if(!_.isEmpty(response.data.patients.data)){
+									_.forEach(response.data.patients.data, function(value) {
 									    var index = '';
 										var text_lenght = t.search_in_table.length;
 
@@ -210,6 +215,9 @@
 											'direccion': value.address,
 											'fecha': value.created_at
 										});
+
+										t.last_page = response.data.patients.last_page;
+										t.current_page = 1;
 									});
 								}
 								t.searching_in_table = false;
@@ -252,7 +260,6 @@
 		watch: {
 		    '$route' (to, from) {
 			    this.paginationCallback();
-			    this.search_in_table = '';
 		    }
 		},
 

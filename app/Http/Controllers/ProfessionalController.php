@@ -38,7 +38,22 @@ class ProfessionalController extends Controller
         ];
 
         if(in_array($order, $allow_order) && ($order_mode == 'asc' || $order_mode == 'desc')){
-            $professionals_data = Professional::orderBy($order, $order_mode)->paginate($rows);
+
+            $term = '';
+            if(!empty($_GET['term'])) $term = urldecode($_GET['term']);
+
+            $professionals_data = Professional::select('professionals.*')
+                            ->where(function ($query) use ($term) {
+                            $query
+                                ->whereRaw('DATE_FORMAT(created_at, "%d/%m/%Y") like "%' . $term . '%"')
+                                ->orWhere('name', 'like', '%' . $term . '%')
+                                ->orWhere('email', 'like', '%' . $term . '%')
+                                ->orWhere('tel', 'like', '%' . $term . '%')
+                                ->orWhere('gender', 'like', '%' . $term . '%')
+                                ->orWhere('address', 'like', '%' . $term . '%');
+                        })
+                        ->orderBy($order, $order_mode)
+                        ->paginate($rows);
 
             return ['professionals' => $professionals_data];
         }
@@ -97,7 +112,12 @@ class ProfessionalController extends Controller
         return ['status' => 'success'];
     }
 
-    public function search(){
+    public function search($page = 1, $rows = 10){
+        
+        Paginator::currentPageResolver(function () use ($page) {
+            return $page;
+        });
+
         $term = '';
         if(!empty($_GET['term'])) $term = urldecode($_GET['term']);
 
@@ -111,7 +131,7 @@ class ProfessionalController extends Controller
                             ->orWhere('gender', 'like', '%' . $term . '%')
                             ->orWhere('address', 'like', '%' . $term . '%');
                     })
-                    ->get();
+                    ->paginate($rows);
 
         return ['professionals' => $professionals_data];
     }

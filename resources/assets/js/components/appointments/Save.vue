@@ -136,9 +136,7 @@
 			}
 		},
 		created: function(){
-			if(this.$route.params.id){
-				this.getAppointment();
-			}
+			this.getAppointment();
 			this.$emit('child_created', this.active_element);
 		},
 		methods: {

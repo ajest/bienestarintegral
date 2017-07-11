@@ -63,7 +63,7 @@
 				</table>
 			</div>
 		</div>
-		<pagination v-bind:last_page="last_page" v-bind:current_page="current_page" v-bind:url="url"></pagination>
+		<pagination v-bind:last_page="last_page" v-bind:current_page="current_page" v-bind:url="url" v-bind:search_in_table="search_in_table"></pagination>
 		<popupdeleteconfirm v-on:success="operationSuccess" v-on:error="operationError" v-bind:element_id="appointment_id" v-bind:elements="appointments" v-bind:url="url" v-bind:delete_text_confirm="delete_text_confirm"></popupdeleteconfirm>
 	</div>
 </template>
@@ -248,14 +248,17 @@
 									    }									    
 
 										t.appointments.push({
-												'id' : value.id,
-												'titulo': value.title ? value.title : '-SIN TÍTULO-',
-												'paciente': value.patient.name,
-												'profesional': value.professional ? value.professional.name : no_asigned_text,
-												'area': value.specialty ? value.specialty.specialty : no_asigned_text,
-												'tratamiento': value.treatment ? value.treatment.treatment : no_asigned_text,
-												'fecha': value.date + ' ' + value.hour
-											});
+											'id' : value.id,
+											'titulo': value.title ? value.title : '-SIN TÍTULO-',
+											'paciente': value.patient.name,
+											'profesional': value.professional ? value.professional.name : no_asigned_text,
+											'area': value.specialty ? value.specialty.specialty : no_asigned_text,
+											'tratamiento': value.treatment ? value.treatment.treatment : no_asigned_text,
+											'fecha': value.date + ' ' + value.hour
+										});
+
+										t.last_page = response.data.lastPage;
+										t.current_page = 1;
 									});
 								}
 								t.searching_in_table = false;
@@ -303,7 +306,6 @@
 		watch: {
 		    '$route' (to, from) {
 			    this.paginationCallback();
-			    this.search_in_table = '';
 		    }
 		},
         

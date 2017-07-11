@@ -123,7 +123,12 @@ class TreatmentController extends Controller
         return ['status' => 'success'];
     }
 
-    public function search(){
+    public function search($page = 1, $rows = 10){
+
+        Paginator::currentPageResolver(function () use ($page) {
+            return $page;
+        });
+
         $term = '';
         if(!empty($_GET['term'])) $term = urldecode($_GET['term']);
 
@@ -137,7 +142,7 @@ class TreatmentController extends Controller
                                     $query->where('specialty', 'like', '%' . $term . '%');
                                 });
                     })
-                    ->get();
+                    ->paginate($rows);
 
         return ['treatments' => $treatments_data];
     }

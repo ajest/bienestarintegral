@@ -247,7 +247,12 @@ class AppointmentController extends Controller
         }
     }
 
-    public function search(){
+    public function search($page = 1, $rows = 10){
+
+        Paginator::currentPageResolver(function () use ($page) {
+            return $page;
+        });
+
         $term = '';
         if(!empty($_GET['term'])) $term = $_GET['term'];
         
@@ -263,33 +268,34 @@ class AppointmentController extends Controller
         }
 
         $appointment_data = Appointment::with(['professional', 'patient', 'treatment', 'specialty'])
-                    ->whereRaw($where)
-                    ->where(function ($query) use ($term) {
-                        $query
-                            ->whereRaw('DATE_FORMAT((CONCAT(date, " ", hour)), "%d/%m/%Y %H:%i") like "%' . $term . '%"')
-                            ->orWhere('title', 'like', '%' . $term . '%')
-                            ->orWhere('hour', 'like', '%' . $term . '%')
-                            ->orWhereHas('professional', function ($query) use ($term) {
-                                $query->where('name', 'like', '%' . $term . '%');
-                            })
-                            ->orWhereHas('patient', function ($query) use ($term) {
-                                $query->where('name', 'like', '%' . $term . '%');
-                            })
-                            ->orWhereHas('treatment', function ($query) use ($term) {
-                                $query->where('treatment', 'like', '%' . $term . '%');
-                            })
-                            ->orWhereHas('specialty', function ($query) use ($term) {
-                                $query->where('specialty', 'like', '%' . $term . '%');
-                            });
+            ->whereRaw($where)
+            ->where(function ($query) use ($term) {
+                $query
+                    ->whereRaw('DATE_FORMAT((CONCAT(date, " ", hour)), "%d/%m/%Y %H:%i") like "%' . $term . '%"')
+                    ->orWhere('title', 'like', '%' . $term . '%')
+                    ->orWhere('hour', 'like', '%' . $term . '%')
+                    ->orWhereHas('professional', function ($query) use ($term) {
+                        $query->where('name', 'like', '%' . $term . '%');
                     })
-                    ->get();
+                    ->orWhereHas('patient', function ($query) use ($term) {
+                        $query->where('name', 'like', '%' . $term . '%');
+                    })
+                    ->orWhereHas('treatment', function ($query) use ($term) {
+                        $query->where('treatment', 'like', '%' . $term . '%');
+                    })
+                    ->orWhereHas('specialty', function ($query) use ($term) {
+                        $query->where('specialty', 'like', '%' . $term . '%');
+                    });
+            })->paginate($rows);
+            
+        $lastPage = $appointment_data->lastPage();
 
-        foreach ($appointment_data as $key => $value) {
-            $tmp_date = explode('-', $value->date);
+        $appointment_data = $appointment_data->each(function ($item, $key) {
+            $tmp_date = explode('-', $item->date);
             $date = $tmp_date[2] . '/' . $tmp_date[1] . '/' . $tmp_date[0];
-            $appointment_data[$key]->date = $date;
-        }
+            return $date; 
+        });
 
-        return ['appointments' => $appointment_data];
+        return ['appointments' => $appointment_data, 'lastPage' => $lastPage];
     }
 }

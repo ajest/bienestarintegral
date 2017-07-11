@@ -133,8 +133,8 @@
 							.then(function (response) {
 								t.treatments = [];
 
-								if(!_.isEmpty(response.data.treatments)){
-									_.forEach(response.data.treatments, function(value) {
+								if(!_.isEmpty(response.data.treatments.data)){
+									_.forEach(response.data.treatments.data, function(value) {
 
 										var index = '';
 										var text_lenght = t.search_in_table.length;									
@@ -160,6 +160,9 @@
 											'specialty': value.specialty.specialty,
 											'description': value.description
 										});
+
+										t.last_page = response.data.treatments.last_page;
+										t.current_page = 1;
 									});
 								}
 								t.searching_in_table = false;
@@ -207,7 +210,6 @@
 		watch: {
 		    '$route' (to, from) {
 			    this.paginationCallback();
-			    this.search_in_table = '';
 		    }
 		},
         

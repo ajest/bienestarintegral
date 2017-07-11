@@ -130,8 +130,8 @@
 							.then(function (response) {
 								t.specialties = [];
 
-								if(!_.isEmpty(response.data.specialties)){
-									_.forEach(response.data.specialties, function(value) {
+								if(!_.isEmpty(response.data.specialties.data)){
+									_.forEach(response.data.specialties.data, function(value) {
 										
 										var index = '';
 										var text_lenght = t.search_in_table.length;									
@@ -151,6 +151,9 @@
 											'specialty': value.specialty,
 											'description': value.description
 										});
+
+										t.last_page = response.data.specialties.last_page;
+										t.current_page = 1;
 									});
 								}
 								t.searching_in_table = false;
@@ -198,7 +201,6 @@
 		watch: {
 		    '$route' (to, from) {
 			    this.paginationCallback();
-			    this.search_in_table = '';
 		    }
 		},
         

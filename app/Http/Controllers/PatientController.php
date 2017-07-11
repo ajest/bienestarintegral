@@ -52,7 +52,21 @@ class PatientController extends Controller
                 $order = 'created_at';
             }
 
-            $patients_data = Patient::orderBy($order, $order_mode)->paginate($rows);
+            $term = '';
+            if(!empty($_GET['term'])) $term = urldecode($_GET['term']);
+
+            $patients_data = Patient::select('patients.*')
+                ->where(function ($query) use ($term) {
+                    $query
+                    ->whereRaw('DATE_FORMAT(created_at, "%d/%m/%Y") like "%' . $term . '%"')
+                    ->orWhere('name', 'like', '%' . $term . '%')
+                    ->orWhere('email', 'like', '%' . $term . '%')
+                    ->orWhere('tel', 'like', '%' . $term . '%')
+                    ->orWhere('gender', 'like', '%' . $term . '%')
+                    ->orWhere('address', 'like', '%' . $term . '%');
+                })
+                ->orderBy($order, $order_mode)
+                ->paginate($rows);
 
             return ['patients' => $patients_data];
         }
@@ -77,13 +91,7 @@ class PatientController extends Controller
 
         $res = $patient->save();
 
-        $this->OperationMessage->saveOrFailMessage($res, $res ? ": El paciente $patient->name ha sido cargado exitosamente." : ": Ha ocurrido un error al cargar al paciente $patient->name.");
-
-        if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-            return ['status' => 'success'];
-        }else{
-            return redirect('/patients');
-        }
+        return ['status' => 'success'];
     }
 
     /**
@@ -125,13 +133,7 @@ class PatientController extends Controller
 
         $res = $patient->save();
 
-        $this->OperationMessage->saveOrFailMessage($res, $res ? ": El paciente $patient->name ha sido editado exitosamente." : ": Ha ocurrido un error al editar al paciente $patient->name.");
-
-        if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-            return ['status' => 'success'];
-        }else{
-            return redirect('/patients');
-        }
+        return ['status' => 'success'];
     }
 
     /**
@@ -146,16 +148,15 @@ class PatientController extends Controller
 
         $res = $patient->delete();
 
-        $this->OperationMessage->deleteMessage($res, $res ? ": El paciente $paciente ha sido eliminado del sistema permanentemente." : ": Ha ocurrido un error al eliminar el paciente $paciente del sistema.");
-
-        if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-            return ['status' => 'success'];
-        }else{
-            return redirect('/patients');
-        }
+        return ['status' => 'success'];
     }
 
-    public function search(){
+    public function search($page = 1, $rows = 10){
+
+        Paginator::currentPageResolver(function () use ($page) {
+            return $page;
+        });
+
         $term = '';
         if(!empty($_GET['term'])) $term = urldecode($_GET['term']);
 
@@ -169,7 +170,7 @@ class PatientController extends Controller
                             ->orWhere('gender', 'like', '%' . $term . '%')
                             ->orWhere('address', 'like', '%' . $term . '%');
                     })
-                    ->get();
+                    ->paginate($rows);
 
         return ['patients' => $patients_data];
     }
