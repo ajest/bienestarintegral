@@ -195,8 +195,6 @@ Route::post('specialties/create', 'SpecialtyController@store');
 
 
 
-
-
 /**
 *
 *
@@ -229,9 +227,37 @@ Route::post('treatments/create', 'TreatmentController@store');
 
 
 
+
+
+/**
+*
+*
+* Questions
+*
+*/
+Route::get('questions/list', 'QuestionController@getall');
+Route::get('questions/list/{page}', ['uses' =>'QuestionController@getall'])->where('page', '[0-9]+');
+Route::get('questions/list/{page}/{order}', ['uses' =>'QuestionController@getall'])->where('page', '[0-9]+');
+Route::get('questions/search', ['uses' =>'QuestionController@search']);
+Route::get('questions/detail/{question?}', function (App\Question $question) {
+    return [
+        'question'  => $question,
+        'specialty'  => $question->specialty,
+        'all'               => [
+            'specialties'   => App\Specialty::all()
+        ]
+    ];
+});
+
+Route::post('questions/store', 'QuestionController@store');
+Route::post('questions/create', 'QuestionController@store');
+/* ---------------------------- */
+
+
 Route::resource('appointments', 'AppointmentController');
 Route::resource('patients', 'PatientController');
 Route::resource('professionals', 'ProfessionalController');
 Route::resource('series', 'SeriesController');
 Route::resource('specialties', 'SpecialtyController');
 Route::resource('treatments', 'TreatmentController');
+Route::resource('questions', 'QuestionController');

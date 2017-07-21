@@ -35,6 +35,29 @@ class DatabaseSeeder extends Seeder
         DB::table('series')->insert(['series' => '5 sesiones en una semana', 'cant' => 5]);
         DB::table('series')->insert(['series' => '1 sesión por mes 2017', 'cant' => 12]);
 
+        DB::table('questions')->insert(['question' => 'Motivo de la consulta', 'specialty_id' => 1]);
+        DB::table('questions')->insert(['question' => 'Ocupación', 'specialty_id' => 1]);
+        DB::table('questions')->insert(['question' => 'Síntomas', 'specialty_id' => 1]);
+        DB::table('questions')->insert(['question' => 'Ocio', 'specialty_id' => 1]);
+        DB::table('questions')->insert(['question' => 'Presentes desde', 'specialty_id' => 1]);
+        DB::table('questions')->insert(['question' => 'Comenzó por', 'specialty_id' => 1]);
+        DB::table('questions')->insert(['question' => '¿Tiene síntomas intermitentes?', 'specialty_id' => 1]);
+        DB::table('questions')->insert(['question' => '¿Tiene síntomas constantes?', 'specialty_id' => 1]);
+        DB::table('questions')->insert(['question' => 'Peor cuándo', 'specialty_id' => 1]);
+        DB::table('questions')->insert(['question' => 'Mejor cuándo', 'specialty_id' => 1]);
+        DB::table('questions')->insert(['question' => '¿Se ha hecho masajes antes?', 'specialty_id' => 1]);
+        DB::table('questions')->insert(['question' => 'Tratamientos previos', 'specialty_id' => 1]);
+        DB::table('questions')->insert(['question' => '¿Sufre o ha sufrido alguna vez problemas cardíacos?', 'specialty_id' => 1]);
+        DB::table('questions')->insert(['question' => '¿Sufre o ha sufrido alguna vez problemas endocrinos?', 'specialty_id' => 1]);
+        DB::table('questions')->insert(['question' => '¿Sufre o ha sufrido alguna vez problemas de circulación?', 'specialty_id' => 1]);
+        DB::table('questions')->insert(['question' => '¿Sufre o ha sufrido alguna vez problemas de tensión arterial?', 'specialty_id' => 1]);
+        DB::table('questions')->insert(['question' => '¿Sufre o ha sufrido alguna vez problemas de alergia?', 'specialty_id' => 1]);
+        DB::table('questions')->insert(['question' => '¿Sufre o ha sufrido alguna vez problemas retención de líquidos?', 'specialty_id' => 1]);
+        DB::table('questions')->insert(['question' => 'Cirugías recientes', 'specialty_id' => 1]);
+        DB::table('questions')->insert(['question' => 'Accidentes', 'specialty_id' => 1]);
+        DB::table('questions')->insert(['question' => 'Prótesis', 'specialty_id' => 1]);
+        DB::table('questions')->insert(['question' => 'Medicación', 'specialty_id' => 1]);
+
         factory(App\Appointment::class, 50)->create();
     }
 }

@@ -14,9 +14,9 @@
 				<router-link class="navbar-brand" to="/appointments"><span class="glyphicon glyphicon-briefcase"></span></router-link>
 				<router-link class="navbar-brand" to="/patients"><span class="glyphicon glyphicon-list-alt"></span></router-link>
 			</ul>
-			<form class="navbar-form navbar-right">
+			<!--<form class="navbar-form navbar-right">
 				<input type="text" class="form-control" placeholder="Buscar...">
-			</form>
+			</form>-->
 		</div>
 	</div>
 </template>

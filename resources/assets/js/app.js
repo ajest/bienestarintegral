@@ -57,6 +57,12 @@ const routes = [
 	{ name: 'treatments_edit', path: '/treatment/edit/:id', component: () => System.import('./components/treatments/Save.vue') },
 	{ name: 'treatments_new', path: '/new/treatment', component: () => System.import('./components/treatments/Save.vue') },
 
+	{ name: 'questions', path: '/questions', component: () => System.import('./components/questions/Questions.vue') },
+	{ path: '/questions/:id', component: () => System.import('./components/questions/Questions.vue') }, // Pagination
+	{ path: '/questions/:id/:field', component: () => System.import('./components/questions/Questions.vue') }, // Pagination with order
+	{ name: 'questions_edit', path: '/question/edit/:id', component: () => System.import('./components/questions/Save.vue') },
+	{ name: 'questions_new', path: '/new/question', component: () => System.import('./components/questions/Save.vue') },
+
 	{ path: '/settings', component: () => System.import('./components/settings/Settings.vue') }
 ];
 

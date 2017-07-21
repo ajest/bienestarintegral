@@ -1,38 +1,34 @@
 <template>
-	<form class="row col-md-12" v-on:submit.prevent="saveTreatment" v-if="checkExistence">
+	<form class="row col-md-12" v-on:submit.prevent="saveQuestion" v-if="checkExistence">
 		<div class="row col-md-12">
-			<h1>{{ treatment.treatment.treatment ? treatment.treatment.treatment : 'Nueva tratamiento' }} 
+			<h1>{{ question.question.question ? question.question.question : 'Nueva pregunta' }} 
 				<button class="pull-right btn btn-primary margin-left-small" :disabled="button_disabled"><span class="glyphicon " :class="save_icon"></span> {{ saveButtonName }}</button>
-				<router-link to="/treatments" class="btn btn-success pull-right margin-left-small"><span class="glyphicon glyphicon-arrow-left"></span> Volver</router-link>
+				<router-link to="/questions" class="btn btn-success pull-right margin-left-small"><span class="glyphicon glyphicon-arrow-left"></span> Volver</router-link>
 			</h1>
 		</div>
 		<hr />
 		<div class="col-md-12">
-			<h3>Información del tratamiento</h3>
+			<h3>Información de la pregunta</h3>
 			<div class="panel panel-danger" v-if="errors.length > 0">
 				<div class="panel-body">
 					Su formulario contiene los siguientes errores:
 					<ul>
-						<li v-for="error in errors"><strong>{{ error.treatment }}</strong>: {{ error.message }}</li>
+						<li v-for="error in errors"><strong>{{ error.question }}</strong>: {{ error.message }}</li>
 					</ul>
 				</div>
 			</div>
 			<div class="form-group col-md-6">
-				<label>Tratamiento *</label>
-				<input type="text" v-model="treatment.treatment.treatment" placeholder="Ej. Reflexología" class="form-control" required>
+				<label>Pregunta *</label>
+				<input type="text" v-model="question.question.question" placeholder="Ej. Reflexología" class="form-control" required>
 			</div>
 			<div class="form-group col-md-6">
 				<label>Especialidad</label>
-				<select v-model="treatment.treatment.specialty_id" class="form-control">
+				<select v-model="question.question.specialty_id" class="form-control">
 					<option value="">-- Seleccione Especialidad --</option>
-					<option v-for="specialty in treatment.all.specialties" v-bind:value="specialty.id">
+					<option v-for="specialty in question.all.specialties" v-bind:value="specialty.id">
 						{{ specialty.specialty }}
 					</option>
 				</select>
-			</div>
-			<div class="form-group col-md-6">
-				<label>Descripción</label>
-				<textarea v-model="treatment.treatment.description" placeholder="Ej. La reflexología permite ..." class="form-control" rows="4"></textarea>
 			</div>
 		</div>
 	</form>
@@ -41,7 +37,7 @@
 	export default {
 		data(){
 			return {
-				treatment: '',				
+				question: '',				
 				save_button: 'Guardar',
 				save_icon: 'glyphicon-floppy-disk',
 				button_disabled: false,
@@ -53,9 +49,9 @@
 		computed: {
 			checkExistence: function () {
 				if(!this.$route.params.id){
-					this.treatment = {
-						treatment: {
-							treatment: '',
+					this.question = {
+						question: {
+							question: '',
 							description: ''
 						},
 						all: {
@@ -65,7 +61,7 @@
 					
 					return true;	
 				}else{
-					return this.treatment;
+					return this.question;
 				}
 			},
 			saveButtonName: function () {
@@ -77,19 +73,19 @@
 			}
 		},
 		created: function(){
-			this.getTreatment();			
+			this.getQuestion();			
 			this.$emit('child_created', this.active_element);
 		},
 		methods: {
-			getTreatment(){
+			getQuestion(){
 				var t = this;
-				axios.get('/treatments/detail/' + (t.$route.params.id ? t.$route.params.id : ''))
+				axios.get('/questions/detail/' + (t.$route.params.id ? t.$route.params.id : ''))
 					.then(function (response) {
 						if(!_.isEmpty(response.data)){
-							if(_.isEmpty(response.data.treatment)){
-								t.treatment.all = response.data.all;
+							if(_.isEmpty(response.data.question)){
+								t.question.all = response.data.all;
 							}else{
-								t.treatment = response.data;
+								t.question = response.data;
 							}
 						}
 					})
@@ -98,25 +94,25 @@
 					});
 				
 			},
-			saveTreatment(){
+			saveQuestion(){
 				var t = this;
-				let message = 'El tratamiento se cargó correctamente';
+				let message = 'La pregunta se cargó correctamente';
 				let method = 'post';
-				let url = 'treatments/store'
+				let url = 'questions/store'
 				t.save_icon = 'glyphicon-hourglass';
 				t.save_button = 'Espere';
 				t.button_disabled = true;
 				
 				if(t.$route.params.id){
-					message = 'El tratamiento se actualizó correctamente';
+					message = 'La pregunta se actualizó correctamente';
 					method = 'put';
-					url = '/treatments/' + t.$route.params.id;
+					url = '/questions/' + t.$route.params.id;
 				}
 				
 				axios({
 					method: method,
 					url: url,
-					data: t.treatment.treatment
+					data: t.question.question
 				})
 			  	.then(function (response) {
 					t.$emit('complete', {message:  message, success: true, warning: false, danger: false});
@@ -131,7 +127,7 @@
 							});
 						});
 					}else{
-						t.$emit('complete', {message:  'Ha ocurrido un problema y no se ha podido editar el tratamiento indicado. Por favor intente nuevamente más tarde', success: false, warning: false, danger: true});	
+						t.$emit('complete', {message:  'Ha ocurrido un problema y no se ha podido editar la pregunta indicada. Por favor intente nuevamente más tarde', success: false, warning: false, danger: true});	
 					}
 					
 					t.button_disabled = false;
@@ -141,7 +137,7 @@
 			},
 			// VALIDATION
 			validateRequired(field) {
-				if(!this.treatment.treatment[field]) return 'error-input';
+				if(!this.question.question[field]) return 'error-input';
 			}
 		}
 	}
