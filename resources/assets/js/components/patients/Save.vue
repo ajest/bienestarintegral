@@ -3,7 +3,7 @@
 		<div class="row col-md-12">
 			<h1>{{ patient.patient.name ? patient.patient.name : 'Nuevo Paciente' }} 
 				<button class="pull-right btn btn-primary margin-left-small" :disabled="button_disabled"><span class="glyphicon " :class="save_icon"></span> {{ saveButtonName }}</button>
-				<router-link to="/appointments" class="btn btn-success pull-right margin-left-small"><span class="glyphicon glyphicon-arrow-left"></span> Volver</router-link>
+				<router-link to="/patients" class="btn btn-success pull-right margin-left-small"><span class="glyphicon glyphicon-arrow-left"></span> Volver</router-link>
 			</h1>
 		</div>
 		<hr />
@@ -26,8 +26,23 @@
 				<input type="email" v-model="patient.patient.email" placeholder="Ej. lucasgarcia@gmail.com" class="form-control" required>
 			</div>
 			<div class="form-group col-md-6">
-				<label>Teléfono *</label>
-				<input type="text" v-model="patient.patient.tel" placeholder="Ej. +54 11 6890-8443" class="form-control" v-mask="'+## ## ####-####'" required>
+				<label>Celular *</label>
+				<input type="text" v-model="patient.patient.cellphone" placeholder="Ej. +54 11 6890-8443" class="form-control" v-mask="'+## ## ####-####'" required>
+			</div>
+			<div class="form-group col-md-6">
+				<label>Teléfono</label>
+				<input type="text" v-model="patient.patient.tel" placeholder="Ej. +54 11 6890-8443" class="form-control" v-mask="'+## ## ####-####'">
+			</div>
+			<div class="form-group col-md-6">
+				<label>DNI</label>
+				<input type="text" v-model="patient.patient.dni" placeholder="Ej. 34539064" class="form-control" v-mask="'########'">
+			</div>
+			<div class="form-group col-md-6">
+				<label>Estado Civil </label>
+				<select v-model="patient.patient.civil_status" class="form-control">
+					<option value="0">Soltero</option>
+					<option value="1">Casado</option>
+				</select>
 			</div>
 			<div class="form-group col-md-6">
 				<label>Género *</label>
@@ -39,6 +54,22 @@
 			<div class="form-group col-md-6">
 				<label>Dirección *</label>
 				<input type="text" v-model="patient.patient.address" placeholder="Ej. Posta de Pardo 1298" class="form-control" required>
+			</div>
+			<div class="form-group col-md-6">
+				<label>Fecha de nacimiento</label>
+				<datepicker v-model="patient.patient.birthdate" language="es" format="dd/MM/yyyy" input-class="form-control" placeholder="Ej. 15/07/2017" :highlighted="datepicker_highlighted" :class="validateRequired('date')" :required="true"></datepicker>
+			</div>
+			<div class="form-group col-md-6">
+				<label>Localidad</label>
+				<input type="text" v-model="patient.patient.area" placeholder="Ej. CABA" class="form-control">
+			</div>
+			<div class="form-group col-md-6">
+				<label>Facebook (URL)</label>
+				<input type="text" v-model="patient.patient.facebook" placeholder="Ej. https://www.facebook.com/profile.php?id=100010682533022" class="form-control">
+			</div>
+			<div class="form-group col-md-12">
+				<label>Comentarios</label>
+				<textarea v-model="patient.patient.comments" placeholder="Ej. Señor que viene todos los viernes" class="form-control" rows="4"></textarea>
 			</div>
 		</div>
 	</form>
@@ -52,6 +83,11 @@
 				save_icon: 'glyphicon-floppy-disk',
 				button_disabled: false,
 				errors: [],
+				datepicker_highlighted: {
+			        dates: [
+			        	new Date()
+			        ] 
+			    },
 				active_element: 'patient'
 			}
 		},
@@ -63,9 +99,16 @@
 						patient: {
 							name: '',
 							email: '',
+							cellphone: '',
 							tel: '',
+							dni: '',
+							civil_status: '',
+							area: '',
+							facebook: '',
+							birthdate: new Date(),
 							gender: '',
-							address: ''
+							address: '',
+							comments: ''
 						}
 					};
 					
@@ -94,7 +137,12 @@
 				axios.get('/patients/detail/' + (t.$route.params.id ? t.$route.params.id : ''))
 					.then(function (response) {
 						if(!_.isEmpty(response.data)){
-							t.patient = response.data;
+							if(_.isEmpty(response.data.patient)){
+								t.patient.all = response.data.all;
+							}else{
+								t.patient = response.data;
+								t.patient.patient.date = new Date(t.patient.patient_date.d, t.patient.patient_date.m, t.patient.patient_date.y);
+							}
 						}
 					})
 					.catch(function (error) {

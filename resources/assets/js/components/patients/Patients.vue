@@ -24,9 +24,14 @@
 						<tr>
 							<td><router-link :to="url + '1/name'">Nombre</router-link></td>
 							<td><router-link :to="url + '1/email'">Email</router-link></td>
+							<td><router-link :to="url + '1/cellphone'">Celular</router-link></td>
 							<td><router-link :to="url + '1/tel'">Teléfono</router-link></td>
+							<td><router-link :to="url + '1/dni'">DNI</router-link></td>
+							<td><router-link :to="url + '1/civil_status'">Estado Civil</router-link></td>
 							<td><router-link :to="url + '1/gender'">Sexo</router-link></td>
 							<td><router-link :to="url + '1/address'">Dirección</router-link></td>
+							<td><router-link :to="url + '1/birthdate'">Nacimiento</router-link></td>
+							<td><router-link :to="url + '1/area'">Localidad</router-link></td>
 							<td><router-link :to="url + '1/date'">Fecha alta</router-link></td>
 							<td>Acciones</td>
 						</tr>
@@ -35,9 +40,14 @@
 						<tr v-for="patient in patients" v-bind:key="patients" class="list-item">
 							<td v-html="patient.nombre"></td>
 							<td v-html="patient.email"></td>
+							<td v-html="patient.celular"></td>
 							<td v-html="patient.telefono"></td>
+							<td v-html="patient.dni"></td>
+							<td v-html="patient.estado_civil == '1' ? 'Casado' : 'Soltero'"></td>
 							<td v-html="patient.sexo"></td>
 							<td v-html="patient.direccion"></td>
+							<td v-html="patient.nacimiento"></td>
+							<td v-html="patient.localidad"></td>
 							<td v-html="patient.fecha"></td>
 							<td>
 								<div class="three-buttons">								
@@ -50,7 +60,7 @@
 					</transition-group>
 					<tbody v-else>
 						<tr >
-							<td colspan="7">No se han encontrado registros</td>
+							<td colspan="12">No se han encontrado registros</td>
 						</tr>
 					</tbody>
 				</table>
@@ -106,44 +116,80 @@
 							_.forEach(response.data.patients.data, function(value) {
 								var index = '';
 								var text_lenght = t.search_in_table.length;
+								var value_dni = value.dni;
+								var value_civil_status = value.civil_status;
 
-								index = value.name.indexOf(t.search_in_table);
-								if(index >= 0){
-							        value.name = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.name); 
-							    }
+								if(t.search_in_table){
+									index = value.name.indexOf(t.search_in_table);
+									if(index >= 0){
+								        value.name = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.name); 
+								    }
+								    
+								    index = value.email.indexOf(t.search_in_table);
+									if(index >= 0){
+								        value.email = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.email); 
+								    }
 
-							    index = value.email.indexOf(t.search_in_table);
-								if(index >= 0){
-							        value.email = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.email); 
-							    }
+								    index = value.tel.indexOf(t.search_in_table);
+									if(index >= 0){
+								        value.tel = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.tel); 
+								    }
+									
+									index = value.cellphone.indexOf(t.search_in_table);
+									if(index >= 0){
+								        value.cellphone = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.cellphone); 
+								    }
 
-							    index = value.tel.indexOf(t.search_in_table);
-								if(index >= 0){
-							        value.tel = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.tel); 
-							    }
-								
-								index = value.gender.indexOf(t.search_in_table);
-								if(index >= 0){
-							        value.gender = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.gender); 
-							    }
-								
-								index = value.address.indexOf(t.search_in_table);
-								if(index >= 0){
-							        value.address = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.address); 
-							    }
+								    index = value.gender.indexOf(t.search_in_table);
+									if(index >= 0){
+								        value.gender = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.gender); 
+								    }
+									
+									index = value.address.indexOf(t.search_in_table);
+									if(index >= 0){
+								        value.address = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.address); 
+								    }								
+									
+									value.dni = value.dni.toString();
+									index = value.dni.indexOf(t.search_in_table);
+									if(index >= 0){
+								        value_dni = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.dni); 
+								    }
 
-							    index = value.created_at.indexOf(t.search_in_table);
-								if(index >= 0){
-							        value.created_at = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.created_at); 
-							    }
+								    value.civil_status = value.civil_status.toString();
+								    index = value.civil_status.indexOf(t.search_in_table);
+									if(index >= 0){
+								        value_civil_status = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.civil_status); 
+								    }
+									
+									index = value.birthdate.indexOf(t.search_in_table);
+									if(index >= 0){
+								        value.birthdate = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.birthdate); 
+								    }
+									
+									index = value.area.indexOf(t.search_in_table);
+									if(index >= 0){
+								        value.area = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.area); 
+								    }
+
+								    index = value.created_at.indexOf(t.search_in_table);
+									if(index >= 0){
+								        value.created_at = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.created_at); 
+								    }
+								}
 
 								t.patients.push({
 									'id' : value.id,
 									'nombre': value.name,
 									'email': value.email,
+									'celular': value.cellphone,
 									'telefono': value.tel,
 									'sexo': value.gender,
 									'direccion': value.address,
+									'dni': value_dni,
+									'estado_civil': value_civil_status,
+									'nacimiento': value.birthdate,
+									'localidad': value.area,
 									'fecha': value.created_at
 								});
 
@@ -153,7 +199,7 @@
 						}
 					})
 					.catch(function (error) {
-						console.log('Estamos teniendo problemas al resolver su solicitud. Por favor reintente más tarde');
+						t.$emit('complete', {message:  'Estamos teniendo problemas al resolver su solicitud. Intente nuevamente más tarde', success: false, warning: false, danger: true});
 					});
 			},
 			
@@ -180,7 +226,7 @@
 										if(index >= 0){
 									        value.name = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.name); 
 									    }
-
+									    
 									    index = value.email.indexOf(t.search_in_table);
 										if(index >= 0){
 									        value.email = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.email); 
@@ -191,7 +237,12 @@
 									        value.tel = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.tel); 
 									    }
 										
-										index = value.gender.indexOf(t.search_in_table);
+										index = value.cellphone.indexOf(t.search_in_table);
+										if(index >= 0){
+									        value.cellphone = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.cellphone); 
+									    }
+
+									    index = value.gender.indexOf(t.search_in_table);
 										if(index >= 0){
 									        value.gender = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.gender); 
 									    }
@@ -199,6 +250,30 @@
 										index = value.address.indexOf(t.search_in_table);
 										if(index >= 0){
 									        value.address = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.address); 
+									    }
+										
+										var value_dni = value.dni;
+										value.dni = value.dni.toString();
+										index = value.dni.indexOf(t.search_in_table);
+										if(index >= 0){
+									        value_dni = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.dni); 
+									    }
+
+									    var value_civil_status = value.civil_status;
+										value.civil_status = value.civil_status.toString();
+									    index = value.civil_status.indexOf(t.search_in_table);
+										if(index >= 0){
+									        value_civil_status = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.civil_status); 
+									    }
+										
+										index = value.birthdate.indexOf(t.search_in_table);
+										if(index >= 0){
+									        value.birthdate = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.birthdate); 
+									    }
+										
+										index = value.area.indexOf(t.search_in_table);
+										if(index >= 0){
+									        value.area = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.area); 
 									    }
 
 									    index = value.created_at.indexOf(t.search_in_table);
@@ -210,9 +285,14 @@
 											'id' : value.id,
 											'nombre': value.name,
 											'email': value.email,
+											'celular': value.cellphone,
 											'telefono': value.tel,
 											'sexo': value.gender,
 											'direccion': value.address,
+											'dni': value_dni,
+											'estado_civil': value_civil_status,
+											'nacimiento': value.birthdate,
+											'localidad': value.area,
 											'fecha': value.created_at
 										});
 

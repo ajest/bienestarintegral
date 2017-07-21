@@ -25,12 +25,36 @@
 							<td><span class="label label-default">{{ patient.patient.email }}</span></td>
 						</tr>
 						<tr>
+							<td>Teléfono celular</td>
+							<td><span class="label label-default">{{ patient.patient.cellphone }}</span></td>
+						</tr>
+						<tr>
 							<td>Teléfono</td>
 							<td><span class="label label-default">{{ patient.patient.tel }}</span></td>
 						</tr>
 						<tr>
 							<td>Domicilio</td>
 							<td><span class="label label-default">{{ patient.patient.address }}</span></td>
+						</tr>
+						<tr>
+							<td>Sexo</td>
+							<td><span class="label label-default">{{ patient.patient.gender == 'H' ? 'Hombre' : 'Mujer'  }}</span></td>
+						</tr>
+						<tr>
+							<td>DNI</td>
+							<td><span class="label label-default">{{ patient.patient.dni }}</span></td>
+						</tr>
+						<tr>
+							<td>Estado Civil</td>
+							<td><span class="label label-default">{{ patient.patient.civil_state ? 'Casado' : 'Soltero' }}</span></td>
+						</tr>
+						<tr>
+							<td>Año de nacimiento</td>
+							<td><span class="label label-default">{{ patient.patient.birthdate }}</span></td>
+						</tr>
+						<tr>
+							<td>Localidad</td>
+							<td><span class="label label-default">{{ patient.patient.area }}</span></td>
 						</tr>
 					</tbody>
 				</table>

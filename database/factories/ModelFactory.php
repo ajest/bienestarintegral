@@ -27,9 +27,16 @@ $factory->define(App\Patient::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
-        'tel' => $faker->phoneNumber,
+        'cellphone' => $faker->e164PhoneNumber,
+        'tel' => $faker->e164PhoneNumber,
+        'dni' => $faker->numberBetween(10000000, 50000000),
+        'civil_status' => $faker->numberBetween(0,1),
         'gender' => strlen($faker->name) > 10 ? 'H' : 'M',
         'address' => $faker->address,
+        'birthdate' => $faker->dateTimeBetween($startDate = '-90 years', $endDate = '-1 days'),
+        'area' => $faker->randomElement(array('CABA', 'Virrey del Pino', 'Ezeiza')),
+        'facebook' => $faker->url(),
+        'comments' => $faker->realText(200, 2),
         'created_at' => $faker->dateTimeBetween($startDate = '-180 days', $endDate = '+180 days')
     ];
 });

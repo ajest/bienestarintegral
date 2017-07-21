@@ -25,8 +25,17 @@ Route::get('patients/list/{page}', ['uses' =>'PatientController@getall'])->where
 Route::get('patients/list/{page}/{order}', ['uses' =>'PatientController@getall'])->where('page', '[0-9]+');
 Route::get('patients/search', ['uses' =>'PatientController@search']);
 Route::get('patients/detail/{patient?}', function (App\Patient $patient) {
+    
+    $date_tmp = explode('-', $patient->birthdate);
+    $date_formated = [
+        'd' => $date_tmp[0],
+        'm' => $date_tmp[1],
+        'y' => $date_tmp[2]
+    ];
+
     return [
-        'patient'       => $patient,
+        'patient'       => $patient,        
+        'patient_date'  => $date_formated,
         'appointments'  => $patient->appointment
                                         ->where('date', '>=', date('Y-m-d'))
                                             ->each->professional

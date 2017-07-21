@@ -1,10 +1,10 @@
 <template>
 	<div class="row">
 		<div class="col-sm-3 col-md-2 sidebar">
-			<ul class="nav nav-sidebar">
+			<!--<ul class="nav nav-sidebar">
 				<li :class="[active_element == 'calendar' ? 'active' : '']"><router-link to="/"><span class="glyphicon glyphicon-calendar"></span> Calendario <span class="sr-only">(current)</span></router-link></li>
 				<li :class="[active_element == 'reports' ? 'active' : '']"><router-link to="/"><span class="glyphicon glyphicon-stats"></span> Reportes</router-link></li>
-			</ul>
+			</ul>-->
 			<ul class="nav nav-sidebar">
 				<li :class="[active_element == 'appointment' ? 'active' : '']"><router-link to="/appointments"><span class="glyphicon glyphicon-briefcase"></span> Turnos</router-link></li>
 				<li :class="[active_element == 'patient' ? 'active' : '']"><router-link to="/patients"><span class="glyphicon glyphicon-user"></span> Pacientes</router-link></li>
@@ -12,7 +12,7 @@
 				<li :class="[active_element == 'series' ? 'active' : '']"><router-link to="/series"><span class="glyphicon glyphicon-star-empty"></span> Promociones</router-link></li>
 			</ul>
 			<ul class="nav nav-sidebar">
-				<li :class="[active_element == 'account' ? 'active' : '']"><router-link to="/"><span class="glyphicon glyphicon-heart-empty"></span> Mi perfil</router-link></li>
+				<!--<li :class="[active_element == 'account' ? 'active' : '']"><router-link to="/"><span class="glyphicon glyphicon-heart-empty"></span> Mi perfil</router-link></li>-->
 				<li :class="[active_element == 'settings' ? 'active' : '']"><router-link to="/settings"><span class="glyphicon glyphicon-wrench"></span> Configuración</router-link></li>
 			</ul>
 		</div>

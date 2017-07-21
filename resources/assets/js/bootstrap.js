@@ -18,8 +18,11 @@ require('bootstrap-sass');
  */
 
 // window.Vue = require('vue');
-import Vue from 'vue'
+import Vue from 'vue';
 window.Vue = Vue;
+
+import Vuex from 'vuex';
+window.Vuex = Vuex;
 
 import VueRouter from 'vue-router';
 window.VueRouter = VueRouter;

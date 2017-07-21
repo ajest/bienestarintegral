@@ -1,5 +1,5 @@
-<h1>BienestarIntegral</h1>
-<p>Sistema de gestión para negocios relacionados con el bienestar integral.</p> 
+<h1>Bienestar Integral</h1>
+<p>Sistema de gestión para negocios relacionados con el bienestar integral. El objetivo es permitir gestionar los pacientes y los profesionales que los atenderán.</p> 
 <p>Aplica para el área de masajes, estética, pedicuría, venta de productos de estas áreas y otras más.</p>
 <h2>Requerimientos técnicos</h2>
 <ul>
@@ -8,7 +8,7 @@
 	<li>MySQL <a href="https://www.mysql.com/">https://www.mysql.com/</a></li>
 	<li>HTML + CSS</li>
 	<li>Bootstrap 3 <a href="http://getbootstrap.com/">http://getbootstrap.com/</a></li>
-	<li>Vue.js 2 <a href="https://vuejs.org/">https://vuejs.org/</a></li>
+	<li>Vue 2 + Vuex <a href="https://vuejs.org/">https://vuejs.org/</a></li>
 	<li>Sass <a href="http://sass-lang.com/">http://sass-lang.com/</a></li>
 </ul>
 <p>El código de programación está desarrollado en inglés, pero la inferfaz de usuario está en español. No está pensado, en un futuro cercano, convertirlo en un sistema para múltiples idiomas.</p>
@@ -28,9 +28,10 @@
 	<li>ABM Pacientes</li>
 	<li>ABM Profesionales</li>
 	<li>ABM Promociones</li>
+	<li>ABM de cuestionarios para Especialidades</li>
+	<li>Ajustes técnicos (Vuex)</li>
 </ul>
 <h3>Características en desarrollo:</h3>
 <ul>
-	<li>ABM de cuestionarios para Especialidades</li>
 	<li>Agregar más campos a cada una de las secciones según necesidades reales</li>
 </ul>

@@ -40,9 +40,15 @@ class PatientController extends Controller
         $allow_order = [
             'name',
             'email',
+            'cellphone',
             'tel',
+            'dni',
+            'civil_status',
             'gender',
             'address',
+            'birthdate',
+            'area',
+            'facebook',
             'date'
         ];
 
@@ -58,12 +64,19 @@ class PatientController extends Controller
             $patients_data = Patient::select('patients.*')
                 ->where(function ($query) use ($term) {
                     $query
-                    ->whereRaw('DATE_FORMAT(created_at, "%d/%m/%Y") like "%' . $term . '%"')
-                    ->orWhere('name', 'like', '%' . $term . '%')
-                    ->orWhere('email', 'like', '%' . $term . '%')
-                    ->orWhere('tel', 'like', '%' . $term . '%')
-                    ->orWhere('gender', 'like', '%' . $term . '%')
-                    ->orWhere('address', 'like', '%' . $term . '%');
+                        ->whereRaw('DATE_FORMAT(created_at, "%d/%m/%Y") like "%' . $term . '%"')
+                        ->raw(' OR DATE_FORMAT(birthdate, "%d/%m/%Y") like "%' . $term . '%"')
+                        ->orWhere('name', 'like', '%' . $term . '%')
+                        ->orWhere('email', 'like', '%' . $term . '%')
+                        ->orWhere('cellphone', 'like', '%' . $term . '%')
+                        ->orWhere('tel', 'like', '%' . $term . '%')
+                        ->orWhere('dni', 'like', '%' . $term . '%')
+                        ->orWhere('civil_status', 'like', '%' . $term . '%')
+                        ->orWhere('gender', 'like', '%' . $term . '%')
+                        ->orWhere('address', 'like', '%' . $term . '%')
+                        ->orWhere('birthdate', 'like', '%' . $term . '%')
+                        ->orWhere('area', 'like', '%' . $term . '%')
+                        ->orWhere('facebook', 'like', '%' . $term . '%');
                 })
                 ->orderBy($order, $order_mode)
                 ->paginate($rows);
@@ -83,11 +96,19 @@ class PatientController extends Controller
         
         $patient = new Patient;
 
-        $patient->name   = $request->name;
-        $patient->email  = $request->email;
-        $patient->tel    = $request->tel;
-        $patient->gender = $request->gender;
-        $patient->address= $request->address;
+        $patient->name          = $request->name;
+        $patient->email         = $request->email;
+        $patient->cellphone     = $request->cellphone;
+        $patient->tel           = $request->tel;
+        $patient->dni           = $request->dni;
+        $patient->civil_status  = $request->civil_status;
+        $patient->gender        = $request->gender;
+        $patient->address       = $request->address;
+        $patient->birthdate     = $request->birthdate;
+        $patient->area          = $request->area;
+        $patient->facebook      = $request->facebook;
+        $patient->address       = $request->address;
+        $patient->comments      = $request->comments;
 
         $res = $patient->save();
 
@@ -125,11 +146,19 @@ class PatientController extends Controller
      */
     public function update(PatientRequest $request, Patient $patient)
     {
-        $patient->name   = $request->name;
-        $patient->email  = $request->email;
-        $patient->tel    = $request->tel;
-        $patient->gender = $request->gender;
-        $patient->address= $request->address;
+        $patient->name          = $request->name;
+        $patient->email         = $request->email;
+        $patient->cellphone     = $request->cellphone;
+        $patient->tel           = $request->tel;
+        $patient->dni           = $request->dni;
+        $patient->civil_status  = $request->civil_status;
+        $patient->gender        = $request->gender;
+        $patient->address       = $request->address;
+        $patient->birthdate     = $request->birthdate;
+        $patient->area          = $request->area;
+        $patient->facebook      = $request->facebook;
+        $patient->address       = $request->address;
+        $patient->comments      = $request->comments;
 
         $res = $patient->save();
 
@@ -164,11 +193,18 @@ class PatientController extends Controller
                         ->where(function ($query) use ($term) {
                         $query
                             ->whereRaw('DATE_FORMAT(created_at, "%d/%m/%Y") like "%' . $term . '%"')
+                            ->raw(' OR DATE_FORMAT(birthdate, "%d/%m/%Y") like "%' . $term . '%"')
                             ->orWhere('name', 'like', '%' . $term . '%')
                             ->orWhere('email', 'like', '%' . $term . '%')
+                            ->orWhere('cellphone', 'like', '%' . $term . '%')
                             ->orWhere('tel', 'like', '%' . $term . '%')
+                            ->orWhere('dni', 'like', '%' . $term . '%')
+                            ->orWhere('civil_status', 'like', '%' . $term . '%')
                             ->orWhere('gender', 'like', '%' . $term . '%')
-                            ->orWhere('address', 'like', '%' . $term . '%');
+                            ->orWhere('address', 'like', '%' . $term . '%')
+                            ->orWhere('birthdate', 'like', '%' . $term . '%')
+                            ->orWhere('area', 'like', '%' . $term . '%')
+                            ->orWhere('facebook', 'like', '%' . $term . '%');
                     })
                     ->paginate($rows);
 

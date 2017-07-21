@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Patient extends Model
 {
-    protected $fillable = ['name', 'email', 'tel', 'gender'];
+    protected $fillable = ['name', 'email', 'phone', 'tel', 'dni', 'civil_status', 'gender', 'address', 'birthdate', 'area', 'facebook', 'comments'];
 
     public $timestamps = false;
 

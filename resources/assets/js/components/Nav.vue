@@ -7,12 +7,11 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<router-link class="navbar-brand" to="/"><strong>Bienestar Integral</strong></router-link>
+			<router-link class="navbar-brand" to="/"><strong>Bienestar <span class="glyphicon glyphicon-leaf"></span></strong></router-link>
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
-				<router-link class="navbar-brand" to="/appointments"><span class="glyphicon glyphicon-briefcase"></span></router-link>
-				<router-link class="navbar-brand" to="/patients"><span class="glyphicon glyphicon-list-alt"></span></router-link>
+				<router-link class="navbar-brand" to="/">Pablo Fumarola</router-link>
 			</ul>
 			<!--<form class="navbar-form navbar-right">
 				<input type="text" class="form-control" placeholder="Buscar...">

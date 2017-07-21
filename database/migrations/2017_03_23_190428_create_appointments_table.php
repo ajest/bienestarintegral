@@ -23,7 +23,7 @@ class CreateAppointmentsTable extends Migration
             $table->integer('series_id')->unsigned()->nullable();
             $table->string('date');
             $table->string('hour');
-            $table->string('comments');
+            $table->text('comments')->nullable();
             $table->timestamps();
 
             $table->foreign('patient_id')
