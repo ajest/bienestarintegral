@@ -75,12 +75,20 @@
 	</transition>
 </template>
 <script>
+	import { mapState } from 'vuex';
+
 	export default {
 		data (){
 			return {
 				professional: '',
 				active_element: 'professional'
 			}
+		},
+
+		computed: {
+			...mapState({
+		    	baseUrl: state => state.common.baseUrl
+		    })
 		},
 
 		created: function(){
@@ -92,15 +100,15 @@
 			getProfessional(){
 				var t = this; 
 
-				axios.get('/professionals/detail/' + t.$route.params.id)
+				axios.get(t.baseUrl + '/professionals/detail/' + t.$route.params.id)
 					.then(function (response) {
 						if(!_.isEmpty(response.data)){
 
 							t.professional = response.data;
 						}
 					})
-					.catch(function (error) {
-						console.log('Estamos teniendo problemas al resolver su solicitud. Por favor reintente más tarde');
+					.catch(function (error) {						
+						t.$emit('complete', {message:  'Estamos teniendo problemas al resolver su solicitud. Por favor reintente más tarde', success: false, warning: false, danger: true});
 					});
 			}
 		}

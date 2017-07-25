@@ -11,7 +11,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Patient::class, 50)->create();
         factory(App\Professional::class, 5)->create();
         
         DB::table('specialties')->insert(['specialty' => 'Masajes', 'description' => 'El masaje es una forma de manipulación de las capas superficiales y profundas de los músculos del cuerpo utilizando varias técnicas, para mejorar sus funciones, ayudar en procesos de curación, disminuir la actividad refleja de los músculos, inhibir la excitabilidad motoneuronal, promover la relajación y el bienestar y como actividad recreativa.']);
@@ -58,6 +57,13 @@ class DatabaseSeeder extends Seeder
         DB::table('questions')->insert(['question' => 'Prótesis', 'specialty_id' => 1]);
         DB::table('questions')->insert(['question' => 'Medicación', 'specialty_id' => 1]);
 
+        DB::table('genders')->insert(['gender' => 'Hombre']);
+        DB::table('genders')->insert(['gender' => 'Mujer']);
+
+        DB::table('civil_statuses')->insert(['civil_status' => 'Soltero']);
+        DB::table('civil_statuses')->insert(['civil_status' => 'Casado']);
+
+        factory(App\Patient::class, 50)->create();
         factory(App\Appointment::class, 50)->create();
     }
 }

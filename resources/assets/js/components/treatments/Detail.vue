@@ -73,12 +73,20 @@
 	</transition>
 </template>
 <script>
+	import { mapState } from 'vuex';
+
 	export default {
 		data (){
 			return {
 				treatment: '',
 				active_element: 'settings'
 			}
+		},
+
+		computed: {
+			...mapState({
+		    	baseUrl: state => state.common.baseUrl
+		    })
 		},
 
 		created: function(){
@@ -90,14 +98,14 @@
 			getTreatment(){
 				var t = this; 
 
-				axios.get('/treatments/detail/' + t.$route.params.id)
+				axios.get(t.baseUrl + '/treatments/detail/' + t.$route.params.id)
 					.then(function (response) {
 						if(!_.isEmpty(response.data)){
 							t.treatment = response.data;
 						}
 					})
 					.catch(function (error) {
-						console.log('Estamos teniendo problemas al resolver su solicitud. Por favor reintente más tarde');
+						t.$emit('complete', {message:  'Estamos teniendo problemas al resolver su solicitud. Por favor reintente más tarde', success: false, warning: false, danger: true});
 					});
 			}
 		}

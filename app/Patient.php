@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Patient extends Model
 {
-    protected $fillable = ['name', 'email', 'phone', 'tel', 'dni', 'civil_status', 'gender', 'address', 'birthdate', 'area', 'facebook', 'comments'];
+    protected $fillable = ['name', 'email', 'phone', 'tel', 'dni', 'civil_status_id', 'gender_id', 'address', 'birthdate', 'area', 'facebook', 'comments'];
 
     public $timestamps = false;
 
@@ -24,5 +24,13 @@ class Patient extends Model
     public function appointment()
     {
         return $this->hasMany('App\Appointment');
+    }
+
+    public function gender() {
+        return $this->belongsTo('App\Gender');
+    }
+
+    public function civil_status() {
+        return $this->belongsTo('App\CivilStatus');
     }
 }

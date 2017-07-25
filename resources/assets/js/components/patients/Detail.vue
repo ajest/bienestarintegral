@@ -56,6 +56,9 @@
 							<td>Localidad</td>
 							<td><span class="label label-default">{{ patient.patient.area }}</span></td>
 						</tr>
+						<tr>
+							<td colspan="2">{{ patient.patient.comments }}</td>
+						</tr>
 					</tbody>
 				</table>
 			</div>
@@ -99,12 +102,20 @@
 	</transition>
 </template>
 <script>
+	import { mapState } from 'vuex';
+
 	export default {
 		data (){
 			return {
 				patient: '',
 				active_element: 'patient'
 			}
+		},
+
+		computed: {
+			...mapState({
+		    	baseUrl: state => state.common.baseUrl
+		    })
 		},
 
 		created: function(){
@@ -116,7 +127,7 @@
 			getPatient(){
 				var t = this; 
 
-				axios.get('/patients/detail/' + t.$route.params.id)
+				axios.get(t.baseUrl + '/patients/detail/' + t.$route.params.id)
 					.then(function (response) {
 						if(!_.isEmpty(response.data)){
 
@@ -124,7 +135,7 @@
 						}
 					})
 					.catch(function (error) {
-						console.log('Estamos teniendo problemas al resolver su solicitud. Por favor reintente más tarde');
+						t.$emit('complete', {message:  'Estamos teniendo problemas al resolver su solicitud. Por favor reintente más tarde', success: false, warning: false, danger: true});
 					});
 			}
 		}

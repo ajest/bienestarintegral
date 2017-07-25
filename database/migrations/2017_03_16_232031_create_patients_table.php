@@ -16,13 +16,13 @@ class CreatePatientsTable extends Migration
     {
         Schema::create('patients', function (Blueprint $table) {            
             $table->increments('id');
+            $table->integer('civil_status_id')->unsigned()->nullable();
+            $table->integer('gender_id')->unsigned();
             $table->string('name', 100);
             $table->string('email')->unique();
             $table->string('cellphone', 25);
             $table->string('tel', 25)->nullable();
             $table->integer('dni');
-            $table->tinyInteger('civil_status')->nullable()->unsigned();
-            $table->char('gender', 4);
             $table->char('address', 100);
             $table->date('birthdate')->nullable();
             $table->string('area', 255)->nullable();

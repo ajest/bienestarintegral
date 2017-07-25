@@ -56,7 +56,7 @@
 							</tr>
 							<tr>
 								<td>Promoción</td>
-								<td><span class="label label-danger">{{ appointment.series.series }}</span></td>
+								<td><span class="label label-danger">{{ appointment.series.series ? appointment.series.series : '---' }}</span></td>
 							</tr>
 						</tbody>
 					</table>
@@ -70,12 +70,20 @@
 	</transition>
 </template>
 <script>
+	import { mapState } from 'vuex';
+
 	export default {
 		data (){
 			return {
 				appointment: '',
 				active_element: 'appointment'
 			}
+		},
+
+		computed: {
+			...mapState({
+		    	baseUrl: state => state.common.baseUrl
+		    })
 		},
 
 		created: function(){
@@ -87,17 +95,14 @@
 			getAppointment(){
 				var t = this; 
 
-				axios.get('/appointments/detail/' + t.$route.params.id)
+				axios.get(t.baseUrl + '/appointments/detail/' + t.$route.params.id)
 					.then(function (response) {
 						if(!_.isEmpty(response.data.appointment)){
-
-							console.log(response.data.appointment);
-
 							t.appointment = response.data.appointment;
 						}
 					})
 					.catch(function (error) {
-						console.log('Estamos teniendo problemas al resolver su solicitud. Por favor reintente más tarde');
+						t.$emit('complete', {message:  'Estamos teniendo problemas al resolver su solicitud. Por favor reintente más tarde', success: false, warning: false, danger: true});
 					});
 			}
 		}

@@ -34,6 +34,8 @@
 	</form>
 </template>
 <script>
+	import { mapState } from 'vuex';
+
 	export default {
 		data(){
 			return {
@@ -70,7 +72,10 @@
 					message = 'Actualizar';
 				}
 				return message;
-			}
+			},
+			...mapState({
+		    	baseUrl: state => state.common.baseUrl
+		    })
 		},
 		created: function(){
 			this.getQuestion();			
@@ -79,7 +84,7 @@
 		methods: {
 			getQuestion(){
 				var t = this;
-				axios.get('/questions/detail/' + (t.$route.params.id ? t.$route.params.id : ''))
+				axios.get(t.baseUrl + '/questions/detail/' + (t.$route.params.id ? t.$route.params.id : ''))
 					.then(function (response) {
 						if(!_.isEmpty(response.data)){
 							if(_.isEmpty(response.data.question)){
@@ -111,7 +116,7 @@
 				
 				axios({
 					method: method,
-					url: url,
+					url: t.baseUrl + url,
 					data: t.question.question
 				})
 			  	.then(function (response) {

@@ -67,12 +67,20 @@
 	</transition>
 </template>
 <script>
+	import { mapState } from 'vuex';
+
 	export default {
 		data (){
 			return {
 				series: '',
 				active_element: 'series'
 			}
+		},
+
+		computed: {
+			...mapState({
+		    	baseUrl: state => state.common.baseUrl
+		    })
 		},
 
 		created: function(){
@@ -84,7 +92,7 @@
 			getSeries(){
 				var t = this; 
 
-				axios.get('/series/detail/' + t.$route.params.id)
+				axios.get(t.baseUrl + '/series/detail/' + t.$route.params.id)
 					.then(function (response) {
 						if(!_.isEmpty(response.data)){
 
@@ -92,7 +100,7 @@
 						}
 					})
 					.catch(function (error) {
-						console.log('Estamos teniendo problemas al resolver su solicitud. Por favor reintente más tarde');
+						t.$emit('complete', {message:  'Estamos teniendo problemas al resolver su solicitud. Por favor reintente más tarde', success: false, warning: false, danger: true});
 					});
 			}
 		}

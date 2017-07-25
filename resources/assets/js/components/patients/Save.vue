@@ -18,7 +18,7 @@
 				</div>
 			</div>
 			<div class="form-group col-md-6">
-				<label>Name *</label>
+				<label>Nombre *</label>
 				<input type="text" v-model="patient.patient.name" placeholder="Ej. Lucas García" class="form-control" required>
 			</div>
 			<div class="form-group col-md-6">
@@ -39,16 +39,16 @@
 			</div>
 			<div class="form-group col-md-6">
 				<label>Estado Civil </label>
-				<select v-model="patient.patient.civil_status" class="form-control">
-					<option value="0">Soltero</option>
-					<option value="1">Casado</option>
+				<select v-model="patient.patient.civil_status_id" class="form-control">
+					<option value="1">Soltero</option>
+					<option value="2">Casado</option>
 				</select>
 			</div>
 			<div class="form-group col-md-6">
-				<label>Género *</label>
-				<select v-model="patient.patient.gender" class="form-control" required>
-					<option value="H">Hombre</option>
-					<option value="M">Mujer</option>
+				<label>Sexo *</label>
+				<select v-model="patient.patient.gender_id" class="form-control" required>
+					<option value="1">Hombre</option>
+					<option value="2">Mujer</option>
 				</select>
 			</div>
 			<div class="form-group col-md-6">
@@ -75,6 +75,8 @@
 	</form>
 </template>
 <script>
+	import { mapState } from 'vuex';
+
 	export default {
 		data(){
 			return {
@@ -102,11 +104,11 @@
 							cellphone: '',
 							tel: '',
 							dni: '',
-							civil_status: '',
+							civil_status_id: '',
 							area: '',
 							facebook: '',
 							birthdate: new Date(),
-							gender: '',
+							gender_id: '',
 							address: '',
 							comments: ''
 						}
@@ -123,7 +125,10 @@
 					message = 'Actualizar';
 				}
 				return message;
-			}
+			},
+			...mapState({
+		    	baseUrl: state => state.common.baseUrl
+		    })
 		},
 		created: function(){
 			if(this.$route.params.id){
@@ -134,7 +139,7 @@
 		methods: {
 			getPatient(){
 				var t = this;
-				axios.get('/patients/detail/' + (t.$route.params.id ? t.$route.params.id : ''))
+				axios.get(t.baseUrl + '/patients/detail/' + (t.$route.params.id ? t.$route.params.id : ''))
 					.then(function (response) {
 						if(!_.isEmpty(response.data)){
 							if(_.isEmpty(response.data.patient)){
@@ -167,7 +172,7 @@
 				
 				axios({
 					method: method,
-					url: url,
+					url: t.baseUrl + url,
 					data: t.patient.patient
 				})
 			  	.then(function (response) {

@@ -57,7 +57,7 @@
 					</transition-group>
 					<tbody v-else>
 						<tr >
-							<td colspan="7">No se han encontrado registros</td>
+							<td colspan="7">{{ no_data_msg }}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -72,6 +72,8 @@
 	import PopupDeleteConfirm from '../popups/PopupDeleteConfirm.vue';
 	
 	import common from '../../mixins.js';
+
+	import { mapState } from 'vuex';
 
 	export default {
 		data () {
@@ -90,8 +92,15 @@
 				filtros: {
 					status: 0
 				},
-				active_element: 'appointment'
+				active_element: 'appointment',
+				no_data_msg: 'Cargando..'
 			}
+		},
+		
+		computed: {
+			...mapState({
+		    	baseUrl: state => state.common.baseUrl
+		    })
 		},
 		
 		created: function(){
@@ -103,7 +112,7 @@
 			paginationCallback(){
 				var t = this;
 
-				axios.get('/appointments/list/' + (t.$route.params.id ? t.$route.params.id : 1) + '/' + (t.$route.params.field ? t.$route.params.field : ''), 
+				axios.get(t.baseUrl + '/appointments/list/' + (t.$route.params.id ? t.$route.params.id : 1) + '/' + (t.$route.params.field ? t.$route.params.field : ''), 
 					{
 						params: {
 							'filtro_status': t.filtros.status,
@@ -175,11 +184,13 @@
 
 								t.last_page 	= response.data.appointments.last_page;
 								t.current_page  = response.data.appointments.current_page;
+								t.no_data_msg 	= 'No se han encontrado registros';
 							});
 						}
 					})
 					.catch(function (error) {
 						t.$emit('complete', {message:  'Estamos teniendo problemas al resolver su solicitud. Intente nuevamente más tarde', success: false, warning: false, danger: true});
+						t.no_data_msg = 'No se han encontrado registros';
 					});
 			},
 
@@ -193,7 +204,7 @@
 
 			    	if(t.search_in_table){
 			    		t.searching_in_table = true;
-			    		axios.get('/appointments/search', {params: {'filtro_status': t.filtros.status, 'term': (t.search_in_table ? t.search_in_table : '')}})
+			    		axios.get(t.baseUrl + '/appointments/search', {params: {'filtro_status': t.filtros.status, 'term': (t.search_in_table ? t.search_in_table : '')}})
 							.then(function (response) {
 								t.appointments = [];
 

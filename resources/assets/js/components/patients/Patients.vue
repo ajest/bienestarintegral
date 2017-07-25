@@ -27,8 +27,8 @@
 							<td><router-link :to="url + '1/cellphone'">Celular</router-link></td>
 							<td><router-link :to="url + '1/tel'">Teléfono</router-link></td>
 							<td><router-link :to="url + '1/dni'">DNI</router-link></td>
-							<td><router-link :to="url + '1/civil_status'">Estado Civil</router-link></td>
-							<td><router-link :to="url + '1/gender'">Sexo</router-link></td>
+							<td><router-link :to="url + '1/civil_status_id'">Estado Civil</router-link></td>
+							<td><router-link :to="url + '1/gender_id'">Sexo</router-link></td>
 							<td><router-link :to="url + '1/address'">Dirección</router-link></td>
 							<td><router-link :to="url + '1/birthdate'">Nacimiento</router-link></td>
 							<td><router-link :to="url + '1/area'">Localidad</router-link></td>
@@ -43,7 +43,7 @@
 							<td v-html="patient.celular"></td>
 							<td v-html="patient.telefono"></td>
 							<td v-html="patient.dni"></td>
-							<td v-html="patient.estado_civil == '1' ? 'Casado' : 'Soltero'"></td>
+							<td v-html="patient.estado_civil"></td>
 							<td v-html="patient.sexo"></td>
 							<td v-html="patient.direccion"></td>
 							<td v-html="patient.nacimiento"></td>
@@ -59,8 +59,8 @@
 						</tr>
 					</transition-group>
 					<tbody v-else>
-						<tr >
-							<td colspan="12">No se han encontrado registros</td>
+						<tr>
+							<td colspan="12">{{ no_data_msg }}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -76,6 +76,8 @@
 
 	import common from '../../mixins.js';
 
+	import { mapState } from 'vuex';
+
 	export default {
 		data () {
 			return {
@@ -90,10 +92,17 @@
 				delayTimer: '',
 				opened_highlighted_tag: '<strong>',
 				closed_highlighted_tag: '</strong>',
-				active_element: 'patient'
+				active_element: 'patient',
+				no_data_msg: 'Cargando..'
 			}
 		},
 		
+		computed: {
+			...mapState({
+		    	baseUrl: state => state.common.baseUrl
+		    })
+		},
+
 		created: function(){
 			this.paginationCallback();
 			this.$emit('child_created', this.active_element);
@@ -103,7 +112,7 @@
 			paginationCallback(){
 				var t = this;
 
-				axios.get('/patients/list/' + (t.$route.params.id ? t.$route.params.id : 1) + '/' + (t.$route.params.field ? t.$route.params.field : ''),
+				axios.get(t.baseUrl + '/patients/list/' + (t.$route.params.id ? t.$route.params.id : 1) + '/' + (t.$route.params.field ? t.$route.params.field : ''),
 					{
 						params: {
 							'term': t.search_in_table
@@ -117,7 +126,7 @@
 								var index = '';
 								var text_lenght = t.search_in_table.length;
 								var value_dni = value.dni;
-								var value_civil_status = value.civil_status;
+								var value_civil_status = value.civil_status.civil_status;
 
 								if(t.search_in_table){
 									index = value.name.indexOf(t.search_in_table);
@@ -140,9 +149,9 @@
 								        value.cellphone = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.cellphone); 
 								    }
 
-								    index = value.gender.indexOf(t.search_in_table);
+								    index = value.gender.gender.indexOf(t.search_in_table);
 									if(index >= 0){
-								        value.gender = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.gender); 
+								        value.gender.gender = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.gender.gender); 
 								    }
 									
 									index = value.address.indexOf(t.search_in_table);
@@ -184,7 +193,7 @@
 									'email': value.email,
 									'celular': value.cellphone,
 									'telefono': value.tel,
-									'sexo': value.gender,
+									'sexo': value.gender.gender,
 									'direccion': value.address,
 									'dni': value_dni,
 									'estado_civil': value_civil_status,
@@ -213,7 +222,7 @@
 
 			    	if(t.search_in_table){
 			    		t.searching_in_table = true;
-			    		axios.get('/patients/search', {params: {'term': (t.search_in_table ? t.search_in_table : '')}})
+			    		axios.get(t.baseUrl + '/patients/search', {params: {'term': (t.search_in_table ? t.search_in_table : '')}})
 							.then(function (response) {
 								t.patients = [];
 
@@ -221,6 +230,8 @@
 									_.forEach(response.data.patients.data, function(value) {
 									    var index = '';
 										var text_lenght = t.search_in_table.length;
+										var value_dni = value.dni;
+										var value_civil_status = value.civil_status.civil_status;
 
 										index = value.name.indexOf(t.search_in_table);
 										if(index >= 0){
@@ -242,9 +253,9 @@
 									        value.cellphone = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.cellphone); 
 									    }
 
-									    index = value.gender.indexOf(t.search_in_table);
+									    index = value.gender.gender.indexOf(t.search_in_table);
 										if(index >= 0){
-									        value.gender = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.gender); 
+									        value.gender.gender = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.gender.gender); 
 									    }
 										
 										index = value.address.indexOf(t.search_in_table);
@@ -252,18 +263,16 @@
 									        value.address = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.address); 
 									    }
 										
-										var value_dni = value.dni;
 										value.dni = value.dni.toString();
 										index = value.dni.indexOf(t.search_in_table);
 										if(index >= 0){
 									        value_dni = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.dni); 
 									    }
 
-									    var value_civil_status = value.civil_status;
-										value.civil_status = value.civil_status.toString();
-									    index = value.civil_status.indexOf(t.search_in_table);
+									    value.civil_status.civil_status = value.civil_status.civil_status.toString();
+									    index = value.civil_status.civil_status.indexOf(t.search_in_table);
 										if(index >= 0){
-									        value_civil_status = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.civil_status); 
+									        value_civil_status = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.civil_status.civil_status);
 									    }
 										
 										index = value.birthdate.indexOf(t.search_in_table);
@@ -287,7 +296,7 @@
 											'email': value.email,
 											'celular': value.cellphone,
 											'telefono': value.tel,
-											'sexo': value.gender,
+											'sexo': value.gender.gender,
 											'direccion': value.address,
 											'dni': value_dni,
 											'estado_civil': value_civil_status,
@@ -298,6 +307,7 @@
 
 										t.last_page = response.data.patients.last_page;
 										t.current_page = 1;
+										t.no_data_msg 	= 'No se han encontrado registros';
 									});
 								}
 								t.searching_in_table = false;
@@ -305,6 +315,7 @@
 							.catch(function (error) {
 								t.$emit('complete', {message:  'No se ha podido resolver su solicitud. Quizás usted esté ingresando caracteres no permitidos. Si no es asi, pruebe nuevamente más tarde o comuníquese con el administrador del sistema.', success: false, warning: false, danger: true});
 								t.searching_in_table = false;
+								t.no_data_msg = 'No se han encontrado registros';
 							});
 
 			    	}else{

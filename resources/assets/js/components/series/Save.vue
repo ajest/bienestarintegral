@@ -29,6 +29,8 @@
 	</form>
 </template>
 <script>
+	import { mapState } from 'vuex';
+
 	export default {
 		data(){
 			return {
@@ -67,7 +69,10 @@
 					message = 'Actualizar';
 				}
 				return message;
-			}
+			},
+			...mapState({
+		    	baseUrl: state => state.common.baseUrl
+		    })
 		},
 		created: function(){
 			if(this.$route.params.id){
@@ -78,7 +83,7 @@
 		methods: {
 			getSeries(){
 				var t = this;
-				axios.get('/series/detail/' + (t.$route.params.id ? t.$route.params.id : ''))
+				axios.get(t.baseUrl + '/series/detail/' + (t.$route.params.id ? t.$route.params.id : ''))
 					.then(function (response) {
 						if(!_.isEmpty(response.data)){
 							t.series = response.data;
@@ -106,7 +111,7 @@
 				
 				axios({
 					method: method,
-					url: url,
+					url: t.baseUrl + url,
 					data: t.series.series
 				})
 			  	.then(function (response) {

@@ -38,6 +38,8 @@
 	</form>
 </template>
 <script>
+	import { mapState } from 'vuex';
+
 	export default {
 		data(){
 			return {
@@ -74,7 +76,10 @@
 					message = 'Actualizar';
 				}
 				return message;
-			}
+			},
+			...mapState({
+		    	baseUrl: state => state.common.baseUrl
+		    })
 		},
 		created: function(){
 			this.getTreatment();			
@@ -83,7 +88,7 @@
 		methods: {
 			getTreatment(){
 				var t = this;
-				axios.get('/treatments/detail/' + (t.$route.params.id ? t.$route.params.id : ''))
+				axios.get(t.baseUrl + '/treatments/detail/' + (t.$route.params.id ? t.$route.params.id : ''))
 					.then(function (response) {
 						if(!_.isEmpty(response.data)){
 							if(_.isEmpty(response.data.treatment)){
@@ -115,7 +120,7 @@
 				
 				axios({
 					method: method,
-					url: url,
+					url: t.baseUrl + url,
 					data: t.treatment.treatment
 				})
 			  	.then(function (response) {

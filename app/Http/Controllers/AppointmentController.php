@@ -15,23 +15,6 @@ use Illuminate\Pagination\Paginator;
 class AppointmentController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-
-    private $OperationMessage;
-
-    public function __construct(){
-        $this->OperationMessage = resolve('App\Bienestarintegral\Messages\OperationMessage');
-    }
-
-    public function index()
-    {
-        return view('appointments', ['appointments' => Appointment::orderBy('id', 'desc')->paginate(15)]);
-    }
-
-    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response

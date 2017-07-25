@@ -33,12 +33,20 @@
 	</transition>
 </template>
 <script>
+	import { mapState } from 'vuex';
+
 	export default {
 		data (){
 			return {
 				specialty: '',
 				active_element: 'settings'
 			}
+		},
+
+		computed: {
+			...mapState({
+		    	baseUrl: state => state.common.baseUrl
+		    })
 		},
 
 		created: function(){
@@ -50,14 +58,14 @@
 			getAppointment(){
 				var t = this; 
 
-				axios.get('/specialties/detail/' + t.$route.params.id)
+				axios.get(t.baseUrl + '/specialties/detail/' + t.$route.params.id)
 					.then(function (response) {
 						if(!_.isEmpty(response.data.specialty)){
 							t.specialty = response.data.specialty;
 						}
 					})
 					.catch(function (error) {
-						console.log('Estamos teniendo problemas al resolver su solicitud. Por favor reintente más tarde');
+						t.$emit('complete', {message:  'Estamos teniendo problemas al resolver su solicitud. Por favor reintente más tarde', success: false, warning: false, danger: true});
 					});
 			}
 		}

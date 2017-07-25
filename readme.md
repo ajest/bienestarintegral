@@ -1,6 +1,7 @@
 <h1>Bienestar Integral</h1>
 <p>Sistema de gestión para negocios relacionados con el bienestar integral. El objetivo es permitir gestionar los pacientes y los profesionales que los atenderán.</p> 
 <p>Aplica para el área de masajes, estética, pedicuría, venta de productos de estas áreas y otras más.</p>
+<p><strong>Nota:</strong> Se compartirá el código fuente a travez de GitHub hasta el primer release, luego se seguirá el desarrollo de forma privada. Será posible conocer qué funciones tendrá mediante un link que será suministrado en unos meses.</p>
 <h2>Requerimientos técnicos</h2>
 <ul>
 	<li>PHP 5.6 <a href="http://php.net/">http://php.net/</a></li>
@@ -30,8 +31,9 @@
 	<li>ABM Promociones</li>
 	<li>ABM de cuestionarios para Especialidades</li>
 	<li>Ajustes técnicos (Vuex)</li>
+	<li>Agregar más campos a cada una de las secciones según necesidades reales</li>
 </ul>
 <h3>Características en desarrollo:</h3>
 <ul>
-	<li>Agregar más campos a cada una de las secciones según necesidades reales</li>
+	<li>Login</li>
 </ul>
