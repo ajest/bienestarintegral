@@ -3,25 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Professional;
-use Illuminate\Http\Request;
 use App\Http\Requests\ProfessionalRequest;
 use Illuminate\Pagination\Paginator;
 
 class ProfessionalController extends Controller
 {
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Shows Professionals for Frontend Frameworks
      *
+     * @param  integer $page
+     * @param  string  $order
+     * @param  string  $order_mode
+     * @param  integer $rows
+     * @return JSON
      */
     public function getAll($page = 1, $order = 'name', $order_mode = 'asc', $rows = 10){
 
@@ -55,15 +49,15 @@ class ProfessionalController extends Controller
                         ->orderBy($order, $order_mode)
                         ->paginate($rows);
 
-            return ['professionals' => $professionals_data];
+            return response()->json(['professionals' => $professionals_data], 200);
         }
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\ProfessionalRequest  $request
+     * @return JSON
      */
     public function store(ProfessionalRequest $request)
     {
@@ -77,15 +71,15 @@ class ProfessionalController extends Controller
 
         $res = $professional->save();
 
-        return ['status' => 'success'];
+        return response()->json(['status' => 'success', 'professional' => $professional], 201);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\ProfessionalRequest  $request
      * @param  \App\Professional  $professional
-     * @return \Illuminate\Http\Response
+     * @return JSON
      */
     public function update(ProfessionalRequest $request, Professional $professional)
     {
@@ -97,21 +91,29 @@ class ProfessionalController extends Controller
 
         $res = $professional->save();
 
-        return ['status' => 'success'];
+        return response()->json(['status' => 'success', 'professional' => $professional], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Professional  $professional
-     * @return \Illuminate\Http\Response
+     * @return JSON
      */
     public function destroy(Professional $professional)
     {
         $res = $professional->delete();
-        return ['status' => 'success'];
+        
+        return response()->json(['status' => 'success'], 200);
     }
 
+    /**
+     * Search for a term in indicated table.
+     *
+     * @param  integer $page
+     * @param  integer $rows
+     * @return JSON
+     */
     public function search($page = 1, $rows = 10){
         
         Paginator::currentPageResolver(function () use ($page) {
@@ -133,16 +135,17 @@ class ProfessionalController extends Controller
                     })
                     ->paginate($rows);
 
-        return ['professionals' => $professionals_data];
+        $response = ['professionals' => $professionals_data];
+
+        return response()->json($response, 200);
     }
 
     /**
-     * Display the specified resource.
+     * Prevents error in route resources
      *
-     * @param  \App\Professional  $professional
-     * @return \Illuminate\Http\Response
+     * @return bool
      */
-    public function show(Professional $professional)
+    public function show()
     {
         return true;
     }

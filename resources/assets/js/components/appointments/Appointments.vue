@@ -64,7 +64,7 @@
 			</div>
 		</div>
 		<pagination v-bind:last_page="last_page" v-bind:current_page="current_page" v-bind:url="url" v-bind:search_in_table="search_in_table"></pagination>
-		<popupdeleteconfirm v-on:success="operationSuccess" v-on:error="operationError" v-bind:element_id="appointment_id" v-bind:elements="appointments" v-bind:url="url" v-bind:delete_text_confirm="delete_text_confirm"></popupdeleteconfirm>
+		<popupdeleteconfirm v-on:success="operationSuccess" v-on:error="operationError" v-bind:element_id="appointment_id" v-bind:elements="appointments" v-bind:url="url" v-bind:delete_text_confirm="delete_text_confirm" v-bind:baseUrl="baseUrl"></popupdeleteconfirm>
 	</div>
 </template>
 <script>
@@ -130,62 +130,66 @@
 
 								let no_asigned_text = '-NO ASIGNADO-';
 
-								if(index >= 0){
-							        value.patient.name = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.patient.name); 
-							    }
-
-							    if(!_.isEmpty(value.title)){
-							    	index = value.title.indexOf(t.search_in_table);
-								    if(index >= 0){ 
-								        value.title = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.title);
+								if(t.search_in_table){
+									if(index >= 0){
+								        value.patient.name = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.patient.name); 
 								    }
-							    }
 
-							    if(!_.isEmpty(value.professional)){
-								    index = value.professional.name.indexOf(t.search_in_table);
-								    if(index >= 0){ 
-								        value.professional.name = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.professional.name); 
+								    if(!_.isEmpty(value.title)){
+								    	index = value.title.indexOf(t.search_in_table);
+									    if(index >= 0){ 
+									        value.title = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.title);
+									    }
 								    }
-							    }
 
-							    if(!_.isEmpty(value.professional)){
-								    index = value.specialty.specialty.indexOf(t.search_in_table);
-								    if(index >= 0){ 
-								        value.specialty.specialty = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.specialty.specialty); 
+								    if(!_.isEmpty(value.professional)){
+									    index = value.professional.name.indexOf(t.search_in_table);
+									    if(index >= 0){ 
+									        value.professional.name = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.professional.name); 
+									    }
 								    }
-							    }
 
-							    if(!_.isEmpty(value.professional)){
-								    index = value.treatment.treatment.indexOf(t.search_in_table);
-								    if(index >= 0){ 
-								        value.treatment.treatment = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.treatment.treatment);
+								    if(!_.isEmpty(value.professional)){
+									    index = value.specialty.specialty.indexOf(t.search_in_table);
+									    if(index >= 0){ 
+									        value.specialty.specialty = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.specialty.specialty); 
+									    }
 								    }
-							    }
 
-							    index = value.date.indexOf(t.search_in_table);
-							    if(index >= 0){ 
-							        value.date = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.date); 
-							    }
+								    if(!_.isEmpty(value.professional)){
+									    index = value.treatment.treatment.indexOf(t.search_in_table);
+									    if(index >= 0){ 
+									        value.treatment.treatment = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.treatment.treatment);
+									    }
+								    }
 
-							    index = value.hour.indexOf(t.search_in_table);
-							    if(index >= 0){ 
-							        value.hour = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.hour);
-							    }
+								    index = value.date.indexOf(t.search_in_table);
+								    if(index >= 0){ 
+								        value.date = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.date); 
+								    }
+
+								    index = value.hour.indexOf(t.search_in_table);
+								    if(index >= 0){ 
+								        value.hour = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.hour);
+								    }
+								}
 
 								t.appointments.push({
-										'id' : value.id,
-										'titulo': value.title ? value.title : '-SIN TÍTULO-',
-										'paciente': value.patient.name,
-										'profesional': value.professional ? value.professional.name : no_asigned_text,
-										'area': value.specialty ? value.specialty.specialty : no_asigned_text,
-										'tratamiento': value.treatment ? value.treatment.treatment : no_asigned_text,
-										'fecha': value.date + ' ' + value.hour
-									});
+									'id' : value.id,
+									'titulo': value.title ? value.title : '-SIN TÍTULO-',
+									'paciente': value.patient.name,
+									'profesional': value.professional ? value.professional.name : no_asigned_text,
+									'area': value.specialty ? value.specialty.specialty : no_asigned_text,
+									'tratamiento': value.treatment ? value.treatment.treatment : no_asigned_text,
+									'fecha': value.date + ' ' + value.hour
+								});
 
 								t.last_page 	= response.data.appointments.last_page;
 								t.current_page  = response.data.appointments.current_page;
 								t.no_data_msg 	= 'No se han encontrado registros';
 							});
+						}else{
+							t.no_data_msg 	= 'No hay turnos cargados';	
 						}
 					})
 					.catch(function (error) {
@@ -271,6 +275,8 @@
 										t.last_page = response.data.lastPage;
 										t.current_page = 1;
 									});
+								}else{
+									t.no_data_msg 	= 'No se han encontrado turnos bajo el término: ' + t.search_in_table;	
 								}
 								t.searching_in_table = false;
 							})

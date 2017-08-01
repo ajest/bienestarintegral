@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Patient;
-use Illuminate\Http\Request;
 use App\Http\Requests\PatientRequest;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Pagination\Paginator;
 
 class PatientController extends Controller
@@ -13,6 +11,11 @@ class PatientController extends Controller
     /**
      * Shows Patients for Frontend Frameworks
      *
+     * @param  integer $page
+     * @param  string  $order
+     * @param  string  $order_mode
+     * @param  integer $rows
+     * @return JSON
      */
     public function getAll($page = 1, $order = 'date', $order_mode = 'asc', $rows = 10){
 
@@ -68,7 +71,7 @@ class PatientController extends Controller
                 ->orderBy($order, $order_mode)
                 ->paginate($rows);
 
-            return ['patients' => $patients_data];
+            return response()->json(['patients' => $patients_data], 200);
         }
     }
 
@@ -76,7 +79,7 @@ class PatientController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\PatientRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return JSON
      */
     public function store(PatientRequest $request)
     {
@@ -99,29 +102,7 @@ class PatientController extends Controller
 
         $res = $patient->save();
 
-        return ['status' => 'success'];
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Patient  $patient
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Patient $patient)
-    {
-        return view('patient_detail', ['patient' => $patient]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Patient  $patient
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Patient $patient)
-    {
-        return view('patient_save', ['patient' => $patient, 'edit' => TRUE]);
+        return response()->json(['status' => 'success', 'patient' => $patient], 201);
     }
 
     /**
@@ -129,7 +110,7 @@ class PatientController extends Controller
      *
      * @param  \App\Http\Requests\PatientRequest  $request
      * @param  \App\Patient  $patient
-     * @return \Illuminate\Http\Response
+     * @return JSON
      */
     public function update(PatientRequest $request, Patient $patient)
     {
@@ -149,14 +130,14 @@ class PatientController extends Controller
 
         $res = $patient->save();
 
-        return ['status' => 'success'];
+        return response()->json(['status' => 'success', 'patient' => $patient], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Patient  $patient
-     * @return \Illuminate\Http\Response
+     * @return JSON
      */
     public function destroy(Patient $patient)
     {
@@ -164,9 +145,16 @@ class PatientController extends Controller
 
         $res = $patient->delete();
 
-        return ['status' => 'success'];
+        return response()->json(['status' => 'success'], 200);
     }
 
+    /**
+     * Search for a term in indicated table.
+     *
+     * @param  integer $page
+     * @param  integer $rows
+     * @return JSON
+     */
     public function search($page = 1, $rows = 10){
 
         Paginator::currentPageResolver(function () use ($page) {
@@ -200,6 +188,16 @@ class PatientController extends Controller
                     })
                     ->paginate($rows);
 
-        return ['patients' => $patients_data];
+        return response()->json(['status' => 'success', 'patients' => $patients_data], 200);
+    }
+
+    /**
+     * Prevents error in route resources
+     *
+     * @return bool
+     */
+    public function show()
+    {
+        return true;
     }
 }

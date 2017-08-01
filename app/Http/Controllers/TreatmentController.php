@@ -3,25 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Treatment;
-use Illuminate\Http\Request;
 use App\Http\Requests\TreatmentRequest;
 use Illuminate\Pagination\Paginator;
 
 class TreatmentController extends Controller
 {
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Shows Treatments for Frontend Frameworks
      *
+     * @param  integer $page
+     * @param  string  $order
+     * @param  string  $order_mode
+     * @param  integer $rows
+     * @return JSON
      */
     public function getAll($page = 1, $order = 'treatment', $order_mode = 'asc', $rows = 10){
 
@@ -60,15 +54,15 @@ class TreatmentController extends Controller
                                 ->orderBy($order, $order_mode)
                                 ->paginate($rows);
 
-            return ['treatments' => $treatments_data];
+            return response()->json(['treatments' => $treatments_data], 200);
         }
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\TreatmentRequest  $request
+     * @return JSON
      */
     public function store(TreatmentRequest $request)
     {
@@ -80,27 +74,18 @@ class TreatmentController extends Controller
 
         $res = $treatment->save();
 
-        return ['status' => 'success'];
+        return response()->json(['status' => 'success', 'treatment' => $treatment], 201);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Treatment  $treatment
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Treatment $treatment)
-    {
-        return true;
-    }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Treatment  $treatment
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\TreatmentRequest  $request
+     * @param  \App\Treatment $treatment
+     * @return JSON
      */
-    public function update(Treatment $treatment, TreatmentRequest $request)
+    public function update(TreatmentRequest $request, Treatment $treatment)
     {
         $treatment->treatment    = $request->treatment;
         $treatment->specialty_id = $request->specialty_id;
@@ -108,21 +93,29 @@ class TreatmentController extends Controller
 
         $res = $treatment->save();
 
-        return ['status' => 'success'];
+        return response()->json(['status' => 'success', 'treatment' => $treatment], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Treatment  $treatment
-     * @return \Illuminate\Http\Response
+     * @return JSON
      */
     public function destroy(Treatment $treatment)
     {
         $res = $treatment->delete();
-        return ['status' => 'success'];
+
+        return response()->json(['status' => 'success'], 200);
     }
 
+    /**
+     * Search for a term in indicated table.
+     *
+     * @param  integer $page
+     * @param  integer $rows
+     * @return JSON
+     */
     public function search($page = 1, $rows = 10){
 
         Paginator::currentPageResolver(function () use ($page) {
@@ -145,5 +138,15 @@ class TreatmentController extends Controller
                     ->paginate($rows);
 
         return ['treatments' => $treatments_data];
+    }
+    
+    /**
+     * Prevents error in route resources
+     *
+     * @return bool
+     */
+    public function show()
+    {
+        return true;
     }
 }

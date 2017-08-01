@@ -67,7 +67,7 @@
 			</div>
 		</div>
 		<pagination v-bind:last_page="last_page" v-bind:current_page="current_page" v-bind:url="url"></pagination>
-		<popupdeleteconfirm v-on:success="operationSuccess" v-on:error="operationError" v-bind:element_id="patient_id" v-bind:elements="patients" v-bind:url="url" v-bind:delete_text_confirm="delete_text_confirm"></popupdeleteconfirm>
+		<popupdeleteconfirm v-on:success="operationSuccess" v-on:error="operationError" v-bind:element_id="patient_id" v-bind:elements="patients" v-bind:url="url" v-bind:delete_text_confirm="delete_text_confirm" v-bind:baseUrl="baseUrl"></popupdeleteconfirm>
 	</div>	
 </template>
 <script>
@@ -105,6 +105,7 @@
 
 		created: function(){
 			this.paginationCallback();
+			this.url = this.baseUrl + this.url;
 			this.$emit('child_created', this.active_element);
 		},
 		
@@ -205,6 +206,8 @@
 								t.last_page 	= response.data.patients.last_page;
 								t.current_page  = response.data.patients.current_page;
 							});
+						}else{
+							t.no_data_msg 	= 'No hay pacientes cargados';	
 						}
 					})
 					.catch(function (error) {
@@ -307,8 +310,9 @@
 
 										t.last_page = response.data.patients.last_page;
 										t.current_page = 1;
-										t.no_data_msg 	= 'No se han encontrado registros';
 									});
+								}else{
+									t.no_data_msg 	= 'No se han encontrado pacientes bajo el término: ' + t.search_in_table;	
 								}
 								t.searching_in_table = false;
 							})

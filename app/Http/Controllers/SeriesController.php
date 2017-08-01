@@ -3,25 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Series;
-use Illuminate\Http\Request;
 use App\Http\Requests\SeriesRequest;
 use Illuminate\Pagination\Paginator;
 
 class SeriesController extends Controller
 {
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Shows Series for Frontend Frameworks
      *
+     * @param  integer $page
+     * @param  string  $order
+     * @param  string  $order_mode
+     * @param  integer $rows
+     * @return JSON
      */
     public function getAll($page = 1, $order = 'series', $order_mode = 'asc', $rows = 10){
 
@@ -47,7 +41,7 @@ class SeriesController extends Controller
                             ->orderBy($order, $order_mode)
                             ->paginate($rows);
 
-            return ['series' => $series_data];
+            return response()->json(['series' => $series_data], 200);
         }
     }
 
@@ -55,7 +49,7 @@ class SeriesController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\SeriesRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return JSON
      */
     public function store(SeriesRequest $request)
     {
@@ -66,18 +60,7 @@ class SeriesController extends Controller
 
         $res = $series->save();
 
-        return ['status' => 'success'];
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Series  $series
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Series $series)
-    {
-        return true;
+        return response()->json(['status' => 'success', 'series' => $series], 201);
     }
 
     /**
@@ -85,7 +68,7 @@ class SeriesController extends Controller
      *
      * @param  \Illuminate\Http\SeriesRequest  $request
      * @param  \App\Series  $series
-     * @return \Illuminate\Http\Response
+     * @return JSON
      */
     public function update(SeriesRequest $request, Series $series)
     {
@@ -94,21 +77,29 @@ class SeriesController extends Controller
 
         $res = $series->save();
 
-        return ['status' => 'success'];
+        return response()->json(['status' => 'success', 'series' => $series], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Series  $series
-     * @return \Illuminate\Http\Response
+     * @return JSON
      */
     public function destroy(Series $series)
     {
         $res = $series->delete();
-        return ['status' => 'success'];
+
+        return response()->json(['status' => 'success'], 200);
     }
 
+    /**
+     * Search for a term in indicated table.
+     *
+     * @param  integer $page
+     * @param  integer $rows
+     * @return JSON
+     */
     public function search($page = 1, $rows = 10){
 
         Paginator::currentPageResolver(function () use ($page) {
@@ -127,5 +118,15 @@ class SeriesController extends Controller
                         ->paginate($rows);
 
         return ['series' => $series_data];
+    }
+
+    /**
+     * Prevents error in route resources
+     *
+     * @return bool
+     */
+    public function show()
+    {
+        return true;
     }
 }

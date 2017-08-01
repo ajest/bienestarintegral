@@ -8,7 +8,7 @@
 	        <h4 class="modal-title" id="myModalLabel">Confirmar</h4>
 	      </div>
 	      <div class="modal-body">
-	        {{ getMessage }} <strong v-if="from_el"> {{ from_el }} </strong> {{ second }} <strong v-if="for_el"> {{ for_el }} </strong> {{ third }} <strong v-if="emp"> {{ emp }}</strong>{{ final }}
+	        <p>{{ getMessage }} <strong v-if="from_el"> {{ from_el }} </strong> {{ second }} <strong v-if="for_el"> {{ for_el }} </strong> {{ third }} <strong v-if="emp"> {{ emp }}</strong>{{ final }}</p>
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
@@ -38,9 +38,9 @@
 
 				_.forEach(t.elements, function(value, i){
 					if(value.id == t.element_id){
-						t.from_el = t.elements[i].titulo;
+						t.from_el = t.elements[i].titulo ? t.elements[i].titulo.replace(/<\/?[^>]+(>|$)/g, "") : '';
 						t.second = t.delete_text_confirm[2];
-						t.for_el = t.elements[i].paciente;
+						t.for_el = t.elements[i].paciente ? t.elements[i].paciente.replace(/<\/?[^>]+(>|$)/g, "") : '';
 						t.third = t.delete_text_confirm[4];
 						t.emp = t.delete_text_confirm[5];
 						t.final = t.delete_text_confirm[6];
@@ -55,7 +55,7 @@
 			deleteInDB(){
 				var t = this;
 
-				axios.delete(t.url + t.element_id)					
+				axios.delete(t.baseUrl + t.url + t.element_id)	
 					.then(function (response) {
 						if(response.data.status){
 							t.$emit('success');
@@ -67,6 +67,6 @@
 			}
 		},
 
-		props: ['element_id', 'elements', 'url', 'delete_text_confirm']
+		props: ['element_id', 'elements', 'url', 'delete_text_confirm', 'baseUrl']
 	}
 </script>

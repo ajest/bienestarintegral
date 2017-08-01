@@ -3,147 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Appointment;
-use App\Professional;
-use App\Patient;
-use App\Specialty;
-use App\Treatment;
-use App\Series;
 use App\Http\Requests\AppointmentRequest;
-use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 
 class AppointmentController extends Controller
 {
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $data_to_view = [
-            'professionals' => Professional::all(),
-            'patients'      => Patient::all(),
-            'specialties'   => Specialty::all(),
-            'treatments'    => Treatment::all(),
-            'series'        => Series::all()
-        ];
-
-        return view('appointment_save', $data_to_view);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\AppointmentRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(AppointmentRequest $request)
-    {
-        $appointment = new Appointment;
-
-        $day = explode('T', $request->date);
-        $date = explode('Z', $request->date);
-        $date = $day[0] . $date[1]; 
-
-        $appointment->title             = $request->title;
-        $appointment->professional_id   = $request->professional_id;
-        $appointment->patient_id        = $request->patient_id;
-        $appointment->specialty_id      = $request->specialty_id;
-        $appointment->treatment_id      = $request->treatment_id;
-        $appointment->series_id         = $request->series_id;
-        $appointment->date              = $date;
-        $appointment->hour              = $request->hour;
-
-        $res = $appointment->save();
-        
-        return ['status' => 'success'];        
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Appointment  $appointment
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Appointment $appointment)
-    {
-        return view('appointment_detail', ['appointment' => $appointment]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Appointment  $appointment
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Appointment $appointment)
-    {
-        $data_to_view = [
-            'appointment'   => $appointment,
-            'edit'          => TRUE,
-            'professionals' => Professional::all(),
-            'patients'      => Patient::all(),
-            'specialties'   => Specialty::all(),
-            'treatments'    => Treatment::all(),
-            'series'        => Series::all()
-        ];
-
-        return view('appointment_save', $data_to_view);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Appointment  $appointment
-     * @return \Illuminate\Http\Response
-     */
-    public function update(AppointmentRequest $request, Appointment $appointment)
-    {
-        $date = $request->date;
-        $date_tmp = explode('T', $date);
-        if(count($date_tmp) > 1){
-            $date = $date_tmp[0];
-        } 
-
-        $appointment->title             = $request->title;
-        $appointment->professional_id   = $request->professional_id;
-        $appointment->patient_id        = $request->patient_id;
-        $appointment->specialty_id      = $request->specialty_id;
-        $appointment->treatment_id      = $request->treatment_id;
-        $appointment->series_id         = $request->series_id;
-        $appointment->date              = $date;
-        $appointment->hour              = $request->hour;
-        $appointment->comments          = $request->comments;
-
-        $res = $appointment->save();
-
-        $this->OperationMessage->saveOrFailMessage($res, $res ? ": El turno para el paciente " . $appointment->patient->name . " ha sido editado exitosamente." : ": Ha ocurrido un error al editar el turno para el paciente " . $appointment->patient->name);
-
-        return ['status' => 'success'];
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Appointment  $appointment
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Appointment $appointment)
-    {        
-        $paciente = $appointment->patient->name;
-
-        $res = $appointment->delete();
-
-        $this->OperationMessage->deleteMessage($res, $res ? ": El turno para el paciente $paciente ha sido eliminado permanentemente." : ": Ha ocurrido un error al eliminar el turno para el paciente $paciente.");
-
-        return ['status' => 'success'];
-    }
-
-    /**
      * Shows Appointments for Frontend Frameworks
      *
+     * @param  integer $page
+     * @param  string  $order
+     * @param  string  $order_mode
+     * @param  integer $rows
+     * @return JSON
      */
     public function getAll($page = 1, $order = 'date', $order_mode = 'asc', $rows = 10){
 
@@ -225,11 +97,91 @@ class AppointmentController extends Controller
                 $date = $tmp_date[2] . '/' . $tmp_date[1] . '/' . $tmp_date[0];
                 $appointment_data[$key]->date = $date;
             }
-
-            return ['appointments' => $appointment_data];
+            
+            return response()->json(['appointments' => $appointment_data], 200);
         }
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \App\Http\Requests\AppointmentRequest  $request
+     * @return JSON
+     */
+    public function store(AppointmentRequest $request)
+    {
+        $appointment = new Appointment;
+
+        $day = explode('T', $request->date);
+        $date = explode('Z', $request->date);
+        $date = $day[0] . $date[1]; 
+
+        $appointment->title             = $request->title;
+        $appointment->professional_id   = $request->professional_id;
+        $appointment->patient_id        = $request->patient_id;
+        $appointment->specialty_id      = $request->specialty_id;
+        $appointment->treatment_id      = $request->treatment_id;
+        $appointment->series_id         = $request->series_id;
+        $appointment->date              = $date;
+        $appointment->hour              = $request->hour;
+
+        $res = $appointment->save();
+        
+        return response()->json(['status' => 'success', 'appointment' => $appointment], 201);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \App\Http\Requests\AppointmentRequest  $request
+     * @param  \App\Appointment  $appointment
+     * @return JSON
+     */
+    public function update(AppointmentRequest $request, Appointment $appointment)
+    {
+        $date = $request->date;
+        $date_tmp = explode('T', $date);
+        if(count($date_tmp) > 1){
+            $date = $date_tmp[0];
+        } 
+
+        $appointment->title             = $request->title;
+        $appointment->professional_id   = $request->professional_id;
+        $appointment->patient_id        = $request->patient_id;
+        $appointment->specialty_id      = $request->specialty_id;
+        $appointment->treatment_id      = $request->treatment_id;
+        $appointment->series_id         = $request->series_id;
+        $appointment->date              = $date;
+        $appointment->hour              = $request->hour;
+        $appointment->comments          = $request->comments;
+
+        $res = $appointment->save();
+
+        return response()->json(['status' => 'success', 'appointment' => $appointment], 200);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Appointment  $appointment
+     * @return JSON
+     */
+    public function destroy(Appointment $appointment)
+    {        
+        $paciente = $appointment->patient->name;
+
+        $res = $appointment->delete();
+
+        return response()->json(['status' => 'success'], 200);
+    }
+
+    /**
+     * Search for a term in indicated table.
+     *
+     * @param  integer $page
+     * @param  integer $rows
+     * @return JSON
+     */
     public function search($page = 1, $rows = 10){
 
         Paginator::currentPageResolver(function () use ($page) {
@@ -280,5 +232,15 @@ class AppointmentController extends Controller
         });
 
         return ['appointments' => $appointment_data, 'lastPage' => $lastPage];
+    }
+
+    /**
+     * Prevents error in route resources
+     *
+     * @return bool
+     */
+    public function show()
+    {
+        return true;
     }
 }

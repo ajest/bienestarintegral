@@ -3,25 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Question;
-use Illuminate\Http\Request;
 use App\Http\Requests\QuestionRequest;
 use Illuminate\Pagination\Paginator;
 
 class QuestionController extends Controller
 {
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Shows Questions for Frontend Frameworks
      *
+     * @param  integer $page
+     * @param  string  $order
+     * @param  string  $order_mode
+     * @param  integer $rows
+     * @return JSON
      */
     public function getAll($page = 1, $order = 'question', $order_mode = 'asc', $rows = 10){
 
@@ -54,15 +48,15 @@ class QuestionController extends Controller
                                 ->orderBy($order, $order_mode)
                                 ->paginate($rows);
 
-            return ['questions' => $question_data];
+            return response()->json(['questions' => $question_data], 200);
         }
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\QuestionRequest  $request
+     * @return JSON
      */
     public function store(QuestionRequest $request)
     {
@@ -73,26 +67,16 @@ class QuestionController extends Controller
 
         $res = $question->save();
 
-        return ['status' => 'success'];
+        return response()->json(['status' => 'success', 'question' => $question], 201);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Question  $question
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Question $question)
-    {
-        return true;
-    }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\QuestionRequest  $request
      * @param  \App\Question  $question
-     * @return \Illuminate\Http\Response
+     * @return JSON
      */
     public function update(QuestionRequest $request, Question $question)
     {
@@ -101,21 +85,29 @@ class QuestionController extends Controller
 
         $res = $question->save();
 
-        return ['status' => 'success'];
+        return response()->json(['status' => 'success', 'question' => $question], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Question  $question
-     * @return \Illuminate\Http\Response
+     * @return JSON
      */
     public function destroy(Question $question)
     {
         $res = $question->delete();
-        return ['status' => 'success'];
+
+        return response()->json(['status' => 'success'], 200);
     }
 
+    /**
+     * Search for a term in indicated table.
+     *
+     * @param  integer $page
+     * @param  integer $rows
+     * @return JSON
+     */
     public function search($page = 1, $rows = 10){
 
         Paginator::currentPageResolver(function () use ($page) {
@@ -136,6 +128,16 @@ class QuestionController extends Controller
                     })
                     ->paginate($rows);
 
-        return ['questions' => $questions_data];
+        return response()->json(['questions' => $questions_data], 200);
+    }
+    
+    /**
+     * Prevents error in route resources
+     *
+     * @return bool
+     */
+    public function show()
+    {
+        return true;
     }
 }

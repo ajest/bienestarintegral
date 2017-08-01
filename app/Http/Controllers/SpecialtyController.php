@@ -3,25 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Specialty;
-use Illuminate\Http\Request;
 use App\Http\Requests\SpecialtyRequest;
 use Illuminate\Pagination\Paginator;
 
 class SpecialtyController extends Controller
 {
     /**
-     * Show the form for creating a new resource.
+     * Shows Specialties for Frontend Frameworks
      *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Shows Series for Frontend Frameworks
-     *
+     * @param  integer $page
+     * @param  string  $order
+     * @param  string  $order_mode
+     * @param  integer $rows
+     * @return JSON
      */
     public function getAll($page = 1, $order = 'specialty', $order_mode = 'asc', $rows = 10){
 
@@ -47,15 +41,15 @@ class SpecialtyController extends Controller
                 ->orderBy($order, $order_mode)
                 ->paginate($rows);
 
-            return ['specialties' => $specialties_data];
+            return response()->json(['specialties' => $specialties_data], 200);
         }
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\SpecialtyRequest  $request
+     * @return JSON
      */
     public function store(SpecialtyRequest $request)
     {
@@ -66,26 +60,16 @@ class SpecialtyController extends Controller
 
         $res = $specialty->save();
 
-        return ['status' => 'success'];
+        return response()->json(['status' => 'success', 'specialty' => $specialty], 201);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Specialty  $specialty
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Specialty $specialty)
-    {
-        return true;
-    }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\SpecialtyRequest  $request
      * @param  \App\Specialty  $specialty
-     * @return \Illuminate\Http\Response
+     * @return JSON
      */
     public function update(SpecialtyRequest $request, Specialty $specialty)
     {
@@ -94,21 +78,29 @@ class SpecialtyController extends Controller
 
         $res = $specialty->save();
 
-        return ['status' => 'success'];
+        return response()->json(['status' => 'success', 'specialty' => $specialty], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Specialty  $specialty
-     * @return \Illuminate\Http\Response
+     * @return JSON
      */
     public function destroy(Specialty $specialty)
     {
         $res = $specialty->delete();
-        return ['status' => 'success'];
+
+        return response()->json(['status' => 'success'], 200);
     }
 
+    /**
+     * Search for a term in indicated table.
+     *
+     * @param  integer $page
+     * @param  integer $rows
+     * @return JSON
+     */
     public function search($page = 1, $rows = 10){
 
         Paginator::currentPageResolver(function () use ($page) {
@@ -126,6 +118,16 @@ class SpecialtyController extends Controller
                         })
                         ->paginate($rows);
 
-        return ['specialties' => $specialties_data];
+        return response()->json(['specialties' => $specialties_data], 200);
+    }
+    
+    /**
+     * Prevents error in route resources
+     *
+     * @return bool
+     */
+    public function show()
+    {
+        return true;
     }
 }
