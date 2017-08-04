@@ -20,7 +20,7 @@
 	<li>Envío automático de emails</li>
 	<li>Módulo administrativo / contable</li>
 </ul>
-<h3>Características desarrolladas:</h3>
+<h3>Proceso de desarrollo:</h3>
 <ul>
 	<li>Sistema de rutas para URLs</li>
 	<li>Funcionalidad mensajes globales</li>
@@ -32,8 +32,10 @@
 	<li>ABM de cuestionarios para Especialidades</li>
 	<li>Ajustes técnicos (Vuex)</li>
 	<li>Agregar más campos a cada una de las secciones según necesidades reales</li>
+	<li>Login</li>
 </ul>
 <h3>Características en desarrollo:</h3>
 <ul>
-	<li>Login</li>
+	<li>Preguntas para pacientes</li>
+	<li>Pruebas unitarias</li>
 </ul>

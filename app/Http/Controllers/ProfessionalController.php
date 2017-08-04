@@ -1,13 +1,16 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Professional;
 use App\Http\Requests\ProfessionalRequest;
+use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use JWTAuth;
 
 class ProfessionalController extends Controller
 {
+    
     /**
      * Shows Professionals for Frontend Frameworks
      *
@@ -18,11 +21,10 @@ class ProfessionalController extends Controller
      * @return JSON
      */
     public function getAll($page = 1, $order = 'name', $order_mode = 'asc', $rows = 10){
-
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
         });
-
+        
         $allow_order = [
             'name',
             'email',
@@ -30,12 +32,12 @@ class ProfessionalController extends Controller
             'gender',
             'address'
         ];
-
+        
         if(in_array($order, $allow_order) && ($order_mode == 'asc' || $order_mode == 'desc')){
-
             $term = '';
+            
             if(!empty($_GET['term'])) $term = urldecode($_GET['term']);
-
+            
             $professionals_data = Professional::select('professionals.*')
                             ->where(function ($query) use ($term) {
                             $query
@@ -48,11 +50,11 @@ class ProfessionalController extends Controller
                         })
                         ->orderBy($order, $order_mode)
                         ->paginate($rows);
-
+            
             return response()->json(['professionals' => $professionals_data], 200);
         }
     }
-
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -62,18 +64,17 @@ class ProfessionalController extends Controller
     public function store(ProfessionalRequest $request)
     {
         $professional = new Professional;
-
         $professional->name    = $request->name;
         $professional->email   = $request->email;
         $professional->tel     = $request->tel;
         $professional->gender  = $request->gender;
         $professional->address = $request->address;
-
+        
         $res = $professional->save();
-
+        
         return response()->json(['status' => 'success', 'professional' => $professional], 201);
     }
-
+    
     /**
      * Update the specified resource in storage.
      *
@@ -88,12 +89,12 @@ class ProfessionalController extends Controller
         $professional->tel    = $request->tel;
         $professional->gender = $request->gender;
         $professional->address= $request->address;
-
+        
         $res = $professional->save();
-
+        
         return response()->json(['status' => 'success', 'professional' => $professional], 200);
     }
-
+    
     /**
      * Remove the specified resource from storage.
      *
@@ -106,7 +107,7 @@ class ProfessionalController extends Controller
         
         return response()->json(['status' => 'success'], 200);
     }
-
+    
     /**
      * Search for a term in indicated table.
      *
@@ -119,10 +120,11 @@ class ProfessionalController extends Controller
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
         });
-
+        
         $term = '';
+        
         if(!empty($_GET['term'])) $term = urldecode($_GET['term']);
-
+        
         $professionals_data = Professional::select('professionals.*')
                         ->where(function ($query) use ($term) {
                         $query
@@ -134,10 +136,36 @@ class ProfessionalController extends Controller
                             ->orWhere('address', 'like', '%' . $term . '%');
                     })
                     ->paginate($rows);
-
+        
         $response = ['professionals' => $professionals_data];
-
+        
         return response()->json($response, 200);
+    }
+    
+    /**
+     * Signin to the app
+     *	@param  \Illuminate\Http\Request  $request
+     *
+     */
+    public function signin(Request $request){
+    	$this->validate($request, [
+    		'email' => 'required|email',
+    		'password' => 'required'
+    	]);
+
+    	$credentials = $request->only('email', 'password');
+
+    	try {
+    		if (!$token = JWTAuth::attempt($credentials)){
+    			return response()->json(['error' => 'Email o contraseña incorrecto/s'], 401);
+    		}
+    	} catch (JWTException $e) {
+    		return response()->json(['error' => 'No se ha podido acceder'], 500);
+    	}
+
+        $professional = JWTAuth::toUser($token);
+
+    	return response()->json(['token' => $token, 'professional' => $professional], 200);
     }
 
     /**

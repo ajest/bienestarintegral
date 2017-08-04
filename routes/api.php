@@ -13,19 +13,15 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 /**
 *
 * PATIENTS 
 *
 */
-Route::get('patients/list', 'PatientController@getall');
-Route::get('patients/list/{page}', ['uses' =>'PatientController@getall'])->where('page', '[0-9]+');
-Route::get('patients/list/{page}/{order}', ['uses' =>'PatientController@getall'])->where('page', '[0-9]+');
-Route::get('patients/search', ['uses' =>'PatientController@search']);
+Route::get('patients/list', 'PatientController@getall')->middleware('auth.jwt');
+Route::get('patients/list/{page}', ['uses' =>'PatientController@getall'])->where('page', '[0-9]+')->middleware('auth.jwt');
+Route::get('patients/list/{page}/{order}', ['uses' =>'PatientController@getall'])->where('page', '[0-9]+')->middleware('auth.jwt');
+Route::get('patients/search', ['uses' =>'PatientController@search'])->middleware('auth.jwt');
 Route::get('patients/detail/{patient?}', function (App\Patient $patient) {
     
     $date_tmp = explode('-', $patient->birthdate);
@@ -47,10 +43,10 @@ Route::get('patients/detail/{patient?}', function (App\Patient $patient) {
                                             ->each->professional
                                             ->each->treatment
     ];
-});
+})->middleware('auth.jwt');
 
-Route::post('patients/store', 'PatientController@store');
-Route::post('patients/create', 'PatientController@store');
+Route::post('patients/store', 'PatientController@store')->middleware('auth.jwt');
+Route::post('patients/create', 'PatientController@store')->middleware('auth.jwt');
 /* ---------------------- */
 
 
@@ -61,10 +57,10 @@ Route::post('patients/create', 'PatientController@store');
 * APPOINTMENTS
 *
 */
-Route::get('appointments/list', 'AppointmentController@getall');
-Route::get('appointments/list/{page}', ['uses' =>'AppointmentController@getall'])->where('page', '[0-9]+');
-Route::get('appointments/list/{page}/{order}', ['uses' =>'AppointmentController@getall'])->where('page', '[0-9]+');
-Route::get('appointments/search', ['uses' =>'AppointmentController@search']);
+Route::get('appointments/list', 'AppointmentController@getall')->middleware('auth.jwt');
+Route::get('appointments/list/{page}', ['uses' =>'AppointmentController@getall'])->where('page', '[0-9]+')->middleware('auth.jwt');
+Route::get('appointments/list/{page}/{order}', ['uses' =>'AppointmentController@getall'])->where('page', '[0-9]+')->middleware('auth.jwt');
+Route::get('appointments/search', ['uses' =>'AppointmentController@search'])->middleware('auth.jwt');
 Route::get('appointments/detail', function () {
     return [
         'all' => [
@@ -75,7 +71,7 @@ Route::get('appointments/detail', function () {
             'series' => App\Series::all()
         ]
     ];
-});
+})->middleware('auth.jwt');
 Route::get('appointments/detail/{appointment}', function (App\Appointment $appointment) {
     
     $date_tmp = explode('-', $appointment->date);
@@ -101,10 +97,10 @@ Route::get('appointments/detail/{appointment}', function (App\Appointment $appoi
             'series'        => App\Series::all()
         ]
 	];
-});
+})->middleware('auth.jwt');
 
-Route::post('appointments/store', 'AppointmentController@store');
-Route::post('appointments/create', 'AppointmentController@store');
+Route::post('appointments/store', 'AppointmentController@store')->middleware('auth.jwt');
+Route::post('appointments/create', 'AppointmentController@store')->middleware('auth.jwt');
 
 /* --------------------- */
 
@@ -117,10 +113,10 @@ Route::post('appointments/create', 'AppointmentController@store');
 * PROFESSIONALS
 *
 */
-Route::get('professionals/list', 'ProfessionalController@getall');
-Route::get('professionals/list/{page}', ['uses' =>'ProfessionalController@getall'])->where('page', '[0-9]+');
-Route::get('professionals/list/{page}/{order}', ['uses' =>'ProfessionalController@getall'])->where('page', '[0-9]+');
-Route::get('professionals/search', ['uses' =>'ProfessionalController@search']);
+Route::get('professionals/list', 'ProfessionalController@getall')->middleware('auth.jwt');
+Route::get('professionals/list/{page}', ['uses' =>'ProfessionalController@getall'])->where('page', '[0-9]+')->middleware('auth.jwt');
+Route::get('professionals/list/{page}/{order}', ['uses' =>'ProfessionalController@getall'])->where('page', '[0-9]+')->middleware('auth.jwt');
+Route::get('professionals/search', ['uses' =>'ProfessionalController@search'])->middleware('auth.jwt');
 Route::get('professionals/detail/{professional?}', function (App\Professional $professional) {
     return [
         'professional'  => $professional,
@@ -133,10 +129,11 @@ Route::get('professionals/detail/{professional?}', function (App\Professional $p
                                             ->each->patient
                                             ->each->treatment
     ];
-});
+})->middleware('auth.jwt');
 
-Route::post('professionals/store', 'ProfessionalController@store');
-Route::post('professionals/create', 'ProfessionalController@store');
+Route::post('professionals/store', 'ProfessionalController@store')->middleware('auth.jwt');
+Route::post('professionals/create', 'ProfessionalController@store')->middleware('auth.jwt');
+Route::post('professionals/signin', 'ProfessionalController@signin');
 /* ---------------------------- */
 
 
@@ -149,10 +146,10 @@ Route::post('professionals/create', 'ProfessionalController@store');
 * SERIES
 *
 */
-Route::get('series/list', 'SeriesController@getall');
-Route::get('series/list/{page}', ['uses' =>'SeriesController@getall'])->where('page', '[0-9]+');
-Route::get('series/list/{page}/{order}', ['uses' =>'SeriesController@getall'])->where('page', '[0-9]+');
-Route::get('series/search', ['uses' =>'SeriesController@search']);
+Route::get('series/list', 'SeriesController@getall')->middleware('auth.jwt');
+Route::get('series/list/{page}', ['uses' =>'SeriesController@getall'])->where('page', '[0-9]+')->middleware('auth.jwt');
+Route::get('series/list/{page}/{order}', ['uses' =>'SeriesController@getall'])->where('page', '[0-9]+')->middleware('auth.jwt');
+Route::get('series/search', ['uses' =>'SeriesController@search'])->middleware('auth.jwt');
 Route::get('series/detail/{series?}', function (App\Series $series) {
     return [
         'series'  => $series,
@@ -165,10 +162,10 @@ Route::get('series/detail/{series?}', function (App\Series $series) {
                                             ->each->patient
                                             ->each->treatment
     ];
-});
+})->middleware('auth.jwt');
 
-Route::post('series/store', 'SeriesController@store');
-Route::post('series/create', 'SeriesController@store');
+Route::post('series/store', 'SeriesController@store')->middleware('auth.jwt');
+Route::post('series/create', 'SeriesController@store')->middleware('auth.jwt');
 /* ---------------------------- */
 
 
@@ -180,10 +177,10 @@ Route::post('series/create', 'SeriesController@store');
 * SPECIALTIES
 *
 */
-Route::get('specialties/list', 'SpecialtyController@getall');
-Route::get('specialties/list/{page}', ['uses' =>'SpecialtyController@getall'])->where('page', '[0-9]+');
-Route::get('specialties/list/{page}/{order}', ['uses' =>'SpecialtyController@getall'])->where('page', '[0-9]+');
-Route::get('specialties/search', ['uses' =>'SpecialtyController@search']);
+Route::get('specialties/list', 'SpecialtyController@getall')->middleware('auth.jwt');
+Route::get('specialties/list/{page}', ['uses' =>'SpecialtyController@getall'])->where('page', '[0-9]+')->middleware('auth.jwt');
+Route::get('specialties/list/{page}/{order}', ['uses' =>'SpecialtyController@getall'])->where('page', '[0-9]+')->middleware('auth.jwt');
+Route::get('specialties/search', ['uses' =>'SpecialtyController@search'])->middleware('auth.jwt');
 Route::get('specialties/detail/{specialty?}', function (App\Specialty $specialty) {
     return [
         'specialty'  => $specialty,
@@ -196,10 +193,10 @@ Route::get('specialties/detail/{specialty?}', function (App\Specialty $specialty
                                             ->each->patient
                                             ->each->treatment
     ];
-});
+})->middleware('auth.jwt');
 
-Route::post('specialties/store', 'SpecialtyController@store');
-Route::post('specialties/create', 'SpecialtyController@store');
+Route::post('specialties/store', 'SpecialtyController@store')->middleware('auth.jwt');
+Route::post('specialties/create', 'SpecialtyController@store')->middleware('auth.jwt');
 /* ---------------------------- */
 
 
@@ -212,10 +209,10 @@ Route::post('specialties/create', 'SpecialtyController@store');
 * TREATMENTS
 *
 */
-Route::get('treatments/list', 'TreatmentController@getall');
-Route::get('treatments/list/{page}', ['uses' =>'TreatmentController@getall'])->where('page', '[0-9]+');
-Route::get('treatments/list/{page}/{order}', ['uses' =>'TreatmentController@getall'])->where('page', '[0-9]+');
-Route::get('treatments/search', ['uses' =>'TreatmentController@search']);
+Route::get('treatments/list', 'TreatmentController@getall')->middleware('auth.jwt');
+Route::get('treatments/list/{page}', ['uses' =>'TreatmentController@getall'])->where('page', '[0-9]+')->middleware('auth.jwt');
+Route::get('treatments/list/{page}/{order}', ['uses' =>'TreatmentController@getall'])->where('page', '[0-9]+')->middleware('auth.jwt');
+Route::get('treatments/search', ['uses' =>'TreatmentController@search'])->middleware('auth.jwt');
 Route::get('treatments/detail/{treatment?}', function (App\Treatment $treatment) {
     return [
         'treatment'  => $treatment,
@@ -230,10 +227,10 @@ Route::get('treatments/detail/{treatment?}', function (App\Treatment $treatment)
             'specialties'   => App\Specialty::all()
         ]
     ];
-});
+})->middleware('auth.jwt');
 
-Route::post('treatments/store', 'TreatmentController@store');
-Route::post('treatments/create', 'TreatmentController@store');
+Route::post('treatments/store', 'TreatmentController@store')->middleware('auth.jwt');
+Route::post('treatments/create', 'TreatmentController@store')->middleware('auth.jwt');
 /* ---------------------------- */
 
 
@@ -246,10 +243,10 @@ Route::post('treatments/create', 'TreatmentController@store');
 * Questions
 *
 */
-Route::get('questions/list', 'QuestionController@getall');
-Route::get('questions/list/{page}', ['uses' =>'QuestionController@getall'])->where('page', '[0-9]+');
-Route::get('questions/list/{page}/{order}', ['uses' =>'QuestionController@getall'])->where('page', '[0-9]+');
-Route::get('questions/search', ['uses' =>'QuestionController@search']);
+Route::get('questions/list', 'QuestionController@getall')->middleware('auth.jwt');
+Route::get('questions/list/{page}', ['uses' =>'QuestionController@getall'])->where('page', '[0-9]+')->middleware('auth.jwt');
+Route::get('questions/list/{page}/{order}', ['uses' =>'QuestionController@getall'])->where('page', '[0-9]+')->middleware('auth.jwt');
+Route::get('questions/search', ['uses' =>'QuestionController@search'])->middleware('auth.jwt');
 Route::get('questions/detail/{question?}', function (App\Question $question) {
     return [
         'question'  => $question,
@@ -258,17 +255,16 @@ Route::get('questions/detail/{question?}', function (App\Question $question) {
             'specialties'   => App\Specialty::all()
         ]
     ];
-});
+})->middleware('auth.jwt');
 
-Route::post('questions/store', 'QuestionController@store');
-Route::post('questions/create', 'QuestionController@store');
+Route::post('questions/store', 'QuestionController@store')->middleware('auth.jwt');
+Route::post('questions/create', 'QuestionController@store')->middleware('auth.jwt');
 /* ---------------------------- */
 
-
-Route::resource('appointments', 'AppointmentController');
-Route::resource('patients', 'PatientController');
-Route::resource('professionals', 'ProfessionalController');
-Route::resource('series', 'SeriesController');
-Route::resource('specialties', 'SpecialtyController');
-Route::resource('treatments', 'TreatmentController');
-Route::resource('questions', 'QuestionController');
+Route::resource('appointments', 'AppointmentController', ['middleware' => ['auth.jwt']]);
+Route::resource('patients', 'PatientController', ['middleware' => ['auth.jwt']]);
+Route::resource('professionals', 'ProfessionalController', ['middleware' => ['auth.jwt']]);
+Route::resource('series', 'SeriesController', ['middleware' => ['auth.jwt']]);
+Route::resource('specialties', 'SpecialtyController', ['middleware' => ['auth.jwt']]);
+Route::resource('treatments', 'TreatmentController', ['middleware' => ['auth.jwt']]);
+Route::resource('questions', 'QuestionController', ['middleware' => ['auth.jwt']]);

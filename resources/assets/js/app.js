@@ -12,8 +12,12 @@ Vue.component('navtop', require('./components/Nav.vue'));
 Vue.component('container', require('./components/Main.vue'));
 Vue.component('datepicker', Datepicker);
 
+import store from './store';
+
 const routes = [
 	{ name: 'home', path: '/', component: () => System.import('./components/Home.vue') },
+
+	{ name: 'login', path: '/login', component: () => System.import('./components/Login.vue') },
 	
 	{ name: 'appointments', path: '/appointments', component: () => System.import('./components/appointments/Appointments.vue') },
 	{ path: '/appointments/:id', component: () => System.import('./components/appointments/Appointments.vue') }, // Pagination
@@ -69,8 +73,6 @@ const routes = [
 const router = new VueRouter({
 	routes
 });
-
-import store from './store';
 
 const app = new Vue({
     el: '#app',

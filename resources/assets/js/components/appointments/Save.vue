@@ -140,10 +140,12 @@
 		    	baseUrl: state => state.common.baseUrl
 		    })
 		},
+		
 		created: function(){
 			this.getAppointment();
 			this.$emit('child_created', this.active_element);
 		},
+		
 		methods: {
 			getAppointment(){
 				var t = this;
@@ -159,7 +161,7 @@
 						}
 					})
 					.catch(function (error) {
-						t.$emit('complete', {message:  'Estamos teniendo problemas al resolver su solicitud. Por favor reintente más tarde', success: false, warning: false, danger: true});
+						t.$emit('complete', {message:  'Estamos teniendo problemas al resolver su solicitud. Por favor reintente más tarde', success: false, warning: false, danger: true, error:error});
 					});
 				
 			},
@@ -186,7 +188,9 @@
 					t.$router.go(-1);
 				})
 				.catch(function (error) {
-					if(error.response.data){
+					t.errors = [];
+
+					if(error.response.status != 401){
 						_.forEach(error.response.data, function(message, index){
 							t.errors.push({
 								'name': index,
@@ -194,7 +198,7 @@
 							});
 						});
 					}else{
-						t.$emit('complete', {message:  'Ha ocurrido un problema y no se ha podido editar el turno indicado. Por favor intente nuevamente más tarde', success: false, warning: false, danger: true});	
+						t.$emit('complete', {message:  'Ha ocurrido un problema y no se ha podido editar el turno indicado. Por favor intente nuevamente más tarde', success: false, warning: false, danger: true, error:error});	
 					}
 					
 					t.button_disabled = false;

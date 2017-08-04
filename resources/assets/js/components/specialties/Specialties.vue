@@ -90,7 +90,6 @@
 		
 		created: function(){
 			this.paginationCallback();
-			this.url = this.baseUrl + this.url;
 			this.$emit('child_created', this.active_element);
 		},
 		
@@ -124,7 +123,7 @@
 						}
 					})
 					.catch(function (error) {
-						t.$emit('complete', {message:  'Estamos teniendo problemas al resolver su solicitud. Intente nuevamente más tarde', success: false, warning: false, danger: true});
+						t.$emit('complete', {message:  'Estamos teniendo problemas al resolver su solicitud. Intente nuevamente más tarde', success: false, warning: false, danger: true, error: error});
 						t.no_data_msg 	= 'No se han encontrado registros';
 					});
 			},
@@ -174,7 +173,7 @@
 								t.searching_in_table = false;
 							})
 							.catch(function (error) {
-								t.$emit('complete', {message:  'No se ha podido resolver su solicitud. Quizás usted esté ingresando caracteres no permitidos. Si no es asi, pruebe nuevamente más tarde o comuníquese con el administrador del sistema.', success: false, warning: false, danger: true});
+								t.$emit('complete', {message:  'No se ha podido resolver su solicitud. Quizás usted esté ingresando caracteres no permitidos. Si no es asi, pruebe nuevamente más tarde o comuníquese con el administrador del sistema.', success: false, warning: false, danger: true, error: error});
 								t.searching_in_table = false;
 							});
 
@@ -224,7 +223,7 @@
             'popupdeleteconfirm' : PopupDeleteConfirm
         },
 
-        props: ['message', 'success', 'warning', 'danger'],
+        props: ['message', 'success', 'warning', 'danger', 'error'],
 
         mixins: [common]
 	}

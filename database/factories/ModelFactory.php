@@ -60,6 +60,7 @@ $factory->define(App\Professional::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
+        'password' => bcrypt('123456'),
         'tel' => $faker->phoneNumber,
         'gender' => strlen($faker->name) > 10 ? 'H' : 'M',
         'address' => $faker->address,

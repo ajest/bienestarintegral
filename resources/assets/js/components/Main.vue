@@ -1,6 +1,6 @@
 <template>
 	<div class="row">
-		<div class="col-sm-3 col-md-2 sidebar">
+		<div class="col-sm-3 col-md-2 sidebar" v-if="sidebar">
 			<!--<ul class="nav nav-sidebar">
 				<li :class="[active_element == 'calendar' ? 'active' : '']"><router-link to="/"><span class="glyphicon glyphicon-calendar"></span> Calendario <span class="sr-only">(current)</span></router-link></li>
 				<li :class="[active_element == 'reports' ? 'active' : '']"><router-link to="/"><span class="glyphicon glyphicon-stats"></span> Reportes</router-link></li>
@@ -22,6 +22,7 @@
 				v-bind:success="success"
 				v-bind:warning="warning"
 				v-bind:danger="danger"
+				v-bind:error="error"
 				v-on:complete="operationComplete"
 				v-on:child_created="setActiveElement"></router-view>
 			<transition name="fade">			
@@ -35,6 +36,8 @@
 	</div>
 </template>
 <script>
+	import { mapState } from 'vuex';
+
 	export default {
 		data () {
 			return {
@@ -42,7 +45,9 @@
 				success: true,
 				warning: false,
 				danger: false,
-				active_element: 'calendar'
+				error: {},
+				active_element: 'calendar',
+				sidebar: false
 			}
 		},
 
@@ -60,6 +65,16 @@
 					'glyphicon-warning-sign': this.warning,
 					'glyphicon-remove': this.danger
 				}
+			},
+			...mapState({
+		    	baseUrl: state => state.common.baseUrl,
+		    	token: state => state.authentication.token
+		    })
+		},
+
+		created: function(){
+			if(!this.token){
+				this.sidebar = false;
 			}
 		},
 
@@ -71,6 +86,22 @@
 				t.success = e.success;
 				t.warning = e.warning;
 				t.danger  = e.danger;
+
+				if(!_.isEmpty(e.error)){
+					if(!_.isEmpty(e.error.response.data.error)){
+						switch(e.error.response.data.error){
+							case 'token_not_provided':
+							case 'token_expired':
+								t.message = 'La sesión ha expirado. Por favor vuelva a ingresar. Muchas gracias';
+								t.success = false;
+								t.warning = true;
+								t.danger  = false;
+								t.$store.commit('clearLoginData');
+								t.$router.push('/login');
+								break;
+						}
+					}
+				}
 				
 				setTimeout(function(){
 					t.message = '';
@@ -83,6 +114,21 @@
 			setActiveElement(e){
 				this.active_element = e;
 			}
+		},
+
+		watch: {
+		    '$route' (to, from) {
+		    	var t = this;
+
+		    	if(!t.token){
+		    		t.$router.push('login');
+		    		this.sidebar = false;
+		    	}else{
+		    		let instance = window.axios.create();
+    				instance.defaults.headers.common['Authorization'] = 'bearer ' + t.token;
+    				this.sidebar = true;
+		    	}
+		    }
 		}
 	}
 </script>

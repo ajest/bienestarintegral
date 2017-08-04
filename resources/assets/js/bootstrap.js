@@ -24,6 +24,9 @@ window.Vue = Vue;
 import Vuex from 'vuex';
 window.Vuex = Vuex;
 
+import createPersistedState from 'vuex-persistedstate';
+window.createPersistedState = createPersistedState;
+
 import VueRouter from 'vue-router';
 window.VueRouter = VueRouter;
 
