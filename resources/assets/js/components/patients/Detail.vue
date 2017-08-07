@@ -37,7 +37,7 @@
 							<td><span class="label label-default">{{ patient.patient.address }}</span></td>
 						</tr>
 						<tr>
-							<td>Sexo</td>
+							<td>Género</td>
 							<td><span class="label label-default">{{ patient.patient.gender == 'H' ? 'Hombre' : 'Mujer'  }}</span></td>
 						</tr>
 						<tr>

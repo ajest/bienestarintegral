@@ -86,6 +86,10 @@ class PatientController extends Controller
         
         $patient = new Patient;
 
+        $day = explode('T', $request->birthdate);
+        $birthdate = explode('Z', $request->birthdate);
+        $birthdate = $day[0] . $birthdate[1];
+
         $patient->name              = $request->name;
         $patient->email             = $request->email;
         $patient->cellphone         = $request->cellphone;
@@ -94,7 +98,7 @@ class PatientController extends Controller
         $patient->civil_status_id   = $request->civil_status_id;
         $patient->gender_id         = $request->gender_id;
         $patient->address           = $request->address;
-        $patient->birthdate         = $request->birthdate;
+        $patient->birthdate         = $birthdate;
         $patient->area              = $request->area;
         $patient->facebook          = $request->facebook;
         $patient->address           = $request->address;

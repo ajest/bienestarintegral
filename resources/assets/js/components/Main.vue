@@ -121,7 +121,7 @@
 		    	var t = this;
 
 		    	if(!t.token){
-		    		t.$router.push('login');
+		    		t.$router.push('/login');
 		    		this.sidebar = false;
 		    	}else{
 		    		let instance = window.axios.create();

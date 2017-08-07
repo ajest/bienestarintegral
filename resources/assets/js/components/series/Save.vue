@@ -18,12 +18,12 @@
 				</div>
 			</div>
 			<div class="form-group col-md-6">
-				<label>Nombre *</label>
-				<input type="text" v-model="series.series.series" placeholder="Ej. 10 sesiones al precio de 9" class="form-control" required>
+				<label for="series">Nombre *</label>
+				<input id="series" type="text" v-model="series.series.series" placeholder="Ej. 10 sesiones al precio de 9" class="form-control" :class="validateRequired('series')" @focusin="setFlagError('series')" required>
 			</div>
 			<div class="form-group col-md-6">
-				<label>Cantidad</label>
-				<input type="text" v-model="series.series.cant" placeholder="10" class="form-control" v-mask="'##'">
+				<label for="cant">Cantidad</label>
+				<input id="cant" type="text" v-model="series.series.cant" placeholder="Ej. 10" class="form-control" v-mask="'##'">
 			</div>
 		</div>
 	</form>
@@ -44,6 +44,9 @@
 				save_icon: 'glyphicon-floppy-disk',
 				button_disabled: false,
 				errors: [],
+				flag_error: {
+					series: false
+				},
 				active_element: 'series'
 			}
 		},
@@ -98,7 +101,7 @@
 				var t = this;
 				let message = 'La promoción se cargó correctamente';
 				let method = 'post';
-				let url = 'series/store'
+				let url = '/series/store'
 				t.save_icon = 'glyphicon-hourglass';
 				t.save_button = 'Espere';
 				t.button_disabled = true;
@@ -137,9 +140,14 @@
 					t.save_button = 'Guardar';
 				});
 			},
+			
 			// VALIDATION
 			validateRequired(field) {
-				if(!this.series.series[field]) return 'error-input';
+				if(!this.series.series[field] && this.flag_error[field]) return 'error-input';
+			},
+
+			setFlagError(field){
+				this.flag_error[field] = true;
 			}
 		}
 	}

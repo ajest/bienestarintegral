@@ -111,10 +111,30 @@
 
 						if(!_.isEmpty(response.data.treatments.data)){
 							_.forEach(response.data.treatments.data, function(value) {
+
+								var index = value.treatment.indexOf(t.search_in_table);
+								var text_lenght = t.search_in_table.length;
+
+								if(index >= 0){
+							        value.treatment = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.treatment); 
+							    }
+
+							    if(!_.isEmpty(value.specialty)){									    	
+								    index = value.specialty.specialty.indexOf(t.search_in_table);
+									if(index >= 0){
+								        value.specialty.specialty = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.specialty.specialty); 
+								    }
+							    }
+
+							    index = value.description.indexOf(t.search_in_table);
+								if(index >= 0){
+							        value.description = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.description); 
+							    }
+
 								t.treatments.push({
 									'id' : value.id,
 									'treatment': value.treatment,
-									'specialty': value.specialty.specialty,
+									'specialty': value.specialty ? value.specialty.specialty : '-SIN ESPECIALIDAD-',
 									'description': value.description
 								});
 
@@ -148,17 +168,18 @@
 								if(!_.isEmpty(response.data.treatments.data)){
 									_.forEach(response.data.treatments.data, function(value) {
 
-										var index = '';
-										var text_lenght = t.search_in_table.length;									
+										var index = value.treatment.indexOf(t.search_in_table);
+										var text_lenght = t.search_in_table.length;
 
-										index = value.treatment.indexOf(t.search_in_table);
 										if(index >= 0){
 									        value.treatment = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.treatment); 
 									    }
 
-									    index = value.specialty.specialty.indexOf(t.search_in_table);
-										if(index >= 0){
-									        value.specialty.specialty = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.specialty.specialty); 
+									    if(!_.isEmpty(value.specialty)){									    	
+										    index = value.specialty.specialty.indexOf(t.search_in_table);
+											if(index >= 0){
+										        value.specialty.specialty = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.specialty.specialty); 
+										    }
 									    }
 
 									    index = value.description.indexOf(t.search_in_table);
@@ -169,7 +190,7 @@
 									    t.treatments.push({
 											'id' : value.id,
 											'treatment': value.treatment,
-											'specialty': value.specialty.specialty,
+											'specialty': value.specialty ? value.specialty.specialty : '-SIN ESPECIALIDAD-',
 											'description': value.description
 										});
 

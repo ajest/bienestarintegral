@@ -29,7 +29,7 @@ class ProfessionalController extends Controller
             'name',
             'email',
             'tel',
-            'gender',
+            'gender_id',
             'address'
         ];
         
@@ -38,15 +38,18 @@ class ProfessionalController extends Controller
             
             if(!empty($_GET['term'])) $term = urldecode($_GET['term']);
             
-            $professionals_data = Professional::select('professionals.*')
+            $professionals_data = Professional::with(['gender'])
+                            ->select('professionals.*')
                             ->where(function ($query) use ($term) {
                             $query
                                 ->whereRaw('DATE_FORMAT(created_at, "%d/%m/%Y") like "%' . $term . '%"')
                                 ->orWhere('name', 'like', '%' . $term . '%')
                                 ->orWhere('email', 'like', '%' . $term . '%')
                                 ->orWhere('tel', 'like', '%' . $term . '%')
-                                ->orWhere('gender', 'like', '%' . $term . '%')
-                                ->orWhere('address', 'like', '%' . $term . '%');
+                                ->orWhere('address', 'like', '%' . $term . '%')
+                                ->orWhereHas('gender', function ($query) use ($term) {
+                                    $query->where('gender', 'like', '%' . $term . '%');
+                                });
                         })
                         ->orderBy($order, $order_mode)
                         ->paginate($rows);
@@ -67,7 +70,7 @@ class ProfessionalController extends Controller
         $professional->name    = $request->name;
         $professional->email   = $request->email;
         $professional->tel     = $request->tel;
-        $professional->gender  = $request->gender;
+        $professional->gender_id  = $request->gender_id;
         $professional->address = $request->address;
         
         $res = $professional->save();
@@ -87,7 +90,7 @@ class ProfessionalController extends Controller
         $professional->name   = $request->name;
         $professional->email  = $request->email;
         $professional->tel    = $request->tel;
-        $professional->gender = $request->gender;
+        $professional->gender_id = $request->gender_id;
         $professional->address= $request->address;
         
         $res = $professional->save();
@@ -125,15 +128,18 @@ class ProfessionalController extends Controller
         
         if(!empty($_GET['term'])) $term = urldecode($_GET['term']);
         
-        $professionals_data = Professional::select('professionals.*')
+        $professionals_data = Professional::with(['gender'])
+                        ->select('professionals.*')
                         ->where(function ($query) use ($term) {
                         $query
                             ->whereRaw('DATE_FORMAT(created_at, "%d/%m/%Y") like "%' . $term . '%"')
                             ->orWhere('name', 'like', '%' . $term . '%')
                             ->orWhere('email', 'like', '%' . $term . '%')
                             ->orWhere('tel', 'like', '%' . $term . '%')
-                            ->orWhere('gender', 'like', '%' . $term . '%')
-                            ->orWhere('address', 'like', '%' . $term . '%');
+                            ->orWhere('address', 'like', '%' . $term . '%')
+                            ->orWhereHas('gender', function ($query) use ($term) {
+                                $query->where('gender', 'like', '%' . $term . '%');
+                            });
                     })
                     ->paginate($rows);
         

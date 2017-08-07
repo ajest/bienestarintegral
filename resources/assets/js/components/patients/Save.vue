@@ -3,7 +3,7 @@
 		<div class="row col-md-12">
 			<h1>{{ patient.patient.name ? patient.patient.name : 'Nuevo Paciente' }} 
 				<button class="pull-right btn btn-primary margin-left-small" :disabled="button_disabled"><span class="glyphicon " :class="save_icon"></span> {{ saveButtonName }}</button>
-				<router-link to="/patients" class="btn btn-success pull-right margin-left-small"><span class="glyphicon glyphicon-arrow-left"></span> Volver</router-link>
+				<router-link to="/patients" class="btn btn-success pull-right margin-left-small"><span class="glyphicon glyphicon-arrow-left"></span> Listado</router-link>
 			</h1>
 		</div>
 		<hr />
@@ -18,58 +18,60 @@
 				</div>
 			</div>
 			<div class="form-group col-md-6">
-				<label>Nombre *</label>
-				<input type="text" v-model="patient.patient.name" placeholder="Ej. Lucas García" class="form-control" required>
+				<label for="name">Nombre *</label>
+				<input id="name" type="text" v-model="patient.patient.name" placeholder="Ej. Lucas García" class="form-control" :class="validateRequired('name')" @focusin="setFlagError('name')" required>
 			</div>
 			<div class="form-group col-md-6">
-				<label>Email *</label>
-				<input type="email" v-model="patient.patient.email" placeholder="Ej. lucasgarcia@gmail.com" class="form-control" required>
+				<label for="email">Email *</label>
+				<input id="email" type="email" v-model="patient.patient.email" placeholder="Ej. lucasgarcia@gmail.com" class="form-control" :class="validateRequired('email')" @focusin="setFlagError('email')" required>
 			</div>
 			<div class="form-group col-md-6">
-				<label>Celular *</label>
-				<input type="text" v-model="patient.patient.cellphone" placeholder="Ej. +54 11 6890-8443" class="form-control" v-mask="'+## ## ####-####'" required>
+				<label for="cellphone">Celular *</label>
+				<input id="cellphone" type="text" v-model="patient.patient.cellphone" placeholder="Ej. +54 11 6890-8443" class="form-control" :class="validateRequired('cellphone')" v-mask="'+## ## ####-####'" @focusin="setFlagError('cellphone')" required>
 			</div>
 			<div class="form-group col-md-6">
-				<label>Teléfono</label>
-				<input type="text" v-model="patient.patient.tel" placeholder="Ej. +54 11 6890-8443" class="form-control" v-mask="'+## ## ####-####'">
+				<label for="tel" >Teléfono</label>
+				<input id="tel" type="text" v-model="patient.patient.tel" placeholder="Ej. +54 11 6890-8443" class="form-control" v-mask="'+## ## ####-####'">
 			</div>
 			<div class="form-group col-md-6">
-				<label>DNI</label>
-				<input type="text" v-model="patient.patient.dni" placeholder="Ej. 34539064" class="form-control" v-mask="'########'">
+				<label for="dni">DNI</label>
+				<input id="dni" type="text" v-model="patient.patient.dni" placeholder="Ej. 34539064" class="form-control" v-mask="'########'">
 			</div>
 			<div class="form-group col-md-6">
-				<label>Estado Civil </label>
-				<select v-model="patient.patient.civil_status_id" class="form-control">
+				<label for="civil_status_id">Estado Civil </label>
+				<select id="civil_status_id" v-model="patient.patient.civil_status_id" class="form-control">
+					<option value="">-- Seleccione Estado Civil --</option>
 					<option value="1">Soltero</option>
 					<option value="2">Casado</option>
 				</select>
 			</div>
 			<div class="form-group col-md-6">
-				<label>Sexo *</label>
-				<select v-model="patient.patient.gender_id" class="form-control" required>
+				<label for="gender_id">Género *</label>
+				<select id="gender_id" v-model="patient.patient.gender_id" class="form-control" :class="validateRequired('gender_id')" @focusin="setFlagError('gender_id')" required>
+					<option value="">-- Seleccione Género --</option>
 					<option value="1">Hombre</option>
 					<option value="2">Mujer</option>
 				</select>
 			</div>
 			<div class="form-group col-md-6">
-				<label>Dirección *</label>
-				<input type="text" v-model="patient.patient.address" placeholder="Ej. Posta de Pardo 1298" class="form-control" required>
+				<label for="address">Dirección *</label>
+				<input id="address" type="text" v-model="patient.patient.address" placeholder="Ej. Posta de Pardo 1298" class="form-control" :class="validateRequired('address')" @focusin="setFlagError('address')" required>
 			</div>
 			<div class="form-group col-md-6">
-				<label>Fecha de nacimiento</label>
-				<datepicker v-model="patient.patient.birthdate" language="es" format="dd/MM/yyyy" input-class="form-control" placeholder="Ej. 15/07/2017" :highlighted="datepicker_highlighted" :class="validateRequired('date')" :required="true"></datepicker>
+				<label for="birthdate">Fecha de nacimiento</label>
+				<datepicker id="birthdate" v-model="patient.patient.birthdate" language="es" format="dd/MM/yyyy" input-class="form-control" placeholder="Ej. 15/07/2017" :highlighted="datepicker_highlighted" :class="validateRequired('birthdate')" @focusin="setFlagError('birthdate')" :required="true"></datepicker>
 			</div>
 			<div class="form-group col-md-6">
-				<label>Localidad</label>
-				<input type="text" v-model="patient.patient.area" placeholder="Ej. CABA" class="form-control">
+				<label for="area">Localidad</label>
+				<input id="area" type="text" v-model="patient.patient.area" placeholder="Ej. CABA" class="form-control">
 			</div>
 			<div class="form-group col-md-6">
-				<label>Facebook (URL)</label>
-				<input type="text" v-model="patient.patient.facebook" placeholder="Ej. https://www.facebook.com/profile.php?id=100010682533022" class="form-control">
+				<label for="facebook">Facebook (URL)</label>
+				<input id="facebook" type="text" v-model="patient.patient.facebook" placeholder="Ej. https://www.facebook.com/profile.php?id=100010682533022" class="form-control">
 			</div>
 			<div class="form-group col-md-12">
-				<label>Comentarios</label>
-				<textarea v-model="patient.patient.comments" placeholder="Ej. Señor que viene todos los viernes" class="form-control" rows="4"></textarea>
+				<label for="comments">Comentarios</label>
+				<textarea id="comments" v-model="patient.patient.comments" placeholder="Ej. Señor que viene todos los viernes" class="form-control" rows="4"></textarea>
 			</div>
 		</div>
 	</form>
@@ -90,6 +92,14 @@
 			        	new Date()
 			        ] 
 			    },
+			    flag_error: {
+					name: false,
+					email: false,
+					cellphone: false,
+					gender_id: false,
+					address: false,
+					birthdate: false
+				},
 				active_element: 'patient'
 			}
 		},
@@ -159,7 +169,7 @@
 				var t = this;
 				let message = 'El paciente se cargó correctamente';
 				let method = 'post';
-				let url = 'patients/store'
+				let url = '/patients/store'
 				t.save_icon = 'glyphicon-hourglass';
 				t.save_button = 'Espere';
 				t.button_disabled = true;
@@ -198,9 +208,14 @@
 					t.save_button = 'Guardar';
 				});
 			},
+			
 			// VALIDATION
 			validateRequired(field) {
-				if(!this.patient.patient[field]) return 'error-input';
+				if(!this.patient.patient[field] && this.flag_error[field]) return 'error-input';
+			},
+
+			setFlagError(field){
+				this.flag_error[field] = true;
 			}
 		}
 	}

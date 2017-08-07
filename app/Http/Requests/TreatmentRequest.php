@@ -24,7 +24,7 @@ class TreatmentRequest extends FormRequest
     public function rules()
     {
         return [
-            'treatment'   => 'required|max:255',
+            'treatment'   => 'required|max:255|unique:treatments,treatment,' . $this->id,
             'description' => 'nullable'
         ];
     }

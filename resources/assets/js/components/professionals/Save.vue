@@ -18,27 +18,28 @@
 				</div>
 			</div>
 			<div class="form-group col-md-6">
-				<label>Nombre *</label>
-				<input type="text" v-model="professional.professional.name" placeholder="Ej. Lucas García" class="form-control" required>
+				<label for="name">Nombre *</label>
+				<input id="name" type="text" v-model="professional.professional.name" placeholder="Ej. Lucas García" class="form-control" :class="validateRequired('name')" @focusin="setFlagError('name')" required>
 			</div>
 			<div class="form-group col-md-6">
-				<label>Email *</label>
-				<input type="email" v-model="professional.professional.email" placeholder="Ej. lucasgarcia@gmail.com" class="form-control" required>
+				<label for="email">Email *</label>
+				<input id="email" type="email" v-model="professional.professional.email" placeholder="Ej. lucasgarcia@gmail.com" class="form-control" :class="validateRequired('email')" @focusin="setFlagError('email')" required>
 			</div>
 			<div class="form-group col-md-6">
-				<label>Teléfono *</label>
-				<input type="text" v-model="professional.professional.tel" placeholder="Ej. +54 11 6890-8443" class="form-control" v-mask="'+## ## ####-####'" required>
+				<label for="tel">Teléfono *</label>
+				<input id="tel" type="text" v-model="professional.professional.tel" placeholder="Ej. +54 11 6890-8443" class="form-control" v-mask="'+## ## ####-####'" :class="validateRequired('tel')" @focusin="setFlagError('tel')" required>
 			</div>
 			<div class="form-group col-md-6">
-				<label>Género *</label>
-				<select v-model="professional.professional.gender" class="form-control" required>
-					<option value="H">Hombre</option>
-					<option value="M">Mujer</option>
+				<label for="gender_id">Género *</label>
+				<select id="gender_id" v-model="professional.professional.gender_id" class="form-control" :class="validateRequired('gender_id')" @focusin="setFlagError('gender_id')" required>
+					<option value="">-- Seleccione Género --</option>
+					<option value="1">Hombre</option>
+					<option value="2">Mujer</option>
 				</select>
 			</div>
 			<div class="form-group col-md-6">
-				<label>Dirección *</label>
-				<input type="text" v-model="professional.professional.address" placeholder="Ej. Posta de Pardo 1298" class="form-control" required>
+				<label for="address">Dirección *</label>
+				<input id="address" type="text" v-model="professional.professional.address" placeholder="Ej. Posta de Pardo 1298" class="form-control" :class="validateRequired('address')" @focusin="setFlagError('address')" required>
 			</div>
 		</div>
 	</form>
@@ -54,6 +55,13 @@
 				save_icon: 'glyphicon-floppy-disk',
 				button_disabled: false,
 				errors: [],
+				flag_error: {
+					name: false,
+					email: false,
+					tel: false,
+					gender_id: false,
+					address: false
+				},
 				active_element: 'professional'
 			}
 		},
@@ -66,7 +74,7 @@
 							name: '',
 							email: '',
 							tel: '',
-							gender: '',
+							gender_id: '',
 							address: ''
 						}
 					};
@@ -111,7 +119,7 @@
 				var t = this;
 				let message = 'El profesional se cargó correctamente';
 				let method = 'post';
-				let url = 'professionals/store'
+				let url = '/professionals/store'
 				t.save_icon = 'glyphicon-hourglass';
 				t.save_button = 'Espere';
 				t.button_disabled = true;
@@ -152,7 +160,11 @@
 			},
 			// VALIDATION
 			validateRequired(field) {
-				if(!this.professional.professional[field]) return 'error-input';
+				if(!this.professional.professional[field] && this.flag_error[field]) return 'error-input';
+			},
+
+			setFlagError(field){
+				this.flag_error[field] = true;
 			}
 		}
 	}

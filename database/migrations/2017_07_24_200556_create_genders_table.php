@@ -25,6 +25,14 @@ class CreateGendersTable extends Migration
               ->onUpdate('cascade')
               ->onDelete('cascade');
         });
+
+        Schema::table('professionals', function($table) {
+           $table
+              ->foreign('gender_id')
+              ->references('id')->on('genders')
+              ->onUpdate('cascade')
+              ->onDelete('cascade');
+        });
     }
 
     /**
@@ -36,6 +44,7 @@ class CreateGendersTable extends Migration
     {
         Schema::dropIfExists('appointments');
         Schema::dropIfExists('patients');
+        Schema::dropIfExists('professionals');
         Schema::dropIfExists('genders');
     }
 }

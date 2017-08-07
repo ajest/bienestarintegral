@@ -18,12 +18,12 @@
 				</div>
 			</div>
 			<div class="form-group col-md-6">
-				<label>Pregunta *</label>
-				<input type="text" v-model="question.question.question" placeholder="Ej. Reflexología" class="form-control" required>
+				<label for="question">Pregunta *</label>
+				<input id="question" type="text" v-model="question.question.question" placeholder="Ej. Reflexología" class="form-control" :class="validateRequired('question')" @focusin="setFlagError('question')" required>
 			</div>
 			<div class="form-group col-md-6">
-				<label>Especialidad</label>
-				<select v-model="question.question.specialty_id" class="form-control">
+				<label for="specialty_id">Especialidad</label>
+				<select id="specialty_id" v-model="question.question.specialty_id" class="form-control">
 					<option value="">-- Seleccione Especialidad --</option>
 					<option v-for="specialty in question.all.specialties" v-bind:value="specialty.id">
 						{{ specialty.specialty }}
@@ -44,6 +44,9 @@
 				save_icon: 'glyphicon-floppy-disk',
 				button_disabled: false,
 				errors: [],
+				flag_error: {
+					question: false
+				},
 				active_element: 'settings'
 			}
 		},
@@ -54,7 +57,8 @@
 					this.question = {
 						question: {
 							question: '',
-							description: ''
+							description: '',
+							specialty_id: ''
 						},
 						all: {
 							specialties: ''
@@ -103,7 +107,7 @@
 				var t = this;
 				let message = 'La pregunta se cargó correctamente';
 				let method = 'post';
-				let url = 'questions/store'
+				let url = '/questions/store'
 				t.save_icon = 'glyphicon-hourglass';
 				t.save_button = 'Espere';
 				t.button_disabled = true;
@@ -142,9 +146,14 @@
 					t.save_button = 'Guardar';
 				});
 			},
+			
 			// VALIDATION
 			validateRequired(field) {
-				if(!this.question.question[field]) return 'error-input';
+				if(!this.question.question[field] && this.flag_error[field]) return 'error-input';
+			},
+
+			setFlagError(field){
+				this.flag_error[field] = true;
 			}
 		}
 	}

@@ -62,7 +62,7 @@ $factory->define(App\Professional::class, function (Faker\Generator $faker) {
         'email' => $faker->unique()->safeEmail,
         'password' => bcrypt('123456'),
         'tel' => $faker->phoneNumber,
-        'gender' => strlen($faker->name) > 10 ? 'H' : 'M',
+        'gender_id' => $faker->numberBetween(1,2),
         'address' => $faker->address,
         'created_at' => $faker->dateTimeBetween($startDate = '-180 days', $endDate = '0 days'),
         'updated_at' => $faker->dateTimeBetween($startDate = '+1 days', $endDate = '+180 days')

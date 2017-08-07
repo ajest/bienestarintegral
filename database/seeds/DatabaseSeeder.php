@@ -11,8 +11,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Professional::class, 5)->create();
-        
         DB::table('specialties')->insert(['specialty' => 'Masajes', 'description' => 'El masaje es una forma de manipulación de las capas superficiales y profundas de los músculos del cuerpo utilizando varias técnicas, para mejorar sus funciones, ayudar en procesos de curación, disminuir la actividad refleja de los músculos, inhibir la excitabilidad motoneuronal, promover la relajación y el bienestar y como actividad recreativa.']);
         DB::table('specialties')->insert(['specialty' => 'Estética', 'description' => 'El tratamiento estético ayuda a que el cuerpo y en especial la piel refleje un bienestar y salud interior del cuerpo']);
         DB::table('specialties')->insert(['specialty' => 'Pedicuría', 'description' => 'Tratamiento específico enfocado en los pies, su salud superficial y su belleza y estética']);
@@ -62,8 +60,20 @@ class DatabaseSeeder extends Seeder
 
         DB::table('civil_statuses')->insert(['civil_status' => 'Soltero']);
         DB::table('civil_statuses')->insert(['civil_status' => 'Casado']);
-
+        
+        factory(App\Professional::class, 5)->create();
         factory(App\Patient::class, 50)->create();
         factory(App\Appointment::class, 50)->create();
+
+        DB::table('professionals')->insert([
+            'name' => 'Pablo Fumarola',
+            'email' => 'pablo.fumarola@gmail.com',
+            'password' => bcrypt('123456'),
+            'tel' => '+54 11 6890 8443',
+            'gender_id' => 1,
+            'address' => 'Posta de Pardo 123',
+            'created_at' => '2017-08-07',
+            'updated_at' => '2017-08-08'
+        ]);
     }
 }

@@ -33,9 +33,9 @@
 	<li>Ajustes técnicos (Vuex)</li>
 	<li>Agregar más campos a cada una de las secciones según necesidades reales</li>
 	<li>Login</li>
+	<li>Pruebas unitarias de navegador (Laravel Dusk)</li>
 </ul>
 <h3>Características en desarrollo:</h3>
 <ul>
 	<li>Preguntas para pacientes</li>
-	<li>Pruebas unitarias</li>
 </ul>

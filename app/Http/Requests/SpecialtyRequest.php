@@ -24,7 +24,7 @@ class SpecialtyRequest extends FormRequest
     public function rules()
     {
         return [
-            'specialty'    => 'required|max:255',
+            'specialty'    => 'required|max:255|unique:specialties,specialty,' . $this->id,
             'description'  => 'nullable'
         ];
     }

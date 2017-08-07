@@ -25,7 +25,7 @@
 							<td><router-link :to="url + '1/name'">Nombre</router-link></td>
 							<td><router-link :to="url + '1/email'">Email</router-link></td>
 							<td><router-link :to="url + '1/tel'">Teléfono</router-link></td>
-							<td><router-link :to="url + '1/gender'">Sexo</router-link></td>
+							<td><router-link :to="url + '1/gender_id'">Género</router-link></td>
 							<td><router-link :to="url + '1/address'">Dirección</router-link></td>
 							<td>Acciones</td>
 						</tr>
@@ -120,7 +120,7 @@
 									'nombre': value.name,
 									'email': value.email,
 									'tel': value.tel,
-									'gender': value.gender,
+									'gender': value.gender.gender,
 									'address': value.address
 								});
 
@@ -172,9 +172,9 @@
 									        value.tel = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.tel); 
 									    }
 										
-										index = value.gender.indexOf(t.search_in_table);
+										index = value.gender.gender.indexOf(t.search_in_table);
 										if(index >= 0){
-									        value.gender = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.gender); 
+									        value.gender.gender = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.gender.gender); 
 									    }
 										
 										index = value.address.indexOf(t.search_in_table);
@@ -187,7 +187,7 @@
 											'nombre': value.name,
 											'email': value.email,
 											'tel': value.tel,
-											'gender': value.gender,
+											'gender': value.gender.gender,
 											'address': value.address
 										});
 

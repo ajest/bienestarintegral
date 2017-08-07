@@ -17,9 +17,9 @@ class CreateProfessionalsTable extends Migration
             $table->increments('id');
             $table->string('name', 100);
             $table->string('email')->unique();
-            $table->string('password');
+            $table->integer('gender_id')->unsigned();
+            $table->string('password')->nullable();
             $table->string('tel', 25);
-            $table->char('gender', 4);
             $table->char('address', 100);
             $table->rememberToken();
             $table->timestamps();

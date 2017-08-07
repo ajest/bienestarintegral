@@ -28,7 +28,7 @@
 							<td><router-link :to="url + '1/tel'">Teléfono</router-link></td>
 							<td><router-link :to="url + '1/dni'">DNI</router-link></td>
 							<td><router-link :to="url + '1/civil_status_id'">Estado Civil</router-link></td>
-							<td><router-link :to="url + '1/gender_id'">Sexo</router-link></td>
+							<td><router-link :to="url + '1/gender_id'">Género</router-link></td>
 							<td><router-link :to="url + '1/address'">Dirección</router-link></td>
 							<td><router-link :to="url + '1/birthdate'">Nacimiento</router-link></td>
 							<td><router-link :to="url + '1/area'">Localidad</router-link></td>

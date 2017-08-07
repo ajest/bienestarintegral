@@ -213,6 +213,13 @@ Route::get('treatments/list', 'TreatmentController@getall')->middleware('auth.jw
 Route::get('treatments/list/{page}', ['uses' =>'TreatmentController@getall'])->where('page', '[0-9]+')->middleware('auth.jwt');
 Route::get('treatments/list/{page}/{order}', ['uses' =>'TreatmentController@getall'])->where('page', '[0-9]+')->middleware('auth.jwt');
 Route::get('treatments/search', ['uses' =>'TreatmentController@search'])->middleware('auth.jwt');
+Route::get('treatments/detail', function () {
+    return [
+        'all' => [
+            'specialties' => App\Specialty::all()
+        ]
+    ];
+})->middleware('auth.jwt');
 Route::get('treatments/detail/{treatment?}', function (App\Treatment $treatment) {
     return [
         'treatment'  => $treatment,
@@ -228,7 +235,6 @@ Route::get('treatments/detail/{treatment?}', function (App\Treatment $treatment)
         ]
     ];
 })->middleware('auth.jwt');
-
 Route::post('treatments/store', 'TreatmentController@store')->middleware('auth.jwt');
 Route::post('treatments/create', 'TreatmentController@store')->middleware('auth.jwt');
 /* ---------------------------- */
@@ -247,6 +253,13 @@ Route::get('questions/list', 'QuestionController@getall')->middleware('auth.jwt'
 Route::get('questions/list/{page}', ['uses' =>'QuestionController@getall'])->where('page', '[0-9]+')->middleware('auth.jwt');
 Route::get('questions/list/{page}/{order}', ['uses' =>'QuestionController@getall'])->where('page', '[0-9]+')->middleware('auth.jwt');
 Route::get('questions/search', ['uses' =>'QuestionController@search'])->middleware('auth.jwt');
+Route::get('questions/detail', function () {
+    return [
+        'all' => [
+            'specialties' => App\Specialty::all()
+        ]
+    ];
+})->middleware('auth.jwt');
 Route::get('questions/detail/{question?}', function (App\Question $question) {
     return [
         'question'  => $question,

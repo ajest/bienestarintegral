@@ -17,4 +17,8 @@ class Professional extends Authenticatable
     {
         return $this->hasMany('App\Appointment');
     }
+
+    public function gender() {
+        return $this->belongsTo('App\Gender');
+    }
 }

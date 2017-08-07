@@ -18,12 +18,12 @@
 				</div>
 			</div>
 			<div class="form-group col-md-6">
-				<label>Nombre *</label>
-				<input type="text" v-model="specialty.specialty.specialty" placeholder="Ej. Lucas García" class="form-control" required>
+				<label for="specialty">Nombre *</label>
+				<input id="specialty" type="text" v-model="specialty.specialty.specialty" placeholder="Ej. Lucas García" class="form-control" :class="validateRequired('specialty')" @focusin="setFlagError('specialty')" required>
 			</div>
 			<div class="form-group col-md-6">
-				<label>Descripción</label>
-				<textarea v-model="specialty.specialty.description" placeholder="Ej. Los masajes son la serie de prácticas..." class="form-control" rows="4"></textarea>
+				<label for="description">Descripción</label>
+				<textarea id="description" v-model="specialty.specialty.description" placeholder="Ej. Los masajes son la serie de prácticas..." class="form-control" rows="4"></textarea>
 			</div>
 		</div>
 	</form>
@@ -39,6 +39,9 @@
 				save_icon: 'glyphicon-floppy-disk',
 				button_disabled: false,
 				errors: [],
+				flag_error: {
+					specialty: false
+				},
 				active_element: 'settings'
 			}
 		},
@@ -93,7 +96,7 @@
 				var t = this;
 				let message = 'La especialidad se cargó correctamente';
 				let method = 'post';
-				let url = 'specialties/store'
+				let url = '/specialties/store'
 				t.save_icon = 'glyphicon-hourglass';
 				t.save_button = 'Espere';
 				t.button_disabled = true;
@@ -134,7 +137,11 @@
 			},
 			// VALIDATION
 			validateRequired(field) {
-				if(!this.specialty.specialty[field]) return 'error-input';
+				if(!this.specialty.specialty[field] && this.flag_error[field]) return 'error-input';
+			},
+
+			setFlagError(field){
+				this.flag_error[field] = true;
 			}
 		}
 	}

@@ -27,7 +27,7 @@ class ProfessionalRequest extends FormRequest
             'name'      => 'required|max:255',
             'email'     => 'required|email|max:100',
             'tel'       => 'required|max:100',
-            'gender'    => 'required|max:4',
+            'gender_id' => 'required|max:4',
             'address'   => 'required|max:100',
         ];
     }

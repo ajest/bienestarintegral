@@ -18,12 +18,12 @@
 				</div>
 			</div>
 			<div class="form-group col-md-6">
-				<label>Tratamiento *</label>
-				<input type="text" v-model="treatment.treatment.treatment" placeholder="Ej. Reflexología" class="form-control" required>
+				<label for="treatment">Tratamiento *</label>
+				<input id="treatment" type="text" v-model="treatment.treatment.treatment" placeholder="Ej. Reflexología" class="form-control" :class="validateRequired('treatment')" @focusin="setFlagError('treatment')" required>
 			</div>
 			<div class="form-group col-md-6">
-				<label>Especialidad</label>
-				<select v-model="treatment.treatment.specialty_id" class="form-control">
+				<label for="specialty_id">Especialidad</label>
+				<select id="specialty_id" v-model="treatment.treatment.specialty_id" class="form-control">
 					<option value="">-- Seleccione Especialidad --</option>
 					<option v-for="specialty in treatment.all.specialties" v-bind:value="specialty.id">
 						{{ specialty.specialty }}
@@ -31,8 +31,8 @@
 				</select>
 			</div>
 			<div class="form-group col-md-6">
-				<label>Descripción</label>
-				<textarea v-model="treatment.treatment.description" placeholder="Ej. La reflexología permite ..." class="form-control" rows="4"></textarea>
+				<label for="description">Descripción</label>
+				<textarea id="description" v-model="treatment.treatment.description" placeholder="Ej. La reflexología permite ..." class="form-control" rows="4"></textarea>
 			</div>
 		</div>
 	</form>
@@ -48,6 +48,9 @@
 				save_icon: 'glyphicon-floppy-disk',
 				button_disabled: false,
 				errors: [],
+				flag_error: {
+					treatment: false
+				},
 				active_element: 'settings'
 			}
 		},
@@ -58,7 +61,8 @@
 					this.treatment = {
 						treatment: {
 							treatment: '',
-							description: ''
+							description: '',
+							specialty_id: ''
 						},
 						all: {
 							specialties: ''
@@ -82,7 +86,7 @@
 		    })
 		},
 		created: function(){
-			this.getTreatment();			
+			this.getTreatment();
 			this.$emit('child_created', this.active_element);
 		},
 		methods: {
@@ -107,7 +111,7 @@
 				var t = this;
 				let message = 'El tratamiento se cargó correctamente';
 				let method = 'post';
-				let url = 'treatments/store'
+				let url = '/treatments/store'
 				t.save_icon = 'glyphicon-hourglass';
 				t.save_button = 'Espere';
 				t.button_disabled = true;
@@ -146,9 +150,14 @@
 					t.save_button = 'Guardar';
 				});
 			},
+			
 			// VALIDATION
 			validateRequired(field) {
-				if(!this.treatment.treatment[field]) return 'error-input';
+				if(!this.treatment.treatment[field] && this.flag_error[field]) return 'error-input';
+			},
+
+			setFlagError(field){
+				this.flag_error[field] = true;
 			}
 		}
 	}

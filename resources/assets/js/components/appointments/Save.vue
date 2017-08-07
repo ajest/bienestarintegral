@@ -8,7 +8,7 @@
 		</div>
 		<hr />
 		<div class="col-md-12">
-			<h3>Información personal</h3>
+			<h3>Información del Turno</h3>
 			<div class="panel panel-danger" v-if="errors.length > 0">
 				<div class="panel-body">
 					Su formulario contiene los siguientes errores:
@@ -18,20 +18,20 @@
 				</div>
 			</div>
 			<div class="form-group col-md-6">
-				<label>Titulo</label>
-				<input type="text" v-model="appointment.appointment.title" placeholder="Ej. Turno Urgente" class="form-control">
+				<label for="title">Titulo</label>
+				<input id="title" type="text" v-model="appointment.appointment.title" placeholder="Ej. Turno Urgente" class="form-control">
 			</div>
 			<div class="form-group col-md-6">
-				<label>Fecha *</label>
-				<datepicker v-model="appointment.appointment.date" language="es" format="dd/MM/yyyy" input-class="form-control" placeholder="Ej. 15/07/2017" :highlighted="datepicker_highlighted" :class="validateRequired('date')" :required="true"></datepicker>
+				<label for="date">Fecha *</label>
+				<datepicker id="date" v-model="appointment.appointment.date" language="es" format="dd/MM/yyyy" input-class="form-control" placeholder="Ej. 15/07/2017" :highlighted="datepicker_highlighted" :class="validateRequired('date')" :required="true" @focusin="setFlagError('date')"></datepicker>
 			</div>
 			<div class="form-group col-md-6">
-				<label>Hora *</label>
-				<input type="text" v-model="appointment.appointment.hour" placeholder="Ej. 19:00" class="form-control" :class="validateRequired('hour')" v-mask="'##:##'" required>
+				<label for="hour">Hora *</label>
+				<input id="hour" type="text" v-model="appointment.appointment.hour" placeholder="Ej. 19:00" class="form-control" :class="validateRequired('hour')" v-mask="'##:##'" @focusin="setFlagError('hour')" required>
 			</div>
 			<div class="form-group col-md-6">
-				<label>Profesional</label>
-				<select v-model="appointment.appointment.professional_id" class="form-control">
+				<label for="professional_id">Profesional</label>
+				<select id="professional_id" v-model="appointment.appointment.professional_id" class="form-control">
 					<option value="">-- Seleccione Profesional --</option>
 					<option v-for="professional in appointment.all.professionals" v-bind:value="professional.id">
 						{{ professional.name }}
@@ -39,8 +39,8 @@
 				</select>
 			</div>
 			<div class="form-group col-md-6">
-				<label>Paciente *</label>
-				<select v-model="appointment.appointment.patient_id" class="form-control" :class="validateRequired('patient_id')" required>
+				<label for="patient_id">Paciente *</label>
+				<select id="patient_id" v-model="appointment.appointment.patient_id" class="form-control" :class="validateRequired('patient_id')" @focusin="setFlagError('patient_id')" required>
 					<option value="">-- Seleccione Paciente --</option>
 					<option v-for="patient in appointment.all.patients" v-bind:value="patient.id">
 						{{ patient.name }}
@@ -48,8 +48,8 @@
 				</select>
 			</div>
 			<div class="form-group col-md-6">
-				<label>Especialidad</label>
-				<select v-model="appointment.appointment.specialty_id" class="form-control">
+				<label for="specialty_id">Especialidad</label>
+				<select id="specialty_id" v-model="appointment.appointment.specialty_id" class="form-control">
 					<option value="">-- Seleccione Especialidad --</option>
 					<option v-for="specialty in appointment.all.specialties" v-bind:value="specialty.id">
 						{{ specialty.specialty }}
@@ -57,8 +57,8 @@
 				</select>
 			</div>
 			<div class="form-group col-md-6">
-				<label>Tratamiento</label>
-				<select v-model="appointment.appointment.treatment_id" class="form-control">
+				<label for="treatment_id">Tratamiento</label>
+				<select id="treatment_id" v-model="appointment.appointment.treatment_id" class="form-control">
 					<option value="">-- Seleccione Tratamiento --</option>
 					<option v-for="treatment in appointment.all.treatments" v-bind:value="treatment.id">
 						{{ treatment.treatment }}
@@ -66,8 +66,8 @@
 				</select>
 			</div>
 			<div class="form-group col-md-6">
-				<label>Promoción</label>
-				<select v-model="appointment.appointment.series_id" class="form-control">
+				<label for="series_id">Promoción</label>
+				<select id="series_id" v-model="appointment.appointment.series_id" class="form-control">
 					<option value="">-- Seleccione Promoción --</option>
 					<option v-for="serie in appointment.all.series" v-bind:value="serie.id">
 						{{ serie.series }}
@@ -75,8 +75,8 @@
 				</select>
 			</div>
 			<div class="form-group col-md-12">
-				<label>Comentarios</label>
-				<textarea v-model="appointment.appointment.comments" placeholder="Ej. Describa el turno" class="form-control" rows="4"> {{ appointment.appointment.comments }} </textarea>
+				<label for="comments">Comentarios</label>
+				<textarea id="comments" v-model="appointment.appointment.comments" placeholder="Ej. Describa el turno" class="form-control" rows="4"> {{ appointment.appointment.comments }} </textarea>
 			</div>
 		</div>
 	</form>
@@ -97,6 +97,11 @@
 			        	new Date()
 			        ] 
 			    },
+			    flag_error: {
+					date: false,
+					hour: false,
+					patient_id: false
+				},
 				active_element: 'appointment'
 			}
 		},
@@ -169,10 +174,11 @@
 				var t = this;
 				let message = 'El turno se cargó correctamente';
 				let method = 'post';
-				let url = 'appointments/store'
+				let url = '/appointments/store'
 				t.save_icon = 'glyphicon-hourglass';
 				t.save_button = 'Espere';
 				t.button_disabled = true;
+
 				if(t.$route.params.id){
 					message = 'El turno se actualizó correctamente';
 					method = 'put';
@@ -206,9 +212,14 @@
 					t.save_button = 'Guardar';
 				});
 			},
+			
 			// VALIDATION
 			validateRequired(field) {
-				if(!this.appointment.appointment[field]) return 'error-input';
+				if(!this.appointment.appointment[field] && this.flag_error[field]) return 'error-input';
+			},
+
+			setFlagError(field){
+				this.flag_error[field] = true;
 			}
 		}
 	}

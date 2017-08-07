@@ -14,7 +14,7 @@
 				</div>
 			</div>
 			<div class="col-md-2">
-				<router-link :to="{ name: 'questions_new'}" class="btn btn-success pull-right"><span class="glyphicon glyphicon-plus"></span> Nueva Pregunta</router-link>
+				<router-link :to="{ name: 'questions_new'}" class="btn btn-success pull-right"><span class="glyphicon glyphicon-plus"></span> Nueva pregunta</router-link>
 			</div>
 		</div>
 		<div class="row col-md-12">
