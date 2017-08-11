@@ -4,11 +4,11 @@ require('./bootstrap');
  * Vue Application
  */
 
+Vue.use(Vuetify);
 Vue.use(VueRouter);
 Vue.use(Datepicker);
 Vue.use(VueMask);
 
-Vue.component('navtop', require('./components/Nav.vue'));
 Vue.component('container', require('./components/Main.vue'));
 Vue.component('datepicker', Datepicker);
 

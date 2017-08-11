@@ -9,21 +9,16 @@
 		<meta name="robots" content="nofollow" />
 		<title>Bienestar Integral</title>
 		<link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
+		<link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet" type="text/css">
+		<link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet" type="text/css">
 	</head>
-	<body>
-		<div id="app">            
-			<nav class="navbar navbar-inverse navbar-fixed-top">				
-				@yield('nav')
-			</nav>
-			<div class="container-fluid">
-			  @yield('content')
-			  <footer>
-			  	<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 bloque-final">
-					<p>&copy; <?php echo date('Y'); ?> Bienestar Integral</p>
-				</div>
-			  </footer>       
-			</div> <!-- /container -->
-		</div>
+	<body>		
+		<v-app id="app" standalone>
+			@yield('content')
+			<v-footer class="green">
+				<span class="white--text">Bienestar integral © 2017</span>
+		    </v-footer>
+		</v-app>
 	</body>
 	<script>
 		window.Laravel =  <?php echo json_encode([

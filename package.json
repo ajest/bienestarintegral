@@ -17,8 +17,11 @@
     "vue": "^2.1.10"
   },
   "dependencies": {
+    "v-mask": "^1.3.0",
     "vue-router": "^2.3.1",
     "vuejs-datepicker": "^0.7.16",
-    "vuex": "^2.3.1"
+    "vuetify": "^0.14.8",
+    "vuex": "^2.3.1",
+    "vuex-persistedstate": "^2.0.0"
   }
 }

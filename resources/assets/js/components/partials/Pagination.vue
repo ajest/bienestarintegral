@@ -1,23 +1,27 @@
 <template>
-	<nav aria-label="Page navigation">
-		<ul class="pagination">
-			<li :class="[ current_page == 1 ? 'disabled' : '' ]">
-				<a @click="getPreviousPage()" href="javascript:;" aria-label="Previous">
-					<span aria-hidden="true">&laquo;</span>
-				</a>
-			</li>
-			
-			<li v-for="page in last_page" :class="[ page == current_page ? 'active' : '' ]">
-				<router-link :to="url + page + (order_field ? ('/' + order_field) : '')"> {{ page }} </router-link>
-			</li>
-			
-			<li :class="[ current_page == last_page ? 'disabled' : '' ]">
-				<a @click="getNextPage()" href="javascript:;" aria-label="Next">
-					<span aria-hidden="true">&raquo;</span>
-				</a>
-			</li>
-		</ul>
-	</nav>
+	<v-layout row wrap>
+		<v-flex xs12 sm12 md12 lg12>
+			<nav>
+				<ul class="pagination">
+					<li :class="[ current_page == 1 ? 'disabled' : '' ]">
+						<a @click="getPreviousPage()" href="javascript:;" aria-label="Previous">
+							<span aria-hidden="true">&laquo;</span>
+						</a>
+					</li>
+					
+					<li v-for="page in last_page" :class="[ page == current_page ? 'active' : '' ]">
+						<router-link :to="url + page + (order_field ? ('/' + order_field) : '')"> {{ page }} </router-link>
+					</li>
+					
+					<li :class="[ current_page == last_page ? 'disabled' : '' ]">
+						<a @click="getNextPage()" href="javascript:;" aria-label="Next">
+							<span aria-hidden="true">&raquo;</span>
+						</a>
+					</li>
+				</ul>
+			</nav>
+		</v-flex>
+	</v-layout>
 </template>
 <script>
 	export default {

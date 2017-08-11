@@ -1,72 +1,85 @@
 <template>
 	<transition name="fade">
-		<div class="row col-md-12 section-detail" v-if="appointment">
-			<h1><span class="glyphicon glyphicon-briefcase"></span> {{ appointment.title }} 
-			<router-link to="/appointments" class="btn btn-default pull-right margin-left-small"><span class="glyphicon glyphicon-calendar"></span> </router-link>
-			<router-link :to="{ name: 'appointments_edit', params: { id: appointment.id }}" class="btn btn-primary pull-right margin-left-small"><span class="glyphicon glyphicon-pencil"></span> Editar</router-link>
-			<router-link to="/appointments" class="btn btn-success pull-right margin-left-small"><span class="glyphicon glyphicon-arrow-left"></span> Listado</router-link></h1>
-			<hr />
-			<div class="col-md-12">
-				<div class="col-md-6">
-					<table class="table table-hovered">
-						<thead>
-							<tr>
-								<td span="2">
-									<h3>Información del turno</h3>
-								</td>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>Titulo</td>
-								<td><span class="label label-default">{{ appointment.title }}</span></td>
-							</tr>
-							<tr>
-								<td>Fecha y hora</td>
-								<td><span class="label label-default">{{ appointment.date }} {{ appointment.hour }}hs</span></td>
-							</tr>
-							<tr>
-								<td>Paciente</td>
-								<td><span class="label label-default">{{ appointment.patient.name }}</span></td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-				<div class="col-md-6">
-					<table class="table table-hovered">
-						<thead>
-							<tr>
-								<td span="2">
-									<h3>Tratamiento</h3>
-								</td>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>Profesional</td>
-								<td><span class="label label-primary">{{ appointment.professional.name }}</span></td>
-							</tr>
-							<tr>
-								<td>Area / Especialidad</td>
-								<td><span class="label label-warning">{{ appointment.specialty.specialty }}</span></td>
-							</tr>
-							<tr>
-								<td>Tratamiento</td>
-								<td><span class="label label-success">{{ appointment.treatment.treatment }}</span></td>
-							</tr>
-							<tr>
-								<td>Promoción</td>
-								<td><span class="label label-danger">{{ appointment.series.series ? appointment.series.series : '---' }}</span></td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-				<div class="col-md-12">
-					<h3>Comentarios</h3>
-					<p>{{ appointment.comments }}</p>
-				</div>
-			</div>
-		</div>
+		<v-layout row wrap>
+			<v-flex xs12 sm12 md12 lg12 v-if="appointment">
+				<v-layout row wrap>
+					<v-flex xs12 sm12 md8 lg9>
+						<h1><i class="material-icons icon-h1">assignment ind</i> {{ appointment.title }}</h1>
+					</v-flex>
+					<v-flex xs12 sm12 md4 lg3 class="mt-5">
+						<v-btn class="pull-right pink" dark medium to="/appointments">
+					    	<v-icon dark>date_range</v-icon>
+						</v-btn>
+						<v-btn class="pull-right" dark medium primary :to="{ name: 'appointments_edit', params: { id: appointment.id }}">
+					    	<v-icon dark>edit</v-icon>
+						</v-btn>
+						<v-btn class="pull-right" light medium to="/appointments">
+					    	<v-icon dark>chevron_left</v-icon>
+						</v-btn>
+					</v-flex>
+					<v-flex xs12 sm12 md12 lg12>
+						<v-layout row wrap>
+							<v-flex xs12 sm12 md6 lg6>
+								<h3>Información del turno</h3>
+								<v-expansion-panel expand>
+								    <v-expansion-panel-content v-bind:value="true">
+										<div slot="header">Título</div>
+										<v-card>
+											<v-card-text class="green lighten-4">{{ appointment.title }}</v-card-text>
+										</v-card>
+								    </v-expansion-panel-content>
+								    <v-expansion-panel-content v-bind:value="true">
+										<div slot="header">Fecha y hora</div>
+										<v-card>
+											<v-card-text class="green lighten-4">{{ appointment.date }} {{ appointment.hour }}hs</v-card-text>
+										</v-card>
+								    </v-expansion-panel-content>
+								    <v-expansion-panel-content v-bind:value="true">
+										<div slot="header">Paciente</div>
+										<v-card>
+											<v-card-text class="green lighten-4">{{ appointment.patient.name }}</v-card-text>
+										</v-card>
+								    </v-expansion-panel-content>
+								</v-expansion-panel>
+							</v-flex>
+							<v-flex xs12 sm12 md6 lg6>
+								<h3>Tratamiento</h3>
+								<v-expansion-panel expand>
+								    <v-expansion-panel-content v-bind:value="true">
+										<div slot="header">Profesional</div>
+										<v-card>
+											<v-card-text class="pink lighten-4">{{ appointment.professional.name }}</v-card-text>
+										</v-card>
+								    </v-expansion-panel-content>
+								    <v-expansion-panel-content v-bind:value="true">
+										<div slot="header">Area / Especialidad</div>
+										<v-card>
+											<v-card-text class="pink lighten-4">{{ appointment.specialty.specialty }}</v-card-text>
+										</v-card>
+								    </v-expansion-panel-content>
+								    <v-expansion-panel-content v-bind:value="true">
+										<div slot="header">Tratamiento</div>
+										<v-card>
+											<v-card-text class="pink lighten-4">{{ appointment.treatment.treatment }}</v-card-text>
+										</v-card>
+								    </v-expansion-panel-content>
+								    <v-expansion-panel-content v-bind:value="true">
+										<div slot="header">Promoción</div>
+										<v-card>
+											<v-card-text class="pink lighten-4">{{ appointment.series.series ? appointment.series.series : '---' }}</v-card-text>
+										</v-card>
+								    </v-expansion-panel-content>
+								</v-expansion-panel>
+							</v-flex>
+							<v-flex xs12 sm12 md12 lg12>
+								<h3>Comentarios</h3>
+								<p>{{ appointment.comments }}</p>
+							</v-flex>
+						</v-layout>
+					</v-flex>
+				</v-layout>
+			</v-flex>			
+		</v-layout>
 	</transition>
 </template>
 <script>

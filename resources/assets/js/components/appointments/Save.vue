@@ -1,85 +1,92 @@
 <template>
-	<form class="row col-md-12" v-on:submit.prevent="saveAppointment" v-if="checkExistence">
-		<div class="row col-md-12">
-			<h1>{{ appointment.appointment.title ? appointment.appointment.title : 'Nuevo Turno' }} 
-				<button class="pull-right btn btn-primary margin-left-small" :disabled="button_disabled"><span class="glyphicon " :class="save_icon"></span> {{ saveButtonName }}</button>
-				<router-link to="/appointments" class="btn btn-success pull-right margin-left-small"><span class="glyphicon glyphicon-arrow-left"></span> Volver</router-link>
-			</h1>
-		</div>
-		<hr />
-		<div class="col-md-12">
-			<h3>Información del Turno</h3>
-			<div class="panel panel-danger" v-if="errors.length > 0">
-				<div class="panel-body">
-					Su formulario contiene los siguientes errores:
-					<ul>
-						<li v-for="error in errors"><strong>{{ error.name }}</strong>: {{ error.message }}</li>
-					</ul>
-				</div>
-			</div>
-			<div class="form-group col-md-6">
-				<label for="title">Titulo</label>
-				<input id="title" type="text" v-model="appointment.appointment.title" placeholder="Ej. Turno Urgente" class="form-control">
-			</div>
-			<div class="form-group col-md-6">
-				<label for="date">Fecha *</label>
-				<datepicker id="date" v-model="appointment.appointment.date" language="es" format="dd/MM/yyyy" input-class="form-control" placeholder="Ej. 15/07/2017" :highlighted="datepicker_highlighted" :class="validateRequired('date')" :required="true" @focusin="setFlagError('date')"></datepicker>
-			</div>
-			<div class="form-group col-md-6">
-				<label for="hour">Hora *</label>
-				<input id="hour" type="text" v-model="appointment.appointment.hour" placeholder="Ej. 19:00" class="form-control" :class="validateRequired('hour')" v-mask="'##:##'" @focusin="setFlagError('hour')" required>
-			</div>
-			<div class="form-group col-md-6">
-				<label for="professional_id">Profesional</label>
-				<select id="professional_id" v-model="appointment.appointment.professional_id" class="form-control">
-					<option value="">-- Seleccione Profesional --</option>
-					<option v-for="professional in appointment.all.professionals" v-bind:value="professional.id">
-						{{ professional.name }}
-					</option>
-				</select>
-			</div>
-			<div class="form-group col-md-6">
-				<label for="patient_id">Paciente *</label>
-				<select id="patient_id" v-model="appointment.appointment.patient_id" class="form-control" :class="validateRequired('patient_id')" @focusin="setFlagError('patient_id')" required>
-					<option value="">-- Seleccione Paciente --</option>
-					<option v-for="patient in appointment.all.patients" v-bind:value="patient.id">
-						{{ patient.name }}
-					</option>
-				</select>
-			</div>
-			<div class="form-group col-md-6">
-				<label for="specialty_id">Especialidad</label>
-				<select id="specialty_id" v-model="appointment.appointment.specialty_id" class="form-control">
-					<option value="">-- Seleccione Especialidad --</option>
-					<option v-for="specialty in appointment.all.specialties" v-bind:value="specialty.id">
-						{{ specialty.specialty }}
-					</option>
-				</select>
-			</div>
-			<div class="form-group col-md-6">
-				<label for="treatment_id">Tratamiento</label>
-				<select id="treatment_id" v-model="appointment.appointment.treatment_id" class="form-control">
-					<option value="">-- Seleccione Tratamiento --</option>
-					<option v-for="treatment in appointment.all.treatments" v-bind:value="treatment.id">
-						{{ treatment.treatment }}
-					</option>
-				</select>
-			</div>
-			<div class="form-group col-md-6">
-				<label for="series_id">Promoción</label>
-				<select id="series_id" v-model="appointment.appointment.series_id" class="form-control">
-					<option value="">-- Seleccione Promoción --</option>
-					<option v-for="serie in appointment.all.series" v-bind:value="serie.id">
-						{{ serie.series }}
-					</option>
-				</select>
-			</div>
-			<div class="form-group col-md-12">
-				<label for="comments">Comentarios</label>
-				<textarea id="comments" v-model="appointment.appointment.comments" placeholder="Ej. Describa el turno" class="form-control" rows="4"> {{ appointment.appointment.comments }} </textarea>
-			</div>
-		</div>
-	</form>
+	<v-layout row wrap>
+		<v-flex xs12 sm12 md12 lg12>
+			<form v-on:submit.prevent="saveAppointment" v-if="checkExistence">
+				<v-layout row wrap>
+					<v-flex xs12 sm12 md9 lg10>
+						<h1>{{ appointment.appointment.title ? appointment.appointment.title : 'Nuevo Turno' }}</h1>
+					</v-flex>
+					<v-flex xs12 sm12 md3 lg2 class="mt-5">
+						<button class="btn btn--raised theme--dark primary pull-right" :disabled="button_disabled">{{ saveButtonName }}</button>
+						<v-btn class="pull-right" light medium to="/appointments">
+				          	<v-icon dark>chevron_left</v-icon>
+				        </v-btn>
+					</v-flex>
+					<v-flex xs12 sm12 md12 lg12>
+						<div class="panel panel-danger" v-if="errors.length > 0">
+							<div class="panel-body">
+								Su formulario contiene los siguientes errores:
+								<ul>
+									<li v-for="error in errors"><strong>{{ error.name }}</strong>: {{ error.message }}</li>
+								</ul>
+							</div>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="title">Titulo</label>
+							<input id="title" type="text" v-model="appointment.appointment.title" placeholder="Ej. Turno Urgente" class="form-control">
+						</div>
+						<div class="form-group col-md-6">
+							<label for="date">Fecha *</label>
+							<datepicker id="date" v-model="appointment.appointment.date" language="es" format="dd/MM/yyyy" input-class="form-control" placeholder="Ej. 15/07/2017" :highlighted="datepicker_highlighted" :class="validateRequired('date')" :required="true" @focusin="setFlagError('date')"></datepicker>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="hour">Hora *</label>
+							<input id="hour" type="text" v-model="appointment.appointment.hour" placeholder="Ej. 19:00" class="form-control" :class="validateRequired('hour')" v-mask="'##:##'" @focusin="setFlagError('hour')" required>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="professional_id">Profesional</label>
+							<select id="professional_id" v-model="appointment.appointment.professional_id" class="form-control">
+								<option value="">-- Seleccione Profesional --</option>
+								<option v-for="professional in appointment.all.professionals" v-bind:value="professional.id">
+									{{ professional.name }}
+								</option>
+							</select>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="patient_id">Paciente *</label>
+							<select id="patient_id" v-model="appointment.appointment.patient_id" class="form-control" :class="validateRequired('patient_id')" @focusin="setFlagError('patient_id')" required>
+								<option value="">-- Seleccione Paciente --</option>
+								<option v-for="patient in appointment.all.patients" v-bind:value="patient.id">
+									{{ patient.name }}
+								</option>
+							</select>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="specialty_id">Especialidad</label>
+							<select id="specialty_id" v-model="appointment.appointment.specialty_id" class="form-control">
+								<option value="">-- Seleccione Especialidad --</option>
+								<option v-for="specialty in appointment.all.specialties" v-bind:value="specialty.id">
+									{{ specialty.specialty }}
+								</option>
+							</select>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="treatment_id">Tratamiento</label>
+							<select id="treatment_id" v-model="appointment.appointment.treatment_id" class="form-control">
+								<option value="">-- Seleccione Tratamiento --</option>
+								<option v-for="treatment in appointment.all.treatments" v-bind:value="treatment.id">
+									{{ treatment.treatment }}
+								</option>
+							</select>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="series_id">Promoción</label>
+							<select id="series_id" v-model="appointment.appointment.series_id" class="form-control">
+								<option value="">-- Seleccione Promoción --</option>
+								<option v-for="serie in appointment.all.series" v-bind:value="serie.id">
+									{{ serie.series }}
+								</option>
+							</select>
+						</div>
+						<div class="form-group col-md-12">
+							<label for="comments">Comentarios</label>
+							<textarea id="comments" v-model="appointment.appointment.comments" placeholder="Ej. Describa el turno" class="form-control" rows="4"> {{ appointment.appointment.comments }} </textarea>
+						</div>
+					</v-flex>
+				</v-layout>
+			</form>
+		</v-flex>		
+	</v-layout>
 </template>
 <script>
 	import { mapState } from 'vuex';

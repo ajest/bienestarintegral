@@ -24,6 +24,9 @@ window.Vue = Vue;
 import Vuex from 'vuex';
 window.Vuex = Vuex;
 
+import Vuetify from 'vuetify'
+window.Vuetify = Vuetify;
+
 import createPersistedState from 'vuex-persistedstate';
 window.createPersistedState = createPersistedState;
 
@@ -35,6 +38,7 @@ window.Datepicker = Datepicker;
 
 import VueMask from 'v-mask'
 window.VueMask = VueMask;
+
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests

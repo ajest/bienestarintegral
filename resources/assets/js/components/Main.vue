@@ -1,38 +1,116 @@
 <template>
-	<div class="row">
-		<div class="col-sm-3 col-md-2 sidebar" v-if="sidebar">
-			<!--<ul class="nav nav-sidebar">
-				<li :class="[active_element == 'calendar' ? 'active' : '']"><router-link to="/"><span class="glyphicon glyphicon-calendar"></span> Calendario <span class="sr-only">(current)</span></router-link></li>
-				<li :class="[active_element == 'reports' ? 'active' : '']"><router-link to="/"><span class="glyphicon glyphicon-stats"></span> Reportes</router-link></li>
-			</ul>-->
-			<ul class="nav nav-sidebar">
-				<li :class="[active_element == 'appointment' ? 'active' : '']"><router-link to="/appointments"><span class="glyphicon glyphicon-briefcase"></span> Turnos</router-link></li>
-				<li :class="[active_element == 'patient' ? 'active' : '']"><router-link to="/patients"><span class="glyphicon glyphicon-user"></span> Pacientes</router-link></li>
-				<li :class="[active_element == 'professional' ? 'active' : '']"><router-link to="/professionals"><span class="glyphicon glyphicon-education"></span> Profesionales</router-link></li>
-				<li :class="[active_element == 'series' ? 'active' : '']"><router-link to="/series"><span class="glyphicon glyphicon-star-empty"></span> Promociones</router-link></li>
-			</ul>
-			<ul class="nav nav-sidebar">
-				<!--<li :class="[active_element == 'account' ? 'active' : '']"><router-link to="/"><span class="glyphicon glyphicon-heart-empty"></span> Mi perfil</router-link></li>-->
-				<li :class="[active_element == 'settings' ? 'active' : '']"><router-link to="/settings"><span class="glyphicon glyphicon-wrench"></span> Configuración</router-link></li>
-			</ul>
-		</div>
-		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-			<router-view 
-				v-bind:message="message"
-				v-bind:success="success"
-				v-bind:warning="warning"
-				v-bind:danger="danger"
-				v-bind:error="error"
-				v-on:complete="operationComplete"
-				v-on:child_created="setActiveElement"></router-view>
-			<transition name="fade">			
-				<div v-if="message">
-					<div class="g-msg" :class="classObjectContainer">
-						<span><i class="glyphicon" :class="classObjectIcon"></i> {{ message }}</span>
+	<div>
+		<v-navigation-drawer 
+			temporary
+			v-model="drawer"
+      		:mini-variant.sync="mini" 
+      		light 
+      		overflow 
+      		v-if="sidebar">
+		      	<!--<ul class="nav nav-sidebar">
+					<li :class="[active_element == 'calendar' ? 'active' : '']"><router-link to="/"><span class="glyphicon glyphicon-calendar"></span> Calendario <span class="sr-only">(current)</span></router-link></li>
+					<li :class="[active_element == 'reports' ? 'active' : '']"><router-link to="/"><span class="glyphicon glyphicon-stats"></span> Reportes</router-link></li>
+				</ul>-->
+
+			<v-list class="pa-0">
+				<v-list-tile avatar tag="div">
+					<v-list-tile-action>
+						<v-icon>account_circle</v-icon>
+					</v-list-tile-action>
+					<v-list-tile-content>
+						<v-list-tile-title>{{ authentication_text }}</v-list-tile-title>
+					</v-list-tile-content>
+					<v-list-tile-action>
+						<v-btn icon dark @click.native.stop="mini = !mini">
+							<v-icon>chevron_left</v-icon>
+						</v-btn>
+					</v-list-tile-action>
+				</v-list-tile>
+			</v-list>
+			<v-list class="pt-0" dense>
+				<v-divider></v-divider>
+				<v-list-tile dark>
+					<v-list-tile-action>
+						<v-icon>dashboard</v-icon>
+					</v-list-tile-action>
+					<v-list-tile-content>
+						<v-list-tile-title :class="[active_element == 'calendar' ? 'active' : '']"><router-link to="/">Dashboard</router-link></v-list-tile-title>
+					</v-list-tile-content>
+				</v-list-tile>
+				<v-list-tile hide-overlay>
+					<v-list-tile-action>
+						<v-icon>assignment ind</v-icon>
+					</v-list-tile-action>
+					<v-list-tile-content>
+						<v-list-tile-title class="grey--text text--darken-1" :class="[active_element == 'appointment' ? 'active' : '']"><router-link to="/appointments">Turnos</router-link></v-list-tile-title>
+					</v-list-tile-content>
+				</v-list-tile>
+				<v-list-tile>
+					<v-list-tile-action>
+						<v-icon>face</v-icon>
+					</v-list-tile-action>
+					<v-list-tile-content>
+						<v-list-tile-title :class="[active_element == 'patient' ? 'active' : '']"><router-link to="/patients">Pacientes</router-link></v-list-tile-title>
+					</v-list-tile-content>
+				</v-list-tile>
+				<v-list-tile>
+					<v-list-tile-action>
+						<v-icon>school</v-icon>
+					</v-list-tile-action>
+					<v-list-tile-content>
+						<v-list-tile-title :class="[active_element == 'professional' ? 'active' : '']"><router-link to="/professionals">Profesionales</router-link></v-list-tile-title>
+					</v-list-tile-content>
+				</v-list-tile>
+				<v-list-tile>
+					<v-list-tile-action>
+						<v-icon>card_giftcard</v-icon>
+					</v-list-tile-action>
+					<v-list-tile-content>
+						<v-list-tile-title :class="[active_element == 'series' ? 'active' : '']"><router-link to="/series">Promociones</router-link></v-list-tile-title>
+					</v-list-tile-content>
+				</v-list-tile>
+				<v-list-tile>
+					<v-list-tile-action>
+						<v-icon>settings</v-icon>
+					</v-list-tile-action>
+					<v-list-tile-content>
+						<v-list-tile-title :class="[active_element == 'settings' ? 'active' : '']"><router-link to="/settings">Configuración</router-link></v-list-tile-title>
+					</v-list-tile-content>
+				</v-list-tile>
+				<v-divider></v-divider>
+				<v-list-tile>
+					<v-list-tile-action>
+						<v-icon>exit_to_app</v-icon>
+					</v-list-tile-action>
+					<v-list-tile-content>
+						<v-list-tile-title><a href="#" @click="logout"> Cerrar sesión</a></v-list-tile-title>
+					</v-list-tile-content>
+				</v-list-tile>
+			</v-list>
+		</v-navigation-drawer>
+		<v-toolbar fixed class="green" dark>
+			<v-toolbar-side-icon v-if="sidebar" @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
+			<v-toolbar-title to="/">Bienestar</v-toolbar-title>
+		</v-toolbar>
+		<main>
+			<v-container fluid>
+				<router-view
+					v-bind:message="message"
+					v-bind:success="success"
+					v-bind:warning="warning"
+					v-bind:danger="danger"
+					v-bind:error="error"
+					v-on:complete="operationComplete"
+					v-on:child_created="setActiveElement"></router-view>
+				<transition name="fade">			
+					<div v-if="message">
+						<div class="g-msg" :class="classObjectContainer">
+							<span><i class="glyphicon" :class="classObjectIcon"></i> {{ message }}</span>
+						</div>
 					</div>
-				</div>
-			</transition>
-		</div>
+				</transition>
+			</v-container>
+		</main>
 	</div>
 </template>
 <script>
@@ -47,7 +125,14 @@
 				danger: false,
 				error: {},
 				active_element: 'calendar',
-				sidebar: false
+				sidebar: false,
+				//Nav
+				authentication_text: 'Ingresar',
+				authentication_icon: 'glyphicon-log-in',
+				// Vuetify
+				drawer: null,
+				mini: false,
+        		right: null
 			}
 		},
 
@@ -68,7 +153,8 @@
 			},
 			...mapState({
 		    	baseUrl: state => state.common.baseUrl,
-		    	token: state => state.authentication.token
+		    	token: state => state.authentication.token,
+		    	logged_professional: state => state.authentication.professional
 		    })
 		},
 
@@ -113,6 +199,13 @@
 
 			setActiveElement(e){
 				this.active_element = e;
+			},
+
+			logout(){
+				var t = this;
+
+				t.$store.commit('clearLoginData');
+				t.$router.push('/login');
 			}
 		},
 
@@ -123,10 +216,14 @@
 		    	if(!t.token){
 		    		t.$router.push('/login');
 		    		this.sidebar = false;
+		    		t.authentication_text = '',
+					t.authentication_icon = ''
 		    	}else{
 		    		let instance = window.axios.create();
     				instance.defaults.headers.common['Authorization'] = 'bearer ' + t.token;
     				this.sidebar = true;
+    				t.authentication_text = t.logged_professional.name;
+					t.authentication_icon = 'glyphicon-log-out';
 		    	}
 		    }
 		}
