@@ -1,107 +1,109 @@
 <template>
 	<transition name="fade">
-		<div class="row col-md-12 section-detail" v-if="patient">
-			<h1><span class="glyphicon glyphicon-user"></span> {{ patient.patient.name }} 
-			<router-link to="/patients" class="btn btn-default pull-right margin-left-small"><span class="glyphicon glyphicon-calendar"></span> </router-link>
-			<router-link :to="{ name: 'patients_edit', params: { id: patient.patient.id }}" class="btn btn-primary pull-right margin-left-small"><span class="glyphicon glyphicon-pencil"></span> Editar</router-link>
-			<router-link to="/patients" class="btn btn-success pull-right margin-left-small"><span class="glyphicon glyphicon-arrow-left"></span> Listado</router-link></h1>
-			<hr />
-			<div class="col-md-12">
-				<table class="table table-hovered">
-					<thead>
-						<tr>
-							<td span="2">
-								<h3>Información personal</h3>
-							</td>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>Nombre</td>
-							<td><span class="label label-default">{{ patient.patient.name }}</span></td>
-						</tr>
-						<tr>
-							<td>Email</td>
-							<td><span class="label label-default">{{ patient.patient.email }}</span></td>
-						</tr>
-						<tr>
-							<td>Teléfono celular</td>
-							<td><span class="label label-default">{{ patient.patient.cellphone }}</span></td>
-						</tr>
-						<tr>
-							<td>Teléfono</td>
-							<td><span class="label label-default">{{ patient.patient.tel }}</span></td>
-						</tr>
-						<tr>
-							<td>Domicilio</td>
-							<td><span class="label label-default">{{ patient.patient.address }}</span></td>
-						</tr>
-						<tr>
-							<td>Género</td>
-							<td><span class="label label-default">{{ patient.patient.gender == 'H' ? 'Hombre' : 'Mujer'  }}</span></td>
-						</tr>
-						<tr>
-							<td>DNI</td>
-							<td><span class="label label-default">{{ patient.patient.dni }}</span></td>
-						</tr>
-						<tr>
-							<td>Estado Civil</td>
-							<td><span class="label label-default">{{ patient.patient.civil_state ? 'Casado' : 'Soltero' }}</span></td>
-						</tr>
-						<tr>
-							<td>Año de nacimiento</td>
-							<td><span class="label label-default">{{ patient.patient.birthdate }}</span></td>
-						</tr>
-						<tr>
-							<td>Localidad</td>
-							<td><span class="label label-default">{{ patient.patient.area }}</span></td>
-						</tr>
-						<tr>
-							<td colspan="2">{{ patient.patient.comments }}</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<div class="col-md-12" v-if="Object.keys(patient.appointments).length">
-				<table class="table table-hovered">
-					<thead>
-						<tr>
-							<td span="2">
-								<h3>Próximos Turnos</h3>
-							</td>
-						</tr>
-					</thead>
-					<tbody>
-						<tr v-for="appointment in patient.appointments">
-							<td>{{ appointment.date }} {{ appointment.hour }}hs</td>
-							<td>para <span class="label label-success">{{ appointment.treatment.treatment }}</span> con <span class="label label-primary">{{ appointment.professional.name }}</span></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<div class="col-md-12" v-if="Object.keys(patient.history).length">
-				<table class="table table-hovered">
-					<thead>
-						<tr>
-							<td span="2">
-								<h3>Historial</h3>
-							</td>
-						</tr>
-					</thead>
-					<tbody>
-						<tr v-for="history in patient.history">
-							<td>{{ history.date }} {{ history.hour }}hs</td>
-							<td>
-								<p>para <span class="label label-success">{{ history.treatment.treatment }}</span> con <span class="label label-primary">{{ history.professional.name }}</span><router-link class="btn btn-default pull-right" :to="{ name: 'appointments_detail', params: { id: history.id }}" title="Ver Turno"><span class="glyphicon glyphicon-eye-open"></span></router-link></p>
-							<p><strong v-if="history.comments">Comentarios: </strong> {{ history.comments }} </p></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
+		<v-layout row wrap>
+			<v-flex xs12 sm12 md12 lg12 v-if="patient">
+				<v-layout row wrap>
+					<v-flex xs12 sm12 md8 lg9>
+						<h1><i class="material-icons icon-h1">face</i> {{ patient.patient.name }}</h1>
+					</v-flex>
+					<v-flex xs12 sm12 md4 lg3 class="mt-5">
+						<v-btn class="pull-right pink" dark medium to="/patients">
+					    	<v-icon dark>date_range</v-icon>
+						</v-btn>
+						<v-btn class="pull-right" dark medium primary :to="{ name: 'patients_edit', params: { id:  patient.patient.id }}">
+					    	<v-icon dark>edit</v-icon>
+						</v-btn>
+						<v-btn class="pull-right" light medium to="/patients">
+					    	<v-icon dark>chevron_left</v-icon>
+						</v-btn>
+					</v-flex>
+					<v-flex xs12 sm12 md12 lg12>
+						<v-layout row wrap>
+							<v-flex xs12 sm12 md6 lg6>
+								<h3>Información del paciente</h3>
+								<v-expansion-panel expand>
+								    <v-expansion-panel-content v-bind:value="true">
+										<div slot="header">Nombre</div>
+										<v-card>
+											<v-card-text class="green lighten-4">{{ patient.patient.name }}</v-card-text>
+										</v-card>
+								    </v-expansion-panel-content>
+								    <v-expansion-panel-content v-bind:value="true">
+										<div slot="header">Email</div>
+										<v-card>
+											<v-card-text class="green lighten-4">{{ patient.patient.email }}</v-card-text>
+										</v-card>
+								    </v-expansion-panel-content>
+								    <v-expansion-panel-content v-bind:value="true">
+										<div slot="header">Teléfonos</div>
+										<v-card>
+											<v-card-text class="green lighten-4">
+												<div>Casa: {{ patient.patient.tel }}</div>
+												<div>Celular: {{ patient.patient.cellphone }}</div>
+											</v-card-text>
+										</v-card>
+								    </v-expansion-panel-content>
+								    <v-expansion-panel-content v-bind:value="true">
+										<div slot="header">Domicilio</div>
+										<v-card>
+											<v-card-text class="green lighten-4">{{ patient.patient.address }}</v-card-text>
+										</v-card>
+								    </v-expansion-panel-content>
+								    <v-expansion-panel-content v-bind:value="true">
+										<div slot="header">Género</div>
+										<v-card>
+											<v-card-text class="green lighten-4">{{ patient.patient.gender == '1' ? 'Hombre' : 'Mujer'  }}</v-card-text>
+										</v-card>
+								    </v-expansion-panel-content>
+								    <v-expansion-panel-content v-bind:value="true">
+										<div slot="header">DNI</div>
+										<v-card>
+											<v-card-text class="green lighten-4">{{ patient.patient.dni }}</v-card-text>
+										</v-card>
+								    </v-expansion-panel-content>
+								    <v-expansion-panel-content v-bind:value="true">
+										<div slot="header">Estado Civil</div>
+										<v-card>
+											<v-card-text class="green lighten-4">{{ patient.patient.civil_state ? 'Casado' : 'Soltero' }}</v-card-text>
+										</v-card>
+								    </v-expansion-panel-content>
+								    <v-expansion-panel-content v-bind:value="true">
+										<div slot="header">Año de nacimiento</div>
+										<v-card>
+											<v-card-text class="green lighten-4">{{ patient.patient.birthdate }}</v-card-text>
+										</v-card>
+								    </v-expansion-panel-content>
+								    <v-expansion-panel-content v-bind:value="true">
+										<div slot="header">Localidad</div>
+										<v-card>
+											<v-card-text class="green lighten-4">{{ patient.patient.area }}</v-card-text>
+										</v-card>
+								    </v-expansion-panel-content>
+								    <v-expansion-panel-content v-bind:value="true">
+										<div slot="header">Comentarios</div>
+										<v-card>
+											<v-card-text class="green lighten-4">{{ patient.patient.comments }}</v-card-text>
+										</v-card>
+								    </v-expansion-panel-content>
+								</v-expansion-panel>
+							</v-flex>
+							<v-flex xs12 sm12 md6 lg6 v-if="Object.keys(patient.appointments).length">
+								<nextappointments v-bind:appointments="patient.appointments"></nextappointments>
+							</v-flex>
+							<v-flex xs12 sm12 md6 lg6 v-if="Object.keys(patient.history).length">
+								<historialappointments v-bind:appointments="patient.history"></historialappointments>
+							</v-flex>
+						</v-layout>
+					</v-flex>
+				</v-layout>
+			</v-flex>
+		</v-layout>
 	</transition>
 </template>
 <script>
+	import NextAppointments from '../partials/NextAppointments.vue';
+	import HistorialAppointments from '../partials/HistorialAppointments.vue';
+
 	import { mapState } from 'vuex';
 
 	export default {
@@ -138,6 +140,11 @@
 						t.$emit('complete', {message:  'Estamos teniendo problemas al resolver su solicitud. Por favor reintente más tarde', success: false, warning: false, danger: true, error:error});
 					});
 			}
-		}
+		},
+
+		components: {
+            'nextappointments' : NextAppointments,
+            'historialappointments' : HistorialAppointments
+        }
 	}
 </script>

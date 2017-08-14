@@ -1,80 +1,70 @@
 <template>
 	<transition name="fade">
-		<div class="row col-md-12 section-detail" v-if="professional">
-			<h1><span class="glyphicon glyphicon-education"></span> {{ professional.professional.name }} 
-			<router-link to="/professionals" class="btn btn-default pull-right margin-left-small"><span class="glyphicon glyphicon-calendar"></span> </router-link>
-			<router-link :to="{ name: 'professionals_edit', params: { id: professional.professional.id }}" class="btn btn-primary pull-right margin-left-small"><span class="glyphicon glyphicon-pencil"></span> Editar</router-link>
-			<router-link to="/professionals" class="btn btn-success pull-right margin-left-small"><span class="glyphicon glyphicon-arrow-left"></span> Listado</router-link></h1>
-			<hr />
-			<div class="col-md-12">
-				<table class="table table-hovered">
-					<thead>
-						<tr>
-							<td span="2">
-								<h3>Información personal</h3>
-							</td>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>Nombre</td>
-							<td><span class="label label-default">{{ professional.professional.name }}</span></td>
-						</tr>
-						<tr>
-							<td>Email</td>
-							<td><span class="label label-default">{{ professional.professional.email }}</span></td>
-						</tr>
-						<tr>
-							<td>Teléfono</td>
-							<td><span class="label label-default">{{ professional.professional.tel }}</span></td>
-						</tr>
-						<tr>
-							<td>Domicilio</td>
-							<td><span class="label label-default">{{ professional.professional.address }}</span></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<div class="col-md-12" v-if="Object.keys(professional.appointments).length">
-				<table class="table table-hovered">
-					<thead>
-						<tr>
-							<td span="2">
-								<h3>Próximos Turnos</h3>
-							</td>
-						</tr>
-					</thead>
-					<tbody>
-						<tr v-for="appointment in professional.appointments">
-							<td>{{ appointment.date }} {{ appointment.hour }}hs</td>
-							<td><span class="label label-success">{{ appointment.treatment.treatment }}</span> para <span class="label label-primary">{{ appointment.patient.name }}</span></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<div class="col-md-12" v-if="Object.keys(professional.history).length">
-				<table class="table table-hovered">
-					<thead>
-						<tr>
-							<td span="2">
-								<h3>Historial</h3>
-							</td>
-						</tr>
-					</thead>
-					<tbody>
-						<tr v-for="history in professional.history">
-							<td>{{ history.date }} {{ history.hour }}hs</td>
-							<td>
-								<p><span class="label label-success">{{ history.treatment.treatment }}</span> para <span class="label label-primary">{{ history.patient.name }}</span><router-link class="btn btn-default pull-right" :to="{ name: 'appointments_detail', params: { id: history.id }}" title="Ver Turno"><span class="glyphicon glyphicon-eye-open"></span></router-link></p>
-							<p><strong v-if="history.comments">Comentarios: </strong> {{ history.comments }} </p></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
+		<v-layout row wrap>
+			<v-flex xs12 sm12 md12 lg12 v-if="professional">
+				<v-layout row wrap>
+					<v-flex xs12 sm12 md8 lg9>
+						<h1><i class="material-icons icon-h1">school</i> {{ professional.professional.name }}</h1>
+					</v-flex>
+					<v-flex xs12 sm12 md4 lg3 class="mt-5">
+						<v-btn class="pull-right pink" dark medium to="/professionals">
+					    	<v-icon dark>date_range</v-icon>
+						</v-btn>
+						<v-btn class="pull-right" dark medium primary :to="{ name: 'professionals_edit', params: { id:  professional.professional.id }}">
+					    	<v-icon dark>edit</v-icon>
+						</v-btn>
+						<v-btn class="pull-right" light medium to="/professionals">
+					    	<v-icon dark>chevron_left</v-icon>
+						</v-btn>
+					</v-flex>
+					<v-flex xs12 sm12 md12 lg12>
+						<v-layout row wrap>
+							<v-flex xs12 sm12 md6 lg6>
+								<h3>Información del paciente</h3>
+								<v-expansion-panel expand>
+								    <v-expansion-panel-content v-bind:value="true">
+										<div slot="header">Nombre</div>
+										<v-card>
+											<v-card-text class="green lighten-4">{{ professional.professional.name }}</v-card-text>
+										</v-card>
+								    </v-expansion-panel-content>
+								    <v-expansion-panel-content v-bind:value="true">
+										<div slot="header">Email</div>
+										<v-card>
+											<v-card-text class="green lighten-4">{{ professional.professional.email }}</v-card-text>
+										</v-card>
+								    </v-expansion-panel-content>
+								    <v-expansion-panel-content v-bind:value="true">
+										<div slot="header">Teléfonos</div>
+										<v-card>
+											<v-card-text class="green lighten-4">{{ professional.professional.tel }}</v-card-text>
+										</v-card>
+								    </v-expansion-panel-content>
+								    <v-expansion-panel-content v-bind:value="true">
+										<div slot="header">Domicilio</div>
+										<v-card>
+											<v-card-text class="green lighten-4">{{ professional.professional.address }}</v-card-text>
+										</v-card>
+								    </v-expansion-panel-content>
+								</v-expansion-panel>
+							</v-flex>
+							<v-flex xs12 sm12 md6 lg6 v-if="Object.keys(professional.appointments).length">
+								<nextappointments v-bind:appointments="professional.appointments"></nextappointments>
+							</v-flex>
+							<v-flex xs12 sm12 md6 lg6 v-if="Object.keys(professional.history).length">
+								<historialappointments v-bind:appointments="professional.history"></historialappointments>
+							</v-flex>
+						</v-layout>
+					</v-flex>
+				</v-layout>
+			</v-flex>
+		</v-layout>
 	</transition>
 </template>
 <script>
+	import NextAppointments from '../partials/NextAppointments.vue';
+	import HistorialAppointments from '../partials/HistorialAppointments.vue';
+
 	import { mapState } from 'vuex';
 
 	export default {
@@ -111,6 +101,11 @@
 						t.$emit('complete', {message:  'Estamos teniendo problemas al resolver su solicitud. Por favor reintente más tarde', success: false, warning: false, danger: true, error:error});
 					});
 			}
-		}
+		},
+
+		components: {
+            'nextappointments' : NextAppointments,
+            'historialappointments' : HistorialAppointments
+        }
 	}
 </script>

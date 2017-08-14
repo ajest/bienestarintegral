@@ -1,78 +1,64 @@
 <template>
 	<transition name="fade">
-		<div class="row col-md-12 section-detail" v-if="treatment">
-			<h1><span class="glyphicon glyphicon-leaf"></span> {{ treatment.treatment.treatment }} 
-			<router-link to="/treatments" class="btn btn-default pull-right margin-left-small"><span class="glyphicon glyphicon-calendar"></span> </router-link>
-			<router-link :to="{ name: 'treatments_edit', params: { id: treatment.treatment.id }}" class="btn btn-primary pull-right margin-left-small"><span class="glyphicon glyphicon-pencil"></span> Editar</router-link>
-			<router-link to="/treatments" class="btn btn-success pull-right margin-left-small"><span class="glyphicon glyphicon-arrow-left"></span> Listado</router-link></h1>
-			<hr />
-			<div class="col-md-12">
-				<div class="col-md-6">
-					<table class="table table-hovered">
-						<thead>
-							<tr>
-								<td span="2">
-									<h3>Información del tratamiento</h3>
-								</td>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>Name</td>
-								<td><span class="label label-default">{{ treatment.treatment.treatment }}</span></td>
-							</tr>
-							<tr>
-								<td>Especialidad</td>
-								<td><span class="label label-warning">{{ treatment.specialty.specialty }}</span></td>
-							</tr>
-							<tr>
-								<td>Description</td>
-								<td>{{ treatment.treatment.description }}</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
-			<div class="col-md-12" v-if="Object.keys(treatment.appointments).length">
-				<table class="table table-hovered">
-					<thead>
-						<tr>
-							<td span="2">
-								<h3>Próximos Turnos</h3>
-							</td>
-						</tr>
-					</thead>
-					<tbody>
-						<tr v-for="appointment in treatment.appointments">
-							<td>{{ appointment.date }} {{ appointment.hour }}hs</td>
-							<td><span class="label label-success">{{ treatment.treatment.treatment }}</span> para <span class="label label-primary">{{ appointment.patient.name }}</span></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<div class="col-md-12" v-if="Object.keys(treatment.history).length">
-				<table class="table table-hovered">
-					<thead>
-						<tr>
-							<td span="2">
-								<h3>Historial</h3>
-							</td>
-						</tr>
-					</thead>
-					<tbody>
-						<tr v-for="history in treatment.history">
-							<td>{{ history.date }} {{ history.hour }}hs</td>
-							<td>
-								<p><span class="label label-success">{{ treatment.treatment.treatment }}</span> para <span class="label label-primary">{{ history.patient.name }}</span><router-link class="btn btn-default pull-right" :to="{ name: 'appointments_detail', params: { id: history.id }}" title="Ver Turno"><span class="glyphicon glyphicon-eye-open"></span></router-link></p>
-							<p><strong v-if="history.comments">Comentarios: </strong> {{ history.comments }} </p></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
+		<v-layout row wrap>
+			<v-flex xs12 sm12 md12 lg12 v-if="treatment">
+				<v-layout row wrap>
+					<v-flex xs12 sm12 md8 lg9>
+						<h1><i class="material-icons icon-h1">healing</i> {{ treatment.treatment.treatment }}</h1>
+					</v-flex>
+					<v-flex xs12 sm12 md4 lg3 class="mt-5">
+						<v-btn class="pull-right pink" dark medium to="/treatments">
+					    	<v-icon dark>date_range</v-icon>
+						</v-btn>
+						<v-btn class="pull-right" dark medium primary :to="{ name: 'treatments_edit', params: { id: treatment.treatment.id }}">
+					    	<v-icon dark>edit</v-icon>
+						</v-btn>
+						<v-btn class="pull-right" light medium to="/treatments">
+					    	<v-icon dark>chevron_left</v-icon>
+						</v-btn>
+					</v-flex>
+					<v-flex xs12 sm12 md12 lg12>
+						<v-layout row wrap>
+							<v-flex xs12 sm12 md6 lg6>
+								<h3>Información del tratamiento</h3>
+								<v-expansion-panel expand>
+								    <v-expansion-panel-content v-bind:value="true">
+										<div slot="header">Nombre</div>
+										<v-card>
+											<v-card-text class="green lighten-4">{{ treatment.treatment.treatment }}</v-card-text>
+										</v-card>
+								    </v-expansion-panel-content>
+								    <v-expansion-panel-content v-bind:value="true">
+										<div slot="header">Especialidad</div>
+										<v-card>
+											<v-card-text class="green lighten-4">{{ treatment.specialty.specialty }}</v-card-text>
+										</v-card>
+								    </v-expansion-panel-content>
+								    <v-expansion-panel-content v-bind:value="true">
+										<div slot="header">Descripción</div>
+										<v-card>
+											<v-card-text class="green lighten-4">{{ treatment.treatment.description ? treatment.treatment.description : '---' }}</v-card-text>
+										</v-card>
+								    </v-expansion-panel-content>
+								</v-expansion-panel>
+							</v-flex>
+							<v-flex xs12 sm12 md6 lg6 v-if="Object.keys(treatment.appointments).length">
+								<nextappointments v-bind:appointments="treatment.appointments"></nextappointments>
+							</v-flex>
+							<v-flex xs12 sm12 md6 lg6 v-if="Object.keys(treatment.history).length">
+								<historialappointments v-bind:appointments="treatment.history"></historialappointments>
+							</v-flex>
+						</v-layout>
+					</v-flex>
+				</v-layout>
+			</v-flex>
+		</v-layout>
 	</transition>
 </template>
 <script>
+	import NextAppointments from '../partials/NextAppointments.vue';
+	import HistorialAppointments from '../partials/HistorialAppointments.vue';
+
 	import { mapState } from 'vuex';
 
 	export default {
@@ -108,6 +94,11 @@
 						t.$emit('complete', {message:  'Estamos teniendo problemas al resolver su solicitud. Por favor reintente más tarde', success: false, warning: false, danger: true, error:error});
 					});
 			}
-		}
+		},
+
+		components: {
+            'nextappointments' : NextAppointments,
+            'historialappointments' : HistorialAppointments
+        }
 	}
 </script>

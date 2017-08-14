@@ -1,55 +1,82 @@
 <template>
-	<div class="row">		
-		<div class="row col-md-12 body-principal">
-			<h1><span class="glyphicon glyphicon-list"></span> Preguntas</h1>
-		</div>
-		<div class="row col-md-12">
-			<div class="col-md-10">
-				<div class="col-md-6">
-					<div class="input-group">
-						<span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
-						<input class="form-control" placeholder="Ingrese su búsqueda" v-model="search_in_table" @keyup="searchQuestion">
-						<span class="input-group-addon searching_in_table" v-show="searching_in_table">Buscando..</span>
+	<v-layout row wrap>
+		<v-flex xs12 sm12 md12 lg12>
+			<h1><i class="material-icons icon-h1">question_answer</i> Preguntas</h1>
+		</v-flex>
+		<v-flex xs12 sm12 md12 lg12>
+			<v-layout row wrap>
+				<v-flex xs12 sm12 md10 lg10>
+					<v-layout row wrap>
+						<v-flex md6 lg6>
+							<div>
+								<v-text-field
+					              name="input-1-3"
+					              placeholder="Ingrese su búsqueda"
+					              single-line
+					              append-icon="search"
+					              v-model="search_in_table"
+					              @keyup.native="searchQuestion"
+					            ></v-text-field>
+							</div>
+						</v-flex>
+					</v-layout>
+				</v-flex>
+				<v-flex xs12 sm12 md2 lg2 hidden-sm-and-down>
+					<v-btn  fab big dark class="pink pull-right" :to="{ name: 'questions_new'}">
+						<v-icon dark>add</v-icon>
+				    </v-btn>
+				</v-flex>
+				<v-flex hidden-md-and-up>
+					<v-btn class="pink zindex20" dark medium fixed bottom right fab :to="{ name: 'questions_new'}">
+			          	<v-icon dark>add</v-icon>
+			        </v-btn>
+				</v-flex>
+				<v-progress-linear v-bind:indeterminate="true" v-show="searching_in_table"></v-progress-linear>
+			</v-layout>
+		</v-flex>
+		<v-flex xs12 sm12 md12 lg12>
+			<v-layout row wrap>
+				<div class="card__text">
+					<div class="table__overflow elevation-2">
+						<table class="datatable table custom-table">
+							<thead>
+								<tr>
+									<td><router-link :to="url + '1/question'">Pregunta</router-link></td>
+									<td><router-link :to="url + '1/specialty'">Especialidad</router-link></td>
+									<td>Acciones</td>
+								</tr>
+							</thead>
+							<transition-group name="list" tag="tbody" v-if="questions.length > 0">
+								<tr v-for="question in questions" v-bind:key="question.id" class="list-item">
+									<td v-html="question.question"></td>
+									<td v-html="question.specialty"></td>
+									<td class="no-padding">
+										<div class="three-buttons">
+											<v-btn class="blue--text" icon :to="{ name: 'questions_edit', params: { id: question.id }}" title="Editar Tratamiento">
+							                	<v-icon>edit</v-icon>
+							                </v-btn>
+											<v-btn class="red--text" icon data-toggle="modal" data-target="#confirmDelete" title="Cancelar Tratamiento" @click="confirmDelete(question.id)">
+							                	<v-icon>delete</v-icon>
+							                </v-btn>
+										</div>
+									</td>
+								</tr>
+							</transition-group>
+							<tbody v-else>
+								<tr >
+									<td colspan="7">{{ no_data_msg }}</td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
 				</div>
-			</div>
-			<div class="col-md-2">
-				<router-link :to="{ name: 'questions_new'}" class="btn btn-success pull-right"><span class="glyphicon glyphicon-plus"></span> Nueva pregunta</router-link>
-			</div>
-		</div>
-		<div class="row col-md-12">
-			<div class="table-responsive">
-				<table class="table table-striped table-hover table-head-strong table-bi">
-					<thead>
-						<tr>
-							<td><router-link :to="url + '1/question'">Pregunta</router-link></td>
-							<td><router-link :to="url + '1/specialty'">Especialidad</router-link></td>
-							<td>Acciones</td>
-						</tr>
-					</thead>
-					<transition-group name="list" tag="tbody" v-if="questions.length > 0">
-						<tr v-for="question in questions" v-bind:key="question" class="list-item">
-							<td v-html="question.question"></td>
-							<td v-html="question.specialty"></td>
-							<td>								
-								<div class="three-buttons">
-									<router-link class="btn btn-primary margin-list-button" :to="{ name: 'questions_edit', params: { id: question.id }}" title="Editar Tratamiento"><span class="glyphicon glyphicon-pencil"></span></router-link>
-									<a class="btn btn-danger margin-list-button" href="#" data-toggle="modal" data-target="#confirmDelete" title="Cancelar Tratamiento" @click="confirmDelete(question.id)"><span class="glyphicon glyphicon-remove"></span></a>
-								</div>							
-							</td>
-						</tr>
-					</transition-group>
-					<tbody v-else>
-						<tr >
-							<td colspan="7">{{ no_data_msg }}</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
-		<pagination v-bind:last_page="last_page" v-bind:current_page="current_page" v-bind:url="url"></pagination>
+			</v-layout>
+		</v-flex>
+		<v-flex xs12 sm12 md12 lg12 class="mt-2">			
+			<pagination v-bind:last_page="last_page" v-bind:current_page="current_page" v-bind:url="url"></pagination>
+		</v-flex>
 		<popupdeleteconfirm v-on:success="operationSuccess" v-on:error="operationError" v-bind:element_id="question_id" v-bind:elements="questions" v-bind:url="url" v-bind:delete_text_confirm="delete_text_confirm" v-bind:baseUrl="baseUrl"></popupdeleteconfirm>
-	</div>
+	</v-layout>
 </template>
 <script>
 	import Pagination from '../partials/Pagination.vue';

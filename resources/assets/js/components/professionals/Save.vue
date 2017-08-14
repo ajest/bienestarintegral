@@ -1,48 +1,56 @@
 <template>
-	<form class="row col-md-12" v-on:submit.prevent="saveProfessional" v-if="checkExistence">
-		<div class="row col-md-12">
-			<h1>{{ professional.professional.name ? professional.professional.name : 'Nuevo Profesional' }} 
-				<button class="pull-right btn btn-primary margin-left-small" :disabled="button_disabled"><span class="glyphicon " :class="save_icon"></span> {{ saveButtonName }}</button>
-				<router-link to="/professionals" class="btn btn-success pull-right margin-left-small"><span class="glyphicon glyphicon-arrow-left"></span> Volver</router-link>
-			</h1>
-		</div>
-		<hr />
-		<div class="col-md-12">
-			<h3>Información del profesional</h3>
-			<div class="panel panel-danger" v-if="errors.length > 0">
-				<div class="panel-body">
-					Su formulario contiene los siguientes errores:
-					<ul>
-						<li v-for="error in errors"><strong>{{ error.name }}</strong>: {{ error.message }}</li>
-					</ul>
-				</div>
-			</div>
-			<div class="form-group col-md-6">
-				<label for="name">Nombre *</label>
-				<input id="name" type="text" v-model="professional.professional.name" placeholder="Ej. Lucas García" class="form-control" :class="validateRequired('name')" @focusin="setFlagError('name')" required>
-			</div>
-			<div class="form-group col-md-6">
-				<label for="email">Email *</label>
-				<input id="email" type="email" v-model="professional.professional.email" placeholder="Ej. lucasgarcia@gmail.com" class="form-control" :class="validateRequired('email')" @focusin="setFlagError('email')" required>
-			</div>
-			<div class="form-group col-md-6">
-				<label for="tel">Teléfono *</label>
-				<input id="tel" type="text" v-model="professional.professional.tel" placeholder="Ej. +54 11 6890-8443" class="form-control" v-mask="'+## ## ####-####'" :class="validateRequired('tel')" @focusin="setFlagError('tel')" required>
-			</div>
-			<div class="form-group col-md-6">
-				<label for="gender_id">Género *</label>
-				<select id="gender_id" v-model="professional.professional.gender_id" class="form-control" :class="validateRequired('gender_id')" @focusin="setFlagError('gender_id')" required>
-					<option value="">-- Seleccione Género --</option>
-					<option value="1">Hombre</option>
-					<option value="2">Mujer</option>
-				</select>
-			</div>
-			<div class="form-group col-md-6">
-				<label for="address">Dirección *</label>
-				<input id="address" type="text" v-model="professional.professional.address" placeholder="Ej. Posta de Pardo 1298" class="form-control" :class="validateRequired('address')" @focusin="setFlagError('address')" required>
-			</div>
-		</div>
-	</form>
+	<v-layout row wrap>
+		<v-flex xs12 sm12 md12 lg12>
+			<form v-on:submit.prevent="saveProfessional" v-if="checkExistence">
+				<v-layout row wrap>
+					<v-flex xs12 sm12 md9 lg10>
+						<h1>{{ professional.professional.name ? professional.professional.name : 'Nuevo Profesional' }}</h1>
+					</v-flex>
+					<v-flex xs12 sm12 md3 lg2 class="mt-5">
+						<button class="btn btn--raised theme--dark primary pull-right" :disabled="button_disabled">{{ saveButtonName }}</button>
+						<v-btn class="pull-right" light medium to="/professionals">
+				          	<v-icon dark>chevron_left</v-icon>
+				        </v-btn>
+					</v-flex>
+					<v-flex xs12 sm12 md12 lg12>
+						<h3>Información del profesional</h3>
+						<div class="panel panel-danger" v-if="errors.length > 0">
+							<div class="panel-body">
+								Su formulario contiene los siguientes errores:
+								<ul>
+									<li v-for="error in errors"><strong>{{ error.name }}</strong>: {{ error.message }}</li>
+								</ul>
+							</div>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="name">Nombre *</label>
+							<input id="name" type="text" v-model="professional.professional.name" placeholder="Ej. Lucas García" class="form-control" :class="validateRequired('name')" @focusin="setFlagError('name')" required>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="email">Email *</label>
+							<input id="email" type="email" v-model="professional.professional.email" placeholder="Ej. lucasgarcia@gmail.com" class="form-control" :class="validateRequired('email')" @focusin="setFlagError('email')" required>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="tel">Teléfono *</label>
+							<input id="tel" type="text" v-model="professional.professional.tel" placeholder="Ej. +54 11 6890-8443" class="form-control" v-mask="'+## ## ####-####'" :class="validateRequired('tel')" @focusin="setFlagError('tel')" required>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="gender_id">Género *</label>
+							<select id="gender_id" v-model="professional.professional.gender_id" class="form-control" :class="validateRequired('gender_id')" @focusin="setFlagError('gender_id')" required>
+								<option value="">-- Seleccione Género --</option>
+								<option value="1">Hombre</option>
+								<option value="2">Mujer</option>
+							</select>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="address">Dirección *</label>
+							<input id="address" type="text" v-model="professional.professional.address" placeholder="Ej. Posta de Pardo 1298" class="form-control" :class="validateRequired('address')" @focusin="setFlagError('address')" required>
+						</div>
+					</v-flex>
+				</v-layout>
+			</form>
+		</v-flex>
+	</v-layout>
 </template>
 <script>
 	import { mapState } from 'vuex';

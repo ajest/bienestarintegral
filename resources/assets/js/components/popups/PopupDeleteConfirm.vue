@@ -11,8 +11,12 @@
 	        <p>{{ getMessage }} <strong v-if="from_el"> {{ from_el }} </strong> {{ second }} <strong v-if="for_el"> {{ for_el }} </strong> {{ third }} <strong v-if="emp"> {{ emp }}</strong>{{ final }}</p>
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-	        <button type="button" class="btn btn-danger" data-dismiss="modal" @click="deleteInDB()">Confirmar</button>
+	      	<div class="pull-right">
+	        	<button type="button" class="btn btn--raised theme--dark error" data-dismiss="modal" @click="deleteInDB()"><div class="btn__content">Borrar</div></button>
+	      	</div>
+	      	<div class="pull-right">
+	      		<button type="button" class="btn btn--raised theme--dark" data-dismiss="modal"><div class="btn__content">Cancelar</div></button>
+	      	</div>
 	      </div>
 	    </div>
 	  </div>

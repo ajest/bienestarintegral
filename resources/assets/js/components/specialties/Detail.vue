@@ -1,35 +1,46 @@
 <template>
 	<transition name="fade">
-		<div class="row col-md-12 section-detail" v-if="specialty">
-			<h1><span class="glyphicon glyphicon-briefcase"></span> {{ specialty.specialty }} 
-			<router-link to="/specialties" class="btn btn-default pull-right margin-left-small"><span class="glyphicon glyphicon-calendar"></span> </router-link>
-			<router-link :to="{ name: 'specialties_edit', params: { id: specialty.id }}" class="btn btn-primary pull-right margin-left-small"><span class="glyphicon glyphicon-pencil"></span> Editar</router-link>
-			<router-link to="/specialties" class="btn btn-success pull-right margin-left-small"><span class="glyphicon glyphicon-arrow-left"></span> Listado</router-link></h1>
-			<hr />
-			<div class="col-md-12">
-				<div class="col-md-6">
-					<table class="table table-hovered">
-						<thead>
-							<tr>
-								<td span="2">
-									<h3>Información del turno</h3>
-								</td>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>Name</td>
-								<td><span class="label label-default">{{ specialty.specialty }}</span></td>
-							</tr>
-							<tr>
-								<td>Description</td>
-								<td>{{ specialty.description }}</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
+		<v-layout row wrap>
+			<v-flex xs12 sm12 md12 lg12 v-if="specialty">
+				<v-layout row wrap>
+					<v-flex xs12 sm12 md8 lg9>
+						<h1><i class="material-icons icon-h1">group_work</i> {{ specialty.specialty }}</h1>
+					</v-flex>
+					<v-flex xs12 sm12 md4 lg3 class="mt-5">
+						<v-btn class="pull-right pink" dark medium to="/specialties">
+					    	<v-icon dark>date_range</v-icon>
+						</v-btn>
+						<v-btn class="pull-right" dark medium primary :to="{ name: 'specialties_edit', params: { id: specialty.id }}">
+					    	<v-icon dark>edit</v-icon>
+						</v-btn>
+						<v-btn class="pull-right" light medium to="/specialties">
+					    	<v-icon dark>chevron_left</v-icon>
+						</v-btn>
+					</v-flex>
+					<v-flex xs12 sm12 md12 lg12>
+						<v-layout row wrap>
+							<v-flex xs12 sm12 md12 lg12>
+								<h3>Información del turno</h3>
+								<v-expansion-panel expand>
+								    <v-expansion-panel-content v-bind:value="true">
+										<div slot="header">Nombre</div>
+										<v-card>
+											<v-card-text class="green lighten-4">{{ specialty.specialty }}</v-card-text>
+										</v-card>
+								    </v-expansion-panel-content>
+								    <v-expansion-panel-content v-bind:value="true">
+										<div slot="header">Descripción</div>
+										<v-card>
+											<v-card-text class="green lighten-4">{{ specialty.description ? specialty.description : '---' }}</v-card-text>
+										</v-card>
+								    </v-expansion-panel-content>
+								</v-expansion-panel>
+							</v-flex>
+						</v-layout>
+					</v-flex>
+				</v-layout>
+			</v-flex>
+		</v-layout>
 	</transition>
 </template>
 <script>

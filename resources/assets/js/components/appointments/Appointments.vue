@@ -1,7 +1,7 @@
 <template>
 	<v-layout row wrap>
 		<v-flex xs12 sm12 md12 lg12>
-			<h1><i class="material-icons icon-h1">assignment ind</i> Turnos</h1>
+			<h1><i class="material-icons icon-h1">assignment_ind</i> Turnos</h1>
 		</v-flex>
 		<v-flex xs12 sm12 md12 lg12>
 			<v-layout row wrap>
@@ -28,7 +28,7 @@
 				              bottom
 				              item-text="text"
 				              item-value="value"
-				              v-on:change="filterStatusCallback"
+				              @change="filterStatusCallback"
 				            ></v-select>
 						</v-flex>
 					</v-layout>
@@ -123,13 +123,13 @@
 				delayTimer: '',
 				opened_highlighted_tag: '<strong>',
 				closed_highlighted_tag: '</strong>',
-				status: 0,
+				status: 1,
 				active_element: 'appointment',
 				no_data_msg: 'Cargando..',
 				statuses: [
 					{ value: 0, text: 'Todos' },
-					{ value: 1, text: 'Anteriores' },
-					{ value: 2, text: 'Pendientes' }
+					{ value: 1, text: 'Pendientes' },
+					{ value: 2, text: 'Anteriores' }
 				]
 			}
 		},
@@ -329,7 +329,8 @@
 			    }, time);
 			},
 
-			filterStatusCallback(){
+			filterStatusCallback(a){
+				this.status = a; // Vuetify bug fixed
 				this.$router.push({ path: '/appointments/1' });		
 				this.paginationCallback();	
 			},

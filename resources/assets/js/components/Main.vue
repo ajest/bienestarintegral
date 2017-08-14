@@ -11,7 +11,6 @@
 					<li :class="[active_element == 'calendar' ? 'active' : '']"><router-link to="/"><span class="glyphicon glyphicon-calendar"></span> Calendario <span class="sr-only">(current)</span></router-link></li>
 					<li :class="[active_element == 'reports' ? 'active' : '']"><router-link to="/"><span class="glyphicon glyphicon-stats"></span> Reportes</router-link></li>
 				</ul>-->
-
 			<v-list class="pa-0">
 				<v-list-tile avatar tag="div">
 					<v-list-tile-action>
@@ -29,61 +28,61 @@
 			</v-list>
 			<v-list class="pt-0" dense>
 				<v-divider></v-divider>
-				<v-list-tile dark>
+				<v-list-tile to="/" :class="[active_element == 'calendar' ? 'active' : '']">
 					<v-list-tile-action>
 						<v-icon>dashboard</v-icon>
 					</v-list-tile-action>
 					<v-list-tile-content>
-						<v-list-tile-title :class="[active_element == 'calendar' ? 'active' : '']"><router-link to="/">Dashboard</router-link></v-list-tile-title>
+						<v-list-tile-title>Dashboard</v-list-tile-title>
 					</v-list-tile-content>
 				</v-list-tile>
-				<v-list-tile hide-overlay>
+				<v-list-tile to="/appointments" :class="[active_element == 'appointment' ? 'active' : '']">
 					<v-list-tile-action>
-						<v-icon>assignment ind</v-icon>
+						<v-icon>assignment_ind</v-icon>
 					</v-list-tile-action>
 					<v-list-tile-content>
-						<v-list-tile-title class="grey--text text--darken-1" :class="[active_element == 'appointment' ? 'active' : '']"><router-link to="/appointments">Turnos</router-link></v-list-tile-title>
+						<v-list-tile-title>Turnos</v-list-tile-title>
 					</v-list-tile-content>
 				</v-list-tile>
-				<v-list-tile>
+				<v-list-tile to="/patients" :class="[active_element == 'patient' ? 'active' : '']">
 					<v-list-tile-action>
 						<v-icon>face</v-icon>
 					</v-list-tile-action>
 					<v-list-tile-content>
-						<v-list-tile-title :class="[active_element == 'patient' ? 'active' : '']"><router-link to="/patients">Pacientes</router-link></v-list-tile-title>
+						<v-list-tile-title>Pacientes</v-list-tile-title>
 					</v-list-tile-content>
 				</v-list-tile>
-				<v-list-tile>
+				<v-list-tile to="/professionals" :class="[active_element == 'professional' ? 'active' : '']">
 					<v-list-tile-action>
 						<v-icon>school</v-icon>
 					</v-list-tile-action>
 					<v-list-tile-content>
-						<v-list-tile-title :class="[active_element == 'professional' ? 'active' : '']"><router-link to="/professionals">Profesionales</router-link></v-list-tile-title>
+						<v-list-tile-title>Profesionales</v-list-tile-title>
 					</v-list-tile-content>
 				</v-list-tile>
-				<v-list-tile>
+				<v-list-tile to="/series" :class="[active_element == 'series' ? 'active' : '']">
 					<v-list-tile-action>
 						<v-icon>card_giftcard</v-icon>
 					</v-list-tile-action>
 					<v-list-tile-content>
-						<v-list-tile-title :class="[active_element == 'series' ? 'active' : '']"><router-link to="/series">Promociones</router-link></v-list-tile-title>
+						<v-list-tile-title>Promociones</v-list-tile-title>
 					</v-list-tile-content>
 				</v-list-tile>
-				<v-list-tile>
+				<v-list-tile to="/settings" :class="[active_element == 'settings' ? 'active' : '']">
 					<v-list-tile-action>
 						<v-icon>settings</v-icon>
 					</v-list-tile-action>
 					<v-list-tile-content>
-						<v-list-tile-title :class="[active_element == 'settings' ? 'active' : '']"><router-link to="/settings">Configuración</router-link></v-list-tile-title>
+						<v-list-tile-title>Configuración</v-list-tile-title>
 					</v-list-tile-content>
 				</v-list-tile>
 				<v-divider></v-divider>
-				<v-list-tile>
+				<v-list-tile @click="logout">
 					<v-list-tile-action>
 						<v-icon>exit_to_app</v-icon>
 					</v-list-tile-action>
 					<v-list-tile-content>
-						<v-list-tile-title><a href="#" @click="logout"> Cerrar sesión</a></v-list-tile-title>
+						<v-list-tile-title>Cerrar sesión</v-list-tile-title>
 					</v-list-tile-content>
 				</v-list-tile>
 			</v-list>

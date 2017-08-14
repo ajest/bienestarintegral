@@ -1,37 +1,45 @@
 <template>
-	<form class="row col-md-12" v-on:submit.prevent="saveQuestion" v-if="checkExistence">
-		<div class="row col-md-12">
-			<h1>{{ question.question.question ? question.question.question : 'Nueva pregunta' }} 
-				<button class="pull-right btn btn-primary margin-left-small" :disabled="button_disabled"><span class="glyphicon " :class="save_icon"></span> {{ saveButtonName }}</button>
-				<router-link to="/questions" class="btn btn-success pull-right margin-left-small"><span class="glyphicon glyphicon-arrow-left"></span> Volver</router-link>
-			</h1>
-		</div>
-		<hr />
-		<div class="col-md-12">
-			<h3>Información de la pregunta</h3>
-			<div class="panel panel-danger" v-if="errors.length > 0">
-				<div class="panel-body">
-					Su formulario contiene los siguientes errores:
-					<ul>
-						<li v-for="error in errors"><strong>{{ error.question }}</strong>: {{ error.message }}</li>
-					</ul>
-				</div>
-			</div>
-			<div class="form-group col-md-6">
-				<label for="question">Pregunta *</label>
-				<input id="question" type="text" v-model="question.question.question" placeholder="Ej. Reflexología" class="form-control" :class="validateRequired('question')" @focusin="setFlagError('question')" required>
-			</div>
-			<div class="form-group col-md-6">
-				<label for="specialty_id">Especialidad</label>
-				<select id="specialty_id" v-model="question.question.specialty_id" class="form-control">
-					<option value="">-- Seleccione Especialidad --</option>
-					<option v-for="specialty in question.all.specialties" v-bind:value="specialty.id">
-						{{ specialty.specialty }}
-					</option>
-				</select>
-			</div>
-		</div>
-	</form>
+	<v-layout row wrap>
+		<v-flex xs12 sm12 md12 lg12>			
+			<form v-on:submit.prevent="saveQuestion" v-if="checkExistence">
+				<v-layout row wrap>
+					<v-flex xs12 sm12 md9 lg10>
+						<h1>{{ question.question.question ? question.question.question : 'Nueva pregunta' }} </h1>
+					</v-flex>
+					<v-flex xs12 sm12 md3 lg2 class="mt-5">
+						<button class="btn btn--raised theme--dark primary pull-right" :disabled="button_disabled">{{ saveButtonName }}</button>
+						<v-btn class="pull-right" light medium to="/questions">
+				          	<v-icon dark>chevron_left</v-icon>
+				        </v-btn>
+					</v-flex>
+					<v-flex xs12 sm12 md12 lg12>
+						<h3>Información de la pregunta</h3>
+						<div class="panel panel-danger" v-if="errors.length > 0">
+							<div class="panel-body">
+								Su formulario contiene los siguientes errores:
+								<ul>
+									<li v-for="error in errors"><strong>{{ error.question }}</strong>: {{ error.message }}</li>
+								</ul>
+							</div>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="question">Pregunta *</label>
+							<input id="question" type="text" v-model="question.question.question" placeholder="Ej. Reflexología" class="form-control" :class="validateRequired('question')" @focusin="setFlagError('question')" required>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="specialty_id">Especialidad</label>
+							<select id="specialty_id" v-model="question.question.specialty_id" class="form-control">
+								<option value="">-- Seleccione Especialidad --</option>
+								<option v-for="specialty in question.all.specialties" v-bind:value="specialty.id">
+									{{ specialty.specialty }}
+								</option>
+							</select>
+						</div>
+					</v-flex>
+				</v-layout>					
+			</form>
+		</v-flex>
+	</v-layout>
 </template>
 <script>
 	import { mapState } from 'vuex';

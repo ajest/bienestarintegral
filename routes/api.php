@@ -226,10 +226,12 @@ Route::get('treatments/detail/{treatment?}', function (App\Treatment $treatment)
         'specialty'  => $treatment->specialty,
         'appointments'  => $treatment->appointment
                                         ->where('date', '>=', date('Y-m-d'))
-                                            ->each->patient,
+                                            ->each->patient
+                                            ->each->treatment,
         'history'       => $treatment->appointment
                                         ->where('date', '<', date('Y-m-d'))
-                                            ->each->patient,
+                                            ->each->patient
+                                            ->each->treatment,
         'all'               => [
             'specialties'   => App\Specialty::all()
         ]

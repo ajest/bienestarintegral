@@ -1,32 +1,40 @@
 <template>
-	<form class="row col-md-12" v-on:submit.prevent="saveSeries" v-if="checkExistence">
-		<div class="row col-md-12">
-			<h1>{{ series.series.series ? series.series.series : 'Nueva Promoción' }} 
-				<button class="pull-right btn btn-primary margin-left-small" :disabled="button_disabled"><span class="glyphicon " :class="save_icon"></span> {{ saveButtonName }}</button>
-				<router-link to="/series" class="btn btn-success pull-right margin-left-small"><span class="glyphicon glyphicon-arrow-left"></span> Volver</router-link>
-			</h1>
-		</div>
-		<hr />
-		<div class="col-md-12">
-			<h3>Información de la promoción</h3>
-			<div class="panel panel-danger" v-if="errors.length > 0">
-				<div class="panel-body">
-					Su formulario contiene los siguientes errores:
-					<ul>
-						<li v-for="error in errors"><strong>{{ error.series }}</strong>: {{ error.message }}</li>
-					</ul>
-				</div>
-			</div>
-			<div class="form-group col-md-6">
-				<label for="series">Nombre *</label>
-				<input id="series" type="text" v-model="series.series.series" placeholder="Ej. 10 sesiones al precio de 9" class="form-control" :class="validateRequired('series')" @focusin="setFlagError('series')" required>
-			</div>
-			<div class="form-group col-md-6">
-				<label for="cant">Cantidad</label>
-				<input id="cant" type="text" v-model="series.series.cant" placeholder="Ej. 10" class="form-control" v-mask="'##'">
-			</div>
-		</div>
-	</form>
+	<v-layout row wrap>
+		<v-flex xs12 sm12 md12 lg12>			
+			<form v-on:submit.prevent="saveSeries" v-if="checkExistence">
+				<v-layout row wrap>
+					<v-flex xs12 sm12 md9 lg10>
+						<h1>{{ specialty.specialty.specialty ? specialty.specialty.specialty : 'Nueva especialidad' }}</h1>
+					</v-flex>
+					<v-flex xs12 sm12 md3 lg2 class="mt-5">
+						<button class="btn btn--raised theme--dark primary pull-right" :disabled="button_disabled">{{ saveButtonName }}</button>
+						<v-btn class="pull-right" light medium to="/series">
+				          	<v-icon dark>chevron_left</v-icon>
+				        </v-btn>
+					</v-flex>
+					<v-flex xs12 sm12 md12 lg12>
+						<h3>Información de la promoción</h3>
+						<div class="panel panel-danger" v-if="errors.length > 0">
+							<div class="panel-body">
+								Su formulario contiene los siguientes errores:
+								<ul>
+									<li v-for="error in errors"><strong>{{ error.series }}</strong>: {{ error.message }}</li>
+								</ul>
+							</div>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="series">Nombre *</label>
+							<input id="series" type="text" v-model="series.series.series" placeholder="Ej. 10 sesiones al precio de 9" class="form-control" :class="validateRequired('series')" @focusin="setFlagError('series')" required>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="cant">Cantidad</label>
+							<input id="cant" type="text" v-model="series.series.cant" placeholder="Ej. 10" class="form-control" v-mask="'##'">
+						</div>
+					</v-flex>
+				</v-layout>
+			</form>
+		</v-flex>
+	</v-layout>
 </template>
 <script>
 	import { mapState } from 'vuex';

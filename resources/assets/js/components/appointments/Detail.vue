@@ -4,7 +4,7 @@
 			<v-flex xs12 sm12 md12 lg12 v-if="appointment">
 				<v-layout row wrap>
 					<v-flex xs12 sm12 md8 lg9>
-						<h1><i class="material-icons icon-h1">assignment ind</i> {{ appointment.title }}</h1>
+						<h1><i class="material-icons icon-h1">assignment_ind</i> {{ appointment.title }}</h1>
 					</v-flex>
 					<v-flex xs12 sm12 md4 lg3 class="mt-5">
 						<v-btn class="pull-right pink" dark medium to="/appointments">
@@ -48,25 +48,33 @@
 								    <v-expansion-panel-content v-bind:value="true">
 										<div slot="header">Profesional</div>
 										<v-card>
-											<v-card-text class="pink lighten-4">{{ appointment.professional.name }}</v-card-text>
+											<v-card-text class="pink lighten-4">
+												<v-chip class="pink white--text">{{ appointment.professional.name }}<v-icon right>school</v-icon></v-chip>
+											</v-card-text>
 										</v-card>
 								    </v-expansion-panel-content>
 								    <v-expansion-panel-content v-bind:value="true">
 										<div slot="header">Area / Especialidad</div>
 										<v-card>
-											<v-card-text class="pink lighten-4">{{ appointment.specialty.specialty }}</v-card-text>
+											<v-card-text class="pink lighten-4">
+												<v-chip class="green white--text">{{ appointment.specialty.specialty }}<v-icon right>group_work</v-icon></v-chip>
+											</v-card-text>
 										</v-card>
 								    </v-expansion-panel-content>
 								    <v-expansion-panel-content v-bind:value="true">
 										<div slot="header">Tratamiento</div>
 										<v-card>
-											<v-card-text class="pink lighten-4">{{ appointment.treatment.treatment }}</v-card-text>
+											<v-card-text class="pink lighten-4">
+												<v-chip class="deep-orange white--text">{{ appointment.treatment.treatment }}<v-icon right>healing</v-icon></v-chip>
+											</v-card-text>
 										</v-card>
 								    </v-expansion-panel-content>
 								    <v-expansion-panel-content v-bind:value="true">
 										<div slot="header">Promoción</div>
 										<v-card>
-											<v-card-text class="pink lighten-4">{{ appointment.series.series ? appointment.series.series : '---' }}</v-card-text>
+											<v-card-text class="pink lighten-4">
+												<v-chip class="purple white--text">{{ appointment.series.series ? appointment.series.series : '---' }}<v-icon right>card_giftcard</v-icon></v-chip>
+											</v-card-text>
 										</v-card>
 								    </v-expansion-panel-content>
 								</v-expansion-panel>

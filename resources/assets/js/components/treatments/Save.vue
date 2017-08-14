@@ -1,41 +1,49 @@
 <template>
-	<form class="row col-md-12" v-on:submit.prevent="saveTreatment" v-if="checkExistence">
-		<div class="row col-md-12">
-			<h1>{{ treatment.treatment.treatment ? treatment.treatment.treatment : 'Nueva tratamiento' }} 
-				<button class="pull-right btn btn-primary margin-left-small" :disabled="button_disabled"><span class="glyphicon " :class="save_icon"></span> {{ saveButtonName }}</button>
-				<router-link to="/treatments" class="btn btn-success pull-right margin-left-small"><span class="glyphicon glyphicon-arrow-left"></span> Volver</router-link>
-			</h1>
-		</div>
-		<hr />
-		<div class="col-md-12">
-			<h3>Información del tratamiento</h3>
-			<div class="panel panel-danger" v-if="errors.length > 0">
-				<div class="panel-body">
-					Su formulario contiene los siguientes errores:
-					<ul>
-						<li v-for="error in errors"><strong>{{ error.treatment }}</strong>: {{ error.message }}</li>
-					</ul>
-				</div>
-			</div>
-			<div class="form-group col-md-6">
-				<label for="treatment">Tratamiento *</label>
-				<input id="treatment" type="text" v-model="treatment.treatment.treatment" placeholder="Ej. Reflexología" class="form-control" :class="validateRequired('treatment')" @focusin="setFlagError('treatment')" required>
-			</div>
-			<div class="form-group col-md-6">
-				<label for="specialty_id">Especialidad</label>
-				<select id="specialty_id" v-model="treatment.treatment.specialty_id" class="form-control">
-					<option value="">-- Seleccione Especialidad --</option>
-					<option v-for="specialty in treatment.all.specialties" v-bind:value="specialty.id">
-						{{ specialty.specialty }}
-					</option>
-				</select>
-			</div>
-			<div class="form-group col-md-6">
-				<label for="description">Descripción</label>
-				<textarea id="description" v-model="treatment.treatment.description" placeholder="Ej. La reflexología permite ..." class="form-control" rows="4"></textarea>
-			</div>
-		</div>
-	</form>
+	<v-layout row wrap>
+		<v-flex xs12 sm12 md12 lg12>			
+			<form v-on:submit.prevent="saveTreatment" v-if="checkExistence">
+				<v-layout row wrap>
+					<v-flex xs12 sm12 md9 lg10>
+						<h1>{{ treatment.treatment.treatment ? treatment.treatment.treatment : 'Nueva tratamiento' }}</h1>
+					</v-flex>
+					<v-flex xs12 sm12 md3 lg2 class="mt-5">
+						<button class="btn btn--raised theme--dark primary pull-right" :disabled="button_disabled">{{ saveButtonName }}</button>
+						<v-btn class="pull-right" light medium to="/treatments">
+				          	<v-icon dark>chevron_left</v-icon>
+				        </v-btn>
+					</v-flex>
+					<v-flex xs12 sm12 md12 lg12>
+						<h3>Información del tratamiento</h3>
+						<div class="panel panel-danger" v-if="errors.length > 0">
+							<div class="panel-body">
+								Su formulario contiene los siguientes errores:
+								<ul>
+									<li v-for="error in errors"><strong>{{ error.treatment }}</strong>: {{ error.message }}</li>
+								</ul>
+							</div>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="treatment">Tratamiento *</label>
+							<input id="treatment" type="text" v-model="treatment.treatment.treatment" placeholder="Ej. Reflexología" class="form-control" :class="validateRequired('treatment')" @focusin="setFlagError('treatment')" required>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="specialty_id">Especialidad</label>
+							<select id="specialty_id" v-model="treatment.treatment.specialty_id" class="form-control">
+								<option value="">-- Seleccione Especialidad --</option>
+								<option v-for="specialty in treatment.all.specialties" v-bind:value="specialty.id">
+									{{ specialty.specialty }}
+								</option>
+							</select>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="description">Descripción</label>
+							<textarea id="description" v-model="treatment.treatment.description" placeholder="Ej. La reflexología permite ..." class="form-control" rows="4"></textarea>
+						</div>
+					</v-flex>					
+				</v-layout>
+			</form>
+		</v-flex>
+	</v-layout>
 </template>
 <script>
 	import { mapState } from 'vuex';

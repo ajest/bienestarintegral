@@ -62,17 +62,6 @@
   }
 }
 
-.g-msg{
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  padding: 50px;
-  margin: 0 50px 50px 0;
-  width: 400px;
-  border-radius: 5px;
-  z-index: 2;
-}
-
 .g-msg:hover{
   opacity: 0.2;
 }
@@ -103,31 +92,6 @@
 
   }
 
-}
-
-footer{
-  p, a, h1, h2, h3, h4, h5, h6{
-    color: #FFF;
-  }
-  h1, h2, h3, h4, h5, h6{
-    text-align: center;
-  }
-
-  .bloque-footer{
-    margin-bottom: 30px;
-    text-align: center;
-  }
-
-  .bloque-final{
-    background: #222;
-    position: fixed;
-    bottom: 0;
-    z-index: 9999;
-    left: 0;
-    p {
-      margin-top: 10px;
-    }
-  }
 }
 
 .pagination{
@@ -224,6 +188,11 @@ ul{
   z-index: 20 !important;
 }
 
+.expansion-panel__body .card__text {
+  padding: 16px !important;
+}
+
+/* RESPONSIVE */
 @media (max-width: 600px) {
   .icon-h1{
     font-size: inherit !important;
@@ -238,6 +207,21 @@ ul{
   .card__text{
     padding: 0px !important;
   }
+
+  .g-msg{
+    position: fixed;
+    top: 65px;
+    right: 0;
+    padding: 10px;
+    margin: 2% 2%;
+    width: 96%;
+    border-radius: 5px;
+    z-index: 2;
+  }
+
+  h1, h2, h3{
+    word-break: break-word !important;
+  }
 }
 
 @media (min-width: 600px) and (max-width: 1024px) {
@@ -250,6 +234,16 @@ ul{
   .three-buttons{
     width: $three-buttons;
     visibility: visible;
+  }
+  .g-msg{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding: 50px;
+    margin: 0 50px 50px 0;
+    width: 400px;
+    border-radius: 5px;
+    z-index: 2;
   }
 }
 
@@ -264,6 +258,16 @@ ul{
     width: $three-buttons;
     visibility: visible;
   }
+  .g-msg{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding: 50px;
+    margin: 0 50px 50px 0;
+    width: 400px;
+    border-radius: 5px;
+    z-index: 2;
+  }
 }
 
 @media (min-width: 1440px) and (max-width: 1920px) {
@@ -272,6 +276,16 @@ ul{
     width: 10%;
     position: relative;
     top: 15px;
+  }
+  .g-msg{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding: 50px;
+    margin: 0 50px 50px 0;
+    width: 400px;
+    border-radius: 5px;
+    z-index: 2;
   }
 }
 
@@ -282,8 +296,17 @@ ul{
     position: relative;
     top: 15px;
   }
+  .g-msg{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding: 50px;
+    margin: 0 50px 50px 0;
+    width: 400px;
+    border-radius: 5px;
+    z-index: 2;
+  }
 }
-
-.expansion-panel__body .card__text {
-  padding: 16px !important;
+a:hover{
+  text-decoration: none !important;
 }
