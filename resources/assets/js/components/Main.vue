@@ -184,6 +184,14 @@
 								t.$store.commit('clearLoginData');
 								t.$router.push('/login');
 								break;
+							case 'user_not_found':
+								t.message = 'Su usuario ha sido eliminado. Disculpe las molestias';
+								t.success = false;
+								t.warning = true;
+								t.danger  = false;
+								t.$store.commit('clearLoginData');
+								t.$router.push('/login');
+								break;
 						}
 					}
 				}

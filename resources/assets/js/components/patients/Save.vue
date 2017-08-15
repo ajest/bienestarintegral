@@ -79,6 +79,28 @@
 							<textarea id="comments" v-model="patient.patient.comments" placeholder="Ej. Señor que viene todos los viernes" class="form-control" rows="4"></textarea>
 						</div>
 					</v-flex>
+					<v-flex xs12 sm12 md12 lg12 v-if="Object.keys(patient.specialties).length">
+						<h3>Ficha paciente</h3>
+						<v-tabs class="elevation-1">
+							<v-tabs-bar slot="activators" class="green lighten-2">
+								<v-tabs-slider class="pink"></v-tabs-slider>
+								<v-tabs-item v-for="specialty in patient.specialties" :key="specialty[0].specialty_id" :href="'#tab-' + specialty[0].specialty_id">
+									{{ specialty[0].specialty ? specialty[0].specialty.specialty : 'Generales' }}
+								</v-tabs-item>
+							</v-tabs-bar>
+							<v-tabs-content v-for="specialty in patient.specialties" :id="'tab-' + specialty[0].specialty_id">
+								<v-card flat>
+									<v-card-text>
+										<v-text-field v-for="question in specialty"
+							              :name="question.id"
+							              :label="question.question"
+							              v-model="questions[question.id]"
+							            ></v-text-field>
+									</v-card-text>
+								</v-card>
+							</v-tabs-content>
+						</v-tabs>
+					</v-flex>
 				</v-layout>
 			</form>
 		</v-flex>
@@ -108,7 +130,8 @@
 					address: false,
 					birthdate: false
 				},
-				active_element: 'patient'
+				active_element: 'patient',
+				questions: {}
 			}
 		},
 		
@@ -129,7 +152,8 @@
 							gender_id: '',
 							address: '',
 							comments: ''
-						}
+						},
+						specialties: {}
 					};
 					
 					return true;	
@@ -149,9 +173,7 @@
 		    })
 		},
 		created: function(){
-			if(this.$route.params.id){
-				this.getPatient();
-			}
+			this.getPatient();
 			this.$emit('child_created', this.active_element);
 		},
 		methods: {
@@ -160,8 +182,18 @@
 				axios.get(t.baseUrl + '/patients/detail/' + (t.$route.params.id ? t.$route.params.id : ''))
 					.then(function (response) {
 						if(!_.isEmpty(response.data)){
+							if(!_.isEmpty(response.data.specialties)){
+								_.forEach(response.data.specialties, function(specialty) {
+									_.forEach(specialty, function(question) {
+										var id = question.id;
+										let answer = _.find(response.data.answers, function(o) { return o.question_id == id; });
+										t.questions[id] = answer && !_.isUndefined(answer) ? answer.answer : '';
+									});	
+								});
+							}
+
 							if(_.isEmpty(response.data.patient)){
-								t.patient.all = response.data.all;
+								t.patient.specialties = response.data.specialties;
 							}else{
 								t.patient = response.data;
 								t.patient.patient.date = new Date(t.patient.patient_date.d, t.patient.patient_date.m, t.patient.patient_date.y);
@@ -170,8 +202,7 @@
 					})
 					.catch(function (error) {
 						t.$emit('complete', {message:  'Estamos teniendo problemas al resolver su solicitud. Por favor reintente más tarde', success: false, warning: false, danger: true, error:error});
-					});
-				
+					});				
 			},
 			savePatient(){
 				var t = this;
@@ -188,6 +219,8 @@
 					url = '/patients/' + t.$route.params.id;
 				}
 				
+				t.patient.patient['questions'] = t.questions;
+
 				axios({
 					method: method,
 					url: t.baseUrl + url,

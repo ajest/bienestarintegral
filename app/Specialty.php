@@ -14,4 +14,8 @@ class Specialty extends Model
     {
         return $this->hasMany('App\Appointment');
     }
+
+    public function question(){
+    	return $this->hasMany('App\Question');
+    }
 }

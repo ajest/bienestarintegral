@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -22,8 +21,15 @@ Route::get('patients/list', 'PatientController@getall')->middleware('auth.jwt');
 Route::get('patients/list/{page}', ['uses' =>'PatientController@getall'])->where('page', '[0-9]+')->middleware('auth.jwt');
 Route::get('patients/list/{page}/{order}', ['uses' =>'PatientController@getall'])->where('page', '[0-9]+')->middleware('auth.jwt');
 Route::get('patients/search', ['uses' =>'PatientController@search'])->middleware('auth.jwt');
+Route::get('patients/detail', function () {
+    $specialties = App\Question::with('specialty')->get();
+    $specialties = $specialties->groupBy('specialty_id');
+
+    return [
+        'specialties' => $specialties        
+    ];
+})->middleware('auth.jwt');
 Route::get('patients/detail/{patient?}', function (App\Patient $patient) {
-    
     $date_tmp = explode('-', $patient->birthdate);
     $date_formated = [
         'd' => $date_tmp[0],
@@ -31,9 +37,13 @@ Route::get('patients/detail/{patient?}', function (App\Patient $patient) {
         'y' => $date_tmp[2]
     ];
 
+    $specialties = App\Question::with('specialty')->get();
+    $specialties = $specialties->groupBy('specialty_id');
+
     return [
-        'patient'       => $patient,        
+        'patient'       => $patient,
         'patient_date'  => $date_formated,
+        'answers'       => $patient->answer,
         'appointments'  => $patient->appointment
                                         ->where('date', '>=', date('Y-m-d'))
                                             ->each->professional
@@ -41,7 +51,8 @@ Route::get('patients/detail/{patient?}', function (App\Patient $patient) {
         'history'  => $patient->appointment
                                         ->where('date', '<', date('Y-m-d'))
                                             ->each->professional
-                                            ->each->treatment
+                                            ->each->treatment,
+        'specialties' => $specialties
     ];
 })->middleware('auth.jwt');
 

@@ -93,6 +93,30 @@
 							<v-flex xs12 sm12 md6 lg6 v-if="Object.keys(patient.history).length">
 								<historialappointments v-bind:appointments="patient.history"></historialappointments>
 							</v-flex>
+							<v-flex xs12 sm12 md12 lg12 v-if="Object.keys(patient.specialties).length">
+								<h3>Ficha paciente</h3>
+								<v-tabs class="elevation-1">
+									<v-tabs-bar slot="activators" class="green lighten-2">
+										<v-tabs-slider class="pink"></v-tabs-slider>
+										<v-tabs-item v-for="specialty in patient.specialties" :key="specialty[0].specialty_id" :href="'#tab-' + specialty[0].specialty_id">
+											{{ specialty[0].specialty ? specialty[0].specialty.specialty : 'Generales' }}
+										</v-tabs-item>
+									</v-tabs-bar>
+									<v-tabs-content v-for="specialty in patient.specialties" :id="'tab-' + specialty[0].specialty_id">
+										<v-list>
+										  <template v-for="question in specialty">
+									          <v-list-tile>
+									            <v-list-tile-content>
+									              <v-list-tile-sub-title>{{ question.question }}</v-list-tile-sub-title>
+									              <v-list-tile-title>{{ questions[question.id] ? questions[question.id] : '---' }}</v-list-tile-title>
+									            </v-list-tile-content>
+									          </v-list-tile>
+									          <v-divider></v-divider>
+										  </template>
+								        </v-list>
+									</v-tabs-content>
+								</v-tabs>
+							</v-flex>
 						</v-layout>
 					</v-flex>
 				</v-layout>
@@ -110,7 +134,8 @@
 		data (){
 			return {
 				patient: '',
-				active_element: 'patient'
+				active_element: 'patient',
+				questions: {}
 			}
 		},
 
@@ -132,6 +157,15 @@
 				axios.get(t.baseUrl + '/patients/detail/' + t.$route.params.id)
 					.then(function (response) {
 						if(!_.isEmpty(response.data)){
+							if(!_.isEmpty(response.data.specialties)){
+								_.forEach(response.data.specialties, function(specialty) {
+									_.forEach(specialty, function(question) {
+										var id = question.id;
+										let answer = _.find(response.data.answers, function(o) { return o.question_id == id; });
+										t.questions[id] = answer && !_.isUndefined(answer) ? answer.answer : '';
+									});	
+								});
+							}
 
 							t.patient = response.data;
 						}

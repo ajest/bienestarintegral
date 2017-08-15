@@ -26,6 +26,10 @@ class Patient extends Model
         return $this->hasMany('App\Appointment');
     }
 
+    public function answer(){
+        return $this->hasMany('App\Answer');
+    }
+
     public function gender() {
         return $this->belongsTo('App\Gender');
     }

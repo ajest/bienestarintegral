@@ -25,7 +25,7 @@
 								    <v-expansion-panel-content v-bind:value="true">
 										<div slot="header">Título</div>
 										<v-card>
-											<v-card-text class="green lighten-4">{{ appointment.title }}</v-card-text>
+											<v-card-text class="green lighten-4">{{ appointment.title ? appointment.title : '- Sin título -' }}</v-card-text>
 										</v-card>
 								    </v-expansion-panel-content>
 								    <v-expansion-panel-content v-bind:value="true">

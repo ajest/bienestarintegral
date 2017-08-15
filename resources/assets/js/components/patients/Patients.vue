@@ -155,7 +155,7 @@
 								var index = '';
 								var text_lenght = t.search_in_table.length;
 								var value_dni = value.dni;
-								var value_civil_status = value.civil_status.civil_status;
+								var value_civil_status = !_.isNull(value.civil_status) ? value.civil_status.civil_status : '';
 
 								if(t.search_in_table){
 									index = value.name.indexOf(t.search_in_table);
@@ -194,7 +194,7 @@
 								        value_dni = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.dni); 
 								    }
 
-								    value.civil_status = value.civil_status.toString();
+								    value.civil_status = !_.isNull(value.civil_status) ? value.civil_status.toString() : '';
 								    index = value.civil_status.indexOf(t.search_in_table);
 									if(index >= 0){
 								        value_civil_status = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.civil_status); 
@@ -225,7 +225,7 @@
 									'sexo': value.gender.gender,
 									'direccion': value.address,
 									'dni': value_dni,
-									'estado_civil': value_civil_status,
+									'estado_civil': value_civil_status ? value_civil_status : '---',
 									'nacimiento': value.birthdate,
 									'localidad': value.area,
 									'fecha': value.created_at
@@ -262,7 +262,7 @@
 									    var index = '';
 										var text_lenght = t.search_in_table.length;
 										var value_dni = value.dni;
-										var value_civil_status = value.civil_status.civil_status;
+										var value_civil_status = !_.isNull(value.civil_status) ? value.civil_status.civil_status : '';
 
 										index = value.name.indexOf(t.search_in_table);
 										if(index >= 0){
@@ -292,7 +292,7 @@
 										index = value.address.indexOf(t.search_in_table);
 										if(index >= 0){
 									        value.address = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.address); 
-									    }
+									    }								
 										
 										value.dni = value.dni.toString();
 										index = value.dni.indexOf(t.search_in_table);
@@ -300,10 +300,10 @@
 									        value_dni = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.dni); 
 									    }
 
-									    value.civil_status.civil_status = value.civil_status.civil_status.toString();
-									    index = value.civil_status.civil_status.indexOf(t.search_in_table);
+									    value.civil_status = !_.isNull(value.civil_status) ? value.civil_status.toString() : '';
+									    index = value.civil_status.indexOf(t.search_in_table);
 										if(index >= 0){
-									        value_civil_status = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.civil_status.civil_status);
+									        value_civil_status = t.highlightText(index, text_lenght, t.opened_highlighted_tag, t.closed_highlighted_tag, value.civil_status); 
 									    }
 										
 										index = value.birthdate.indexOf(t.search_in_table);
@@ -330,12 +330,12 @@
 											'sexo': value.gender.gender,
 											'direccion': value.address,
 											'dni': value_dni,
-											'estado_civil': value_civil_status,
+											'estado_civil': value_civil_status ? value_civil_status : '---',
 											'nacimiento': value.birthdate,
 											'localidad': value.area,
 											'fecha': value.created_at
 										});
-
+	
 										t.last_page = response.data.patients.last_page;
 										t.current_page = 1;
 									});

@@ -54,16 +54,28 @@ class DatabaseSeeder extends Seeder
         DB::table('questions')->insert(['question' => 'Accidentes', 'specialty_id' => 1]);
         DB::table('questions')->insert(['question' => 'Prótesis', 'specialty_id' => 1]);
         DB::table('questions')->insert(['question' => 'Medicación', 'specialty_id' => 1]);
+        DB::table('questions')->insert(['question' => 'DATA 1', 'specialty_id' => 2]);
+        DB::table('questions')->insert(['question' => 'DATA 2', 'specialty_id' => 2]);
+        DB::table('questions')->insert(['question' => 'DATA 3']);
+        DB::table('questions')->insert(['question' => 'DATA 4']);
 
         DB::table('genders')->insert(['gender' => 'Hombre']);
         DB::table('genders')->insert(['gender' => 'Mujer']);
 
         DB::table('civil_statuses')->insert(['civil_status' => 'Soltero']);
         DB::table('civil_statuses')->insert(['civil_status' => 'Casado']);
+
         
         factory(App\Professional::class, 5)->create();
         factory(App\Patient::class, 50)->create();
         factory(App\Appointment::class, 50)->create();
+        
+        DB::table('answers')->insert(['patient_id' => 1, 'question_id' => 1, 'answer' => 'No quiere contestar']);
+        DB::table('answers')->insert(['patient_id' => 1, 'question_id' => 2, 'answer' => 'No desea contestar']);
+        DB::table('answers')->insert(['patient_id' => 1, 'question_id' => 3, 'answer' => 'No pretende contestar']);
+        DB::table('answers')->insert(['patient_id' => 1, 'question_id' => 4, 'answer' => 'No planea contestar']);
+        DB::table('answers')->insert(['patient_id' => 1, 'question_id' => 5, 'answer' => 'No advierte contestar']);
+        DB::table('answers')->insert(['patient_id' => 1, 'question_id' => 6, 'answer' => 'No esboza contestar']);
 
         DB::table('professionals')->insert([
             'name' => 'Pablo Fumarola',

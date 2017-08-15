@@ -9,7 +9,7 @@
 							<v-divider></v-divider>
 						</v-flex>
 						<v-flex v-if="errors.length > 0" xs12 sm12 md12 lg12>
-							<v-alert info v-for="error in errors" value="true">
+							<v-alert error v-for="error in errors" value="true">
 						    	<strong>{{ error.name }}</strong>: {{ error.message }}
 						    </v-alert>	
 						</v-flex>

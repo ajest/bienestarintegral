@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Patient;
+use App\Answer;
 use App\Http\Requests\PatientRequest;
 use Illuminate\Pagination\Paginator;
 
@@ -81,9 +82,8 @@ class PatientController extends Controller
      * @param  \App\Http\Requests\PatientRequest  $request
      * @return JSON
      */
-    public function store(PatientRequest $request)
+    public function store(PatientRequest $request, Answer $answer)
     {
-        
         $patient = new Patient;
 
         $day = explode('T', $request->birthdate);
@@ -106,6 +106,13 @@ class PatientController extends Controller
 
         $res = $patient->save();
 
+        if(!empty($questions = array_filter($request->questions))) foreach ($questions as $question_id => $answer_text) {
+            $answer::updateOrCreate(
+                ['patient_id' => $patient->id, 'question_id' => $question_id],
+                ['answer' => $answer_text]
+            );
+        }
+
         return response()->json(['status' => 'success', 'patient' => $patient], 201);
     }
 
@@ -116,7 +123,7 @@ class PatientController extends Controller
      * @param  \App\Patient  $patient
      * @return JSON
      */
-    public function update(PatientRequest $request, Patient $patient)
+    public function update(PatientRequest $request, Patient $patient, Answer $answer)
     {
         $patient->name              = $request->name;
         $patient->email             = $request->email;
@@ -133,6 +140,13 @@ class PatientController extends Controller
         $patient->comments          = $request->comments;
 
         $res = $patient->save();
+
+        if(!empty($questions = array_filter($request->questions))) foreach ($questions as $question_id => $answer_text) {
+            $answer::updateOrCreate(
+                ['patient_id' => $request->id, 'question_id' => $question_id],
+                ['answer' => $answer_text]
+            );
+        }
 
         return response()->json(['status' => 'success', 'patient' => $patient], 200);
     }
