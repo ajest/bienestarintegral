@@ -4,7 +4,7 @@
 			<v-flex xs12 sm12 md12 lg12 v-if="patient">
 				<v-layout row wrap>
 					<v-flex xs12 sm12 md8 lg9>
-						<h1><i class="material-icons icon-h1">face</i> {{ patient.patient.name }}</h1>
+						<h2><i class="material-icons icon-h2">face</i> {{ patient.patient.name }}</h2>
 					</v-flex>
 					<v-flex xs12 sm12 md4 lg3 class="mt-5">
 						<v-btn class="pull-right pink" dark medium to="/patients">

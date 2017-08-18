@@ -1,7 +1,7 @@
 <h1>Bienestar Integral</h1>
 <p>Sistema de gestión para negocios relacionados con el bienestar integral. El objetivo es permitir gestionar los pacientes y los profesionales que los atenderán.</p> 
 <p>Aplica para el área de masajes, estética, pedicuría, venta de productos de estas áreas y otras más.</p>
-<p><strong>Nota:</strong> Se compartirá el código fuente a travez de GitHub hasta el primer release, luego se seguirá el desarrollo de forma privada. Será posible conocer qué funciones tendrá mediante un link que será suministrado en unos meses.</p>
+<p><strong>Nota:</strong> Se compartirá el código fuente a travez de GitHub hasta el primer release, luego se seguirá el desarrollo de forma privada. Más adelante se brindará más información.</p>
 <h2>Requerimientos técnicos</h2>
 <ul>
 	<li>PHP 5.6 <a href="http://php.net/">http://php.net/</a></li>

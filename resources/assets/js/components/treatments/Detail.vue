@@ -4,7 +4,7 @@
 			<v-flex xs12 sm12 md12 lg12 v-if="treatment">
 				<v-layout row wrap>
 					<v-flex xs12 sm12 md8 lg9>
-						<h1><i class="material-icons icon-h1">healing</i> {{ treatment.treatment.treatment }}</h1>
+						<h2><i class="material-icons icon-h2">healing</i> {{ treatment.treatment.treatment }}</h2>
 					</v-flex>
 					<v-flex xs12 sm12 md4 lg3 class="mt-5">
 						<v-btn class="pull-right pink" dark medium to="/treatments">

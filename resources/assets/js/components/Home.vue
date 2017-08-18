@@ -1,15 +1,22 @@
 <template>
 	<v-layout row wrap>
 		<v-flex>
-			<h1>Dashboard</h1>
-				<h3>Pablo Fumarola</h3>
-				<blockquote>Estoy muy contento con este sistema, porque es super sencillo de usar y me permite adminsitrar mi negocio de forma rápida, desde cualquier lugar y usando cualquier dispositivo moderno. Gracias Bienestar integral por hacer esto posible!</blockquote>
-				<h3>Mariana Curio</h3>
-				<blockquote>Nuestro centro de estética y masajes ahora está bien organizado. Mucho de lo que teniamos que hacer nosotros mismos, y que desde luego consumía tiempo, ahora lo hace por nosotros el sistema. Envia mensajes, mails, administra historial y organiza todo lo que necesitamos para que nuestra empresa siga creciendo.</blockquote>
-				<h3>David Lebenfisz</h3>
-				<blockquote>Debo reconocer que yo no estaba muy familiarizado con las nuevas herramientas que nos provee actualmente la web, por eso prefería administrar mi negocio con herramientas ya obsoletas o recurrir al papel y la birome. Pero Bienestar Integral me mostró que cuando un sistema está bien pensado, no debería ser dificil de utilizar. ¡Lo recomiendo!</blockquote>
-				<h3>Yanina Vasquez</h3>
-				<blockquote>Soy pedicura, deseo tener un negocio propio y, como estoy empezando, no podía invertir mucho dinero. Pero necesitaba soluciones. Me resultó grata la noticia de que Bienestar Integral me brindaba todo lo que yo necesitaba, con un precio super económico! Parece impensado pagar un monto tan bajo y recibir tal comodidad en un software de este calibre</blockquote>
+			<h2><i class="material-icons icon-h2">dashboard</i> Dashboard</h2>
+			<h3>Versión actual: Alpha 1.0</h3>
+			<p>Si encuentra algun error (bug <i class="material-icons">bug_report</i>), puede comunicarse con el <a href="mailto:pablo.fumarola@gmail.com">administrador</a>. Muchas gracias</p>
+			<hr>
+			<h4>Características que serán añadidas en la próxima versión</h4>
+			<ul>
+				<li>Navegación mejorada entre secciones</li>
+				<li>Envios automáticos de emails para turnos</li>
+			</ul>
+			<hr>
+			<h4>Características que serán añadidas en el futuro</h4>
+			<ul>
+				<li>Calendario interactivo</li>
+				<li>Reportes</li>
+				<li>Control de autorización para profesionales</li>
+			</ul>
 		</v-flex>
 	</v-layout>
 </template>

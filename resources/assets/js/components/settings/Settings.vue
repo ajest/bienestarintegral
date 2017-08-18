@@ -1,7 +1,7 @@
 <template>
 	<v-layout row wrap>
 		<v-flex xs12 sm12 md12 lg12>
-			<h1><i class="material-icons icon-h1">settings</i> Opciones de configuración</h1>
+			<h2><i class="material-icons icon-h2">settings</i> Opciones de configuración</h2>
 		</v-flex>
 		<v-flex xs12 sm12 md12 lg12>
 			<v-list two-line subheader>

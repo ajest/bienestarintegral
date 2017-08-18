@@ -4,10 +4,10 @@
 			<form v-on:submit.prevent="saveProfessional" v-if="checkExistence">
 				<v-layout row wrap>
 					<v-flex xs12 sm12 md9 lg10>
-						<h1>{{ professional.professional.name ? professional.professional.name : 'Nuevo Profesional' }}</h1>
+						<h2>{{ professional.professional.name ? professional.professional.name : 'Nuevo Profesional' }}</h2>
 					</v-flex>
 					<v-flex xs12 sm12 md3 lg2 class="mt-5">
-						<button class="btn btn--raised theme--dark primary pull-right" :disabled="button_disabled">{{ saveButtonName }}</button>
+						<button id="submit-form" class="btn btn--raised theme--dark primary pull-right" :disabled="button_disabled">{{ saveButtonName }}</button>
 						<v-btn class="pull-right" light medium to="/professionals">
 				          	<v-icon dark>chevron_left</v-icon>
 				        </v-btn>

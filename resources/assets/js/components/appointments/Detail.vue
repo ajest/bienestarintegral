@@ -4,7 +4,7 @@
 			<v-flex xs12 sm12 md12 lg12 v-if="appointment">
 				<v-layout row wrap>
 					<v-flex xs12 sm12 md8 lg9>
-						<h1><i class="material-icons icon-h1">assignment_ind</i> {{ appointment.title }}</h1>
+						<h2><i class="material-icons icon-h2">assignment_ind</i> {{ appointment.title }}</h2>
 					</v-flex>
 					<v-flex xs12 sm12 md4 lg3 class="mt-5">
 						<v-btn class="pull-right pink" dark medium to="/appointments">
@@ -45,7 +45,7 @@
 							<v-flex xs12 sm12 md6 lg6>
 								<h3>Tratamiento</h3>
 								<v-expansion-panel expand>
-								    <v-expansion-panel-content v-bind:value="true">
+								    <v-expansion-panel-content v-bind:value="true" v-if="appointment.professional">
 										<div slot="header">Profesional</div>
 										<v-card>
 											<v-card-text class="pink lighten-4">
@@ -53,7 +53,7 @@
 											</v-card-text>
 										</v-card>
 								    </v-expansion-panel-content>
-								    <v-expansion-panel-content v-bind:value="true">
+								    <v-expansion-panel-content v-bind:value="true" v-if="appointment.specialty">
 										<div slot="header">Area / Especialidad</div>
 										<v-card>
 											<v-card-text class="pink lighten-4">
@@ -61,7 +61,7 @@
 											</v-card-text>
 										</v-card>
 								    </v-expansion-panel-content>
-								    <v-expansion-panel-content v-bind:value="true">
+								    <v-expansion-panel-content v-bind:value="true" v-if="appointment.treatment">
 										<div slot="header">Tratamiento</div>
 										<v-card>
 											<v-card-text class="pink lighten-4">
@@ -69,7 +69,7 @@
 											</v-card-text>
 										</v-card>
 								    </v-expansion-panel-content>
-								    <v-expansion-panel-content v-bind:value="true">
+								    <v-expansion-panel-content v-bind:value="true" v-if="appointment.series">
 										<div slot="header">Promoción</div>
 										<v-card>
 											<v-card-text class="pink lighten-4">

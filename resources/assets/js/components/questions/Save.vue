@@ -4,10 +4,10 @@
 			<form v-on:submit.prevent="saveQuestion" v-if="checkExistence">
 				<v-layout row wrap>
 					<v-flex xs12 sm12 md9 lg10>
-						<h1>{{ question.question.question ? question.question.question : 'Nueva pregunta' }} </h1>
+						<h2>{{ question.question.question ? question.question.question : 'Nueva pregunta' }} </h2>
 					</v-flex>
 					<v-flex xs12 sm12 md3 lg2 class="mt-5">
-						<button class="btn btn--raised theme--dark primary pull-right" :disabled="button_disabled">{{ saveButtonName }}</button>
+						<button id="submit-form" class="btn btn--raised theme--dark primary pull-right" :disabled="button_disabled">{{ saveButtonName }}</button>
 						<v-btn class="pull-right" light medium to="/questions">
 				          	<v-icon dark>chevron_left</v-icon>
 				        </v-btn>

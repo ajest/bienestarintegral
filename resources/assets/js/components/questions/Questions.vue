@@ -1,7 +1,7 @@
 <template>
 	<v-layout row wrap>
 		<v-flex xs12 sm12 md12 lg12>
-			<h1><i class="material-icons icon-h1">question_answer</i> Preguntas</h1>
+			<h2><i class="material-icons icon-h2">question_answer</i> Preguntas</h2>
 		</v-flex>
 		<v-flex xs12 sm12 md12 lg12>
 			<v-layout row wrap>
@@ -22,12 +22,12 @@
 					</v-layout>
 				</v-flex>
 				<v-flex xs12 sm12 md2 lg2 hidden-sm-and-down>
-					<v-btn  fab big dark class="pink pull-right" :to="{ name: 'questions_new'}">
+					<v-btn  fab big dark class="new-question pink pull-right" :to="{ name: 'questions_new'}">
 						<v-icon dark>add</v-icon>
 				    </v-btn>
 				</v-flex>
 				<v-flex hidden-md-and-up>
-					<v-btn class="pink zindex20" dark medium fixed bottom right fab :to="{ name: 'questions_new'}">
+					<v-btn class="new-question pink zindex20" dark medium fixed bottom right fab :to="{ name: 'questions_new'}">
 			          	<v-icon dark>add</v-icon>
 			        </v-btn>
 				</v-flex>

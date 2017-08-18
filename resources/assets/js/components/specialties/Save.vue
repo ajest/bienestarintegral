@@ -4,10 +4,10 @@
 			<form v-on:submit.prevent="saveSpecialty" v-if="checkExistence">
 				<v-layout row wrap>
 					<v-flex xs12 sm12 md9 lg10>
-						<h1>{{ specialty.specialty.specialty ? specialty.specialty.specialty : 'Nueva Especialidad' }}</h1>
+						<h2>{{ specialty.specialty.specialty ? specialty.specialty.specialty : 'Nueva Especialidad' }}</h2>
 					</v-flex>									
 					<v-flex xs12 sm12 md3 lg2 class="mt-5">
-						<button class="btn btn--raised theme--dark primary pull-right" :disabled="button_disabled">{{ saveButtonName }}</button>
+						<button id="submit-form" class="btn btn--raised theme--dark primary pull-right" :disabled="button_disabled">{{ saveButtonName }}</button>
 						<v-btn class="pull-right" light medium to="/specialties">
 				          	<v-icon dark>chevron_left</v-icon>
 				        </v-btn>

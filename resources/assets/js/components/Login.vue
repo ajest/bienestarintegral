@@ -5,7 +5,7 @@
 				<div class="panel panel-default">
 					<v-layout class="panel-body" row wrap>
 						<v-flex xs12 sm12 md12 lg12>
-							<h1>Iniciar sesión</h1>
+							<h2>Iniciar sesión</h2>
 							<v-divider></v-divider>
 						</v-flex>
 						<v-flex v-if="errors.length > 0" xs12 sm12 md12 lg12>
