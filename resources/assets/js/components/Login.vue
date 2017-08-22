@@ -70,7 +70,7 @@
 			...mapState({
 		    	baseUrl: state => state.common.baseUrl,
 		    	token: state => state.authentication.token,
-		    	login_email: state => state.authentication.login_email,
+		    	login_email: state => state.authentication.login_email
 		    }),
 
 		    hasEmail () {
@@ -113,7 +113,8 @@
 			  				'token': response.data.token,
 			  				'professional': response.data.professional
 			  			});
-			  			t.$router.go(-1);
+
+			  			t.$router.push(t.redirect_to);
 			  		}
 				})
 				.catch(function (error) {
@@ -154,6 +155,8 @@
 			setFlagError(field){
 				this.flag_error[field] = true;
 			}
-		}
+		},
+
+		props: ['redirect_to'],
 	}
 </script>

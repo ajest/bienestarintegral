@@ -99,6 +99,7 @@
 					v-bind:warning="warning"
 					v-bind:danger="danger"
 					v-bind:error="error"
+					v-bind:redirect_to="redirect_to"
 					v-on:complete="operationComplete"
 					v-on:child_created="setActiveElement"></router-view>
 				<transition name="fade">			
@@ -131,7 +132,8 @@
 				// Vuetify
 				drawer: null,
 				mini: false,
-        		right: null
+        		right: null,
+        		redirect_to: '/'
 			}
 		},
 
@@ -223,8 +225,9 @@
 		    	if(!t.token){
 		    		t.$router.push('/login');
 		    		this.sidebar = false;
-		    		t.authentication_text = '',
-					t.authentication_icon = ''
+		    		t.authentication_text = '';
+					t.authentication_icon = '';
+					t.redirect_to = from.path;
 		    	}else{
 		    		let instance = window.axios.create();
     				instance.defaults.headers.common['Authorization'] = 'bearer ' + t.token;

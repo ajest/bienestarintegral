@@ -1,7 +1,8 @@
 const state = {
   token: '',
   professional: {},
-  login_email: ''
+  login_email: '',
+  redirect_to: '/patients'
 }
 
 const mutations = {
@@ -18,6 +19,10 @@ const mutations = {
 
   setLoginEmail(state, data){
     state.login_email = data.login_email;
+  },
+
+  setRedirectTo(){
+    state.redirect_to = data.redirect_to;
   }
   
 }
